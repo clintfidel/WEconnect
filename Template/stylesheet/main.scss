@@ -1,0 +1,88 @@
+$backgroundcolor1: #136c8b;
+$backgroundcolor2: #003b4e;
+$margin: 5px;
+$size: 10px;
+$radius: 5px;
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+  
+    
+}
+
+.login-body {
+    position: relative;
+    text-align: center;
+    height: -webkit-fill-available;
+    background-image: linear-gradient($backgroundcolor1,$backgroundcolor2); 
+}
+
+.login-container {
+    position: relative;
+    padding-top: 10%
+}
+
+.my-logo { 
+    img {
+        height: 7%;
+        width: 10%
+    }
+   
+}
+
+.input-box {
+    
+    background-color: white;
+    border: 3px solid transparent;
+    border-radius: $radius;
+    margin: 20px auto;
+    padding: 30px 0;
+    width: fit-content;
+    
+   
+    input {
+        display: flex;
+        flex-direction: column;
+        margin: ($margin* 3) auto;
+        border-radius: $radius;
+        border: 1px solid teal;
+        padding: 15px;
+        width:80%;
+        outline: none;
+        font-size: ($size * 2);
+    }
+   
+    button {
+        height:50px;
+        width:85%;
+        background-color: #15b78e;
+        border-radius: $radius;
+        color: white;
+        font-size: ($size * 2);
+        font-weight: bolder
+    }
+
+    .create-account {
+        margin-top: ($margin * 10);
+        p {
+            padding: 0  7%;
+            margin-top: ($margin * 3);
+            a {
+                text-decoration: transparent;
+                color: #545555;
+                font-size: ($size * 2);
+                span {
+                    color: #458ec5
+                }
+            }
+        }
+    }
+
+       
+}
+
+
