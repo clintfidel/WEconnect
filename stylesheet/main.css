@@ -5,21 +5,30 @@ body {
   box-sizing: border-box;
   padding: 0; }
 
+.nav-header {
+  position: absolute;
+  right: 0; }
+  .nav-header .user li {
+    display: inline-block;
+    margin: 5px; }
+
 .login-body {
   position: absolute;
   text-align: center;
-  background-image: linear-gradient(#136c8b, #003b4e);
+  background-image: -webkit-linear-gradient(left, #136c8b, #003b4e);
   background-size: cover;
+  min-width: 100%;
+  min-height: 100vh; }
+
+.login-container {
+  max-height: 90vh;
+  padding-top: 3%;
+  position: relative;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-  min-width: 100%;
-  min-height: 130%; }
-
-.login-container {
-  position: relative;
-  padding-top: 6%; }
+  margin: auto; }
 
 .my-logo img {
   height: 7%;
@@ -31,14 +40,14 @@ body {
   border-radius: 5px;
   margin: 20px auto;
   padding: 30px 0;
-  width: 25%; }
+  width: 30%; }
   .input-box input {
     display: flex;
     flex-direction: column;
-    margin: 15px auto;
+    margin: 10px auto;
     border-radius: 5px;
     border: 1px solid teal;
-    padding: 15px;
+    padding: 13px;
     width: 80%;
     outline: none;
     font-size: 20px; }
@@ -51,7 +60,7 @@ body {
     font-size: 20px;
     font-weight: bolder; }
   .input-box .create-account {
-    margin-top: 50px; }
+    margin-top: 30px; }
     .input-box .create-account p {
       padding: 0  7%;
       margin-top: 10px; }
@@ -61,5 +70,13 @@ body {
         font-size: 20px; }
         .input-box .create-account p a span {
           color: #458ec5; }
+
+@media screen and (max-width: 1050px) {
+  .input-box {
+    width: 90%; }
+
+  .my-logo img {
+    height: 20%;
+    width: 25%; } }
 
 /*# sourceMappingURL=main.css.map */
