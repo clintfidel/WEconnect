@@ -10,6 +10,8 @@ body {
     margin: 0;
     box-sizing: border-box;
     padding: 0;
+    font-family: 'Philosopher', sans-serif;
+
   
     
 }
@@ -17,17 +19,153 @@ body {
 //landing-page
 
 .nav-header {
-    position: absolute;
+    position: fixed;
     right: 0;
+    margin: ($margin * 2) ($margin * 8);
     .user {
         li {
-        display: inline-block;
-        margin: $margin
+            display: inline-block;
+            margin: $margin ($margin * 5);
+
+            button {
+                height: 40px;
+                width: 150%;
+                border: transparent;
+                border-radius: $radius;
+                background-color: rgba(19, 108, 139, 1);
+                color:  white;
+                font-size: ($size * 2);
+                outline: none;
+            }
         }
         
     }
    
 }
+
+.landing-page-container {
+
+    section {
+        height: 50vh;
+        
+    }
+    .our-brand {
+        position: relative;
+        background-image: url('../stylesheet/images/business-background (1).png');
+         background-repeat: no-repeat;
+        background-size: cover;
+        z-index: 3;
+        .brand-logo {
+            img {
+                
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+                height: 35%;
+                width: 20%;
+                border: transparent;
+                border-radius: $radius;
+                z-index: 5
+            }
+        }
+
+    }
+    
+    .about-weconnect {
+        background-color: white;
+        position: relative;
+        .wrap {
+            position: absolute;
+            height: 100%;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .intro {
+            // background-color: red;
+            width: auto;
+            height: 100%;
+            max-width: 45%;
+            min-height: 100%;
+                p {
+                font-size: ($size * 2 ) ;
+                padding: 2% 10%;
+                line-height: 1.5em;
+                    span {
+                        padding: 0 9%;
+                        font-weight: bolder;
+                        font-size: ($size * 3);
+                    }
+            }
+            
+        }
+        .together {
+            position: relative;
+          height: 100%;
+          width: 100%;
+            img {
+                position: absolute;
+                border: transparent;
+                margin: auto;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                height: 40vh;
+                width: 60%
+            }
+           
+        }
+    }
+    
+    .contact {
+        background-image: url('../stylesheet/images/backgroung.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        min-height: auto;
+        p {
+            width: 40%;
+            margin: auto;
+            max-width: 50%;
+            text-align: center;
+            font-size: ($size * 2);
+            padding: 2%;
+            line-height: 1.4em;
+            color: white;
+           
+        }
+        .social {
+           padding-top:2%;
+            display: flex;
+            justify-content: center;
+            
+            img {
+                padding: 0 $margin;
+                width: 50px;
+                 
+                
+            }
+        }
+        
+    }
+   
+        
+}
+
    
 
 
@@ -126,4 +264,21 @@ body {
         }
        
     }
+}
+
+
+
+.push{
+    background-color: rgba(235, 224, 224, 0.87);
+    
+    width: auto;
+    margin: auto;
+    padding: 2%;
+    p {
+        padding: 0;
+        margin:0;
+        text-align: center;
+        font-size: ($size * 2);
+    }
+
 }
