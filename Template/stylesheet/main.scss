@@ -15,15 +15,21 @@ body {
 }
 
 .login-body {
-    position: relative;
+    position: absolute;
     text-align: center;
-    height: -webkit-fill-available;
-    background-image: linear-gradient($backgroundcolor1,$backgroundcolor2); 
+    background-image: linear-gradient($backgroundcolor1,$backgroundcolor2) ;  
+    background-size: cover;
+    top: 0; 
+    right: 0;
+    left: 0;
+    bottom: 0; 
+    min-width: 100%;
+    min-height: 130%;
 }
 
 .login-container {
     position: relative;
-    padding-top: 10%
+    padding-top: 6%
 }
 
 .my-logo { 
@@ -41,7 +47,7 @@ body {
     border-radius: $radius;
     margin: 20px auto;
     padding: 30px 0;
-    width: fit-content;
+    width: 25%;
     
    
     input {
@@ -70,7 +76,7 @@ body {
         margin-top: ($margin * 10);
         p {
             padding: 0  7%;
-            margin-top: ($margin * 3);
+            margin-top: ($margin * 2);
             a {
                 text-decoration: transparent;
                 color: #545555;
