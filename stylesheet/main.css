@@ -177,11 +177,71 @@ body {
   .my-logo img {
     height: 20%;
     width: 25%; } }
+@media screen and (max-width: 450px) {
+  .nav-header {
+    position: fixed;
+    z-index: 5;
+    margin: auto 15px; }
+    .nav-header .user li {
+      display: inline-block;
+      margin: 5px 5px; }
+      .nav-header .user li button {
+        height: 40px;
+        width: 100%; }
+
+  .landing-page-container .our-brand .brand-logo img {
+    height: 20%;
+    width: 30%;
+    z-index: 2; }
+  .landing-page-container .about-weconnect .wrap {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+  .landing-page-container .about-weconnect .intro {
+    width: 100vw;
+    height: auto; }
+    .landing-page-container .about-weconnect .intro p {
+      width: 100vw;
+      font-size: 17px;
+      padding: 2% 10%;
+      line-height: 1.5em;
+      box-sizing: border-box;
+      text-align: center; }
+      .landing-page-container .about-weconnect .intro p span {
+        padding: 0 9%;
+        font-weight: bolder;
+        font-size: 20px; }
+  .landing-page-container .about-weconnect .together {
+    display: none; }
+    .landing-page-container .about-weconnect .together img {
+      display: none; }
+  .landing-page-container .contact {
+    width: 100vw; }
+    .landing-page-container .contact p {
+      width: 100vw;
+      font-size: 17px;
+      margin: auto;
+      max-width: 80%;
+      text-align: center;
+      padding: 8%;
+      line-height: 1.4em;
+      color: white; }
+    .landing-page-container .contact .social img {
+      width: 30px; }
+
+  .push p {
+    font-size: 17px !important; } }
 .push {
   background-color: rgba(235, 224, 224, 0.87);
   width: auto;
   margin: auto;
-  padding: 2%; }
+  padding: 3%; }
   .push p {
     padding: 0;
     margin: 0;

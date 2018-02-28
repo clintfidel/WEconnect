@@ -266,6 +266,105 @@ body {
     }
 }
 
+@media screen and (max-width: 450px) {
+    .nav-header {
+        position: fixed;
+        z-index: 5;
+        margin: auto ($margin * 3);
+        .user {
+            li {
+                display: inline-block;
+                margin: $margin $margin;
+    
+                button {
+                    height: 40px;
+                    width: 100%;
+                   
+                }
+            }
+            
+        }
+       
+    }
+    .landing-page-container {
+      .our-brand {
+        .brand-logo {
+            img {
+                height: 20%;
+                width: 30%;
+                z-index: 2;
+               
+            }
+        }
+      }
+      .about-weconnect {
+        .wrap {
+            position: absolute;
+            height: 100%;
+            width:100%;
+           display: block;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        
+        .intro {
+            width: 100vw;
+            height: auto;
+                p {
+                width: 100vw;
+                font-size: ($size *2-3) ;
+                padding: 2% 10%;
+                line-height: 1.5em;
+                box-sizing: border-box;
+                text-align: center;
+                    span {
+                        padding: 0 9%;
+                        font-weight: bolder;
+                        font-size: ($size * 2);
+                    }
+            }
+            
+        }
+        .together {
+          display: none;
+          img {
+            display: none;
+          }
+           
+        }
+    }
+
+    .contact {
+      width: 100vw;
+      p {
+          width: 100vw;
+          font-size: ($size * 2 - 3);
+          margin: auto;
+          max-width: 80%;
+          text-align: center;
+          padding: 8%;
+          line-height: 1.4em;
+          color: white;
+      }
+      .social {
+          img {
+
+              width: 30px;  
+          }
+      }
+      
+    }
+ }
+    
+ .push {
+    p {
+      font-size: ($size*2-3) !important;
+    }
+  }
+}
 
 
 .push{
@@ -273,7 +372,7 @@ body {
     
     width: auto;
     margin: auto;
-    padding: 2%;
+    padding: 3%;
     p {
         padding: 0;
         margin:0;
