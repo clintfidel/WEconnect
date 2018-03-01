@@ -338,11 +338,10 @@ body {
 
 
 .push{
-    background-color: rgba(235, 224, 224, 0.87);
-    
+    background-color: rgba(235, 224, 224, 0.87); 
     width: auto;
     margin: auto;
-    padding: 3%;
+    padding: 1%;
     p {
         padding: 0;
         margin:0;
@@ -351,3 +350,141 @@ body {
     }
 
 }
+
+// business- page
+
+.navbar {
+    position: fixed;;
+    width: 100%;
+    z-index: 1;
+    margin-bottom: 5px;
+    background-color:$backgroundcolor1;
+    background-repeat: no-repeat;
+    .link-container {
+        display: flex;
+        justify-content: space-between;
+        img {
+            width: 150px;
+        }
+    }
+       a{
+        color:white !important;
+        font-size: ($size * 2)
+       }
+        .nav-tab{
+            display: flex;
+        }
+         
+}
+    .full-page {
+        * {
+            box-sizing: border-box;
+        }
+        background-image: url('../stylesheet/images/texture-background.png');  
+        width: 100%;
+        height: 97vh;
+        position: relative;
+        
+        .content-page {
+            border-radius: 5px;
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 80%;
+            height: 80vh;
+            display: flex;
+            justify-content: space-between;
+            
+            .register-business {
+                position: relative;
+                width: 69%;
+                height: 100%;
+                border-radius: 20px;
+                background-image: -webkit-linear-gradient(top, $backgroundcolor1,$backgroundcolor2) ;  
+                background-size: cover;
+                // overflow-y: scroll;
+                h2{
+                    text-align: center;
+                    color: white;
+                    margin: ($margin * 5) auto;
+                    padding-bottom: 2%;
+                }
+                .panel-body {
+                    width: 80%;
+                    margin: auto;
+
+                    button {
+                        height:48px;
+                        width:100%;
+                        background-color: #15b78e;
+                        border-radius: $radius;
+                        color: white;
+                        font-size: ($size * 2);
+                        font-weight: bolder
+                    }
+
+                     input:focus::-webkit-input-placeholder { color:transparent; }
+                     input:focus:-moz-placeholder { color:transparent; } 
+                     input:focus::-moz-placeholder { color:transparent; } 
+                     input:focus::-moz-placeholder { color:transparent; } 
+                     input:focus:-ms-input-placeholder { color:transparent; } 
+                     
+                    }
+                 } 
+                
+            }
+            .business-story {
+                border-radius: 20px;
+                width: 29%;
+                height: 100%;
+                background-image: url('../stylesheet/images/advert design.png');
+                background-size: cover;
+                background-repeat: no-repeat
+            }
+        }
+    
+    @media screen and (max-width: 450px) {
+        .navbar {
+           
+            width: 100%;
+            z-index: 1;
+            .link-container {
+                display: inline;
+               
+                img {
+                    width: 100px;
+                }
+            }
+               a{
+                color:white !important;
+                font-size: ($size * 2)
+               }
+              
+        }
+        .full-page {
+            * {
+                box-sizing: border-box;
+            }  
+            width: auto;
+            height: 100vh;
+            position: relative;
+            .content-page {
+            width: 70%;
+            height: 70vh;
+            .register-business {
+                width: auto;
+                height: auto; 
+                h2{
+                   font-size: ($size * 2) !important;
+                    margin: ($margin * 5) auto;
+                    padding-bottom: 2%;
+                }
+            }
+            .business-story {
+                display: none;
+            }
+        }        
+    }
+    }
