@@ -123,6 +123,7 @@ body {
            
         }
         .social {
+            position: relative;
             display: flex;
             justify-content: center;
             
@@ -303,6 +304,7 @@ body {
     
 
     .contact {
+
       width: 100vw;
       max-width: 100%;
       p {
@@ -330,6 +332,7 @@ body {
  }
     
  .push {
+     position: static;
     p {
       font-size: ($size*2-3) !important;
     }
@@ -338,12 +341,13 @@ body {
 
 
 .push{
+    position: absolute;
     background-color: rgba(235, 224, 224, 0.87); 
-    width: auto;
-    margin: auto;
-    padding: 1%;
+    width: 100%;
+    margin: 0 auto;
+    bottom: 0;
     p {
-        padding: 0;
+        padding: 1%;
         margin:0;
         text-align: center;
         font-size: ($size * 2);
@@ -400,7 +404,7 @@ body {
             .register-business {
                 position: relative;
                 width: 69%;
-                height: 100%;
+                height: 90%;
                 border-radius: 20px;
                 background-image: -webkit-linear-gradient(top, $backgroundcolor1,$backgroundcolor2) ;  
                 background-size: cover;
@@ -409,7 +413,7 @@ body {
                     text-align: center;
                     color: white;
                     margin: ($margin * 5) auto;
-                    padding-bottom: 2%;
+                    padding-bottom: 1%;
                 }
                 .panel-body {
                     width: 80%;
@@ -438,16 +442,16 @@ body {
             .business-story {
                 border-radius: 20px;
                 width: 29%;
-                height: 100%;
+                height: 90%;
                 background-image: url('../stylesheet/images/advert design.png');
                 background-size: cover;
                 background-repeat: no-repeat
             }
         }
     
-    @media screen and (max-width: 450px) {
+    @media screen and (max-width: 1100px) {
         .navbar {
-           
+           position: absolute;
             width: 100%;
             z-index: 1;
             .link-container {
@@ -468,14 +472,23 @@ body {
                 box-sizing: border-box;
             }  
             width: auto;
-            height: 100vh;
+            height: 90vh;
             position: relative;
             .content-page {
-            width: 70%;
-            height: 70vh;
+            width: 90%;
+            height: 68vh;
             .register-business {
-                width: auto;
+                width: 100%;
                 height: auto; 
+                .panel-body {
+                    button {
+                        margin: -5px auto;
+                        padding-top: 2px;
+                        height:40px;
+                        width:100%;
+                    }
+                }
+               
                 h2{
                    font-size: ($size * 2) !important;
                     margin: ($margin * 5) auto;
@@ -487,4 +500,11 @@ body {
             }
         }        
     }
-    }
+}
+
+// All Business Page
+
+.main-div {
+    height: 100vh;
+    width: 100%;
+} 
