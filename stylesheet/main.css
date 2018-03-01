@@ -217,11 +217,119 @@ body {
   background-color: rgba(235, 224, 224, 0.87);
   width: auto;
   margin: auto;
-  padding: 3%; }
+  padding: 1%; }
   .push p {
     padding: 0;
     margin: 0;
     text-align: center;
     font-size: 20px; }
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  margin-bottom: 5px;
+  background-color: #136c8b;
+  background-repeat: no-repeat; }
+  .navbar .link-container {
+    display: flex;
+    justify-content: space-between; }
+    .navbar .link-container img {
+      width: 150px; }
+  .navbar a {
+    color: white !important;
+    font-size: 20px; }
+  .navbar .nav-tab {
+    display: flex; }
+
+.full-page {
+  background-image: url("../stylesheet/images/texture-background.png");
+  width: 100%;
+  height: 97vh;
+  position: relative; }
+  .full-page * {
+    box-sizing: border-box; }
+  .full-page .content-page {
+    border-radius: 5px;
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 80%;
+    height: 80vh;
+    display: flex;
+    justify-content: space-between; }
+    .full-page .content-page .register-business {
+      position: relative;
+      width: 69%;
+      height: 100%;
+      border-radius: 20px;
+      background-image: -webkit-linear-gradient(top, #136c8b, #003b4e);
+      background-size: cover; }
+      .full-page .content-page .register-business h2 {
+        text-align: center;
+        color: white;
+        margin: 25px auto;
+        padding-bottom: 2%; }
+      .full-page .content-page .register-business .panel-body {
+        width: 80%;
+        margin: auto; }
+        .full-page .content-page .register-business .panel-body button {
+          height: 48px;
+          width: 100%;
+          background-color: #15b78e;
+          border-radius: 5px;
+          color: white;
+          font-size: 20px;
+          font-weight: bolder; }
+        .full-page .content-page .register-business .panel-body input:focus::-webkit-input-placeholder {
+          color: transparent; }
+        .full-page .content-page .register-business .panel-body input:focus:-moz-placeholder {
+          color: transparent; }
+        .full-page .content-page .register-business .panel-body input:focus::-moz-placeholder {
+          color: transparent; }
+        .full-page .content-page .register-business .panel-body input:focus::-moz-placeholder {
+          color: transparent; }
+        .full-page .content-page .register-business .panel-body input:focus:-ms-input-placeholder {
+          color: transparent; }
+  .full-page .business-story {
+    border-radius: 20px;
+    width: 29%;
+    height: 100%;
+    background-image: url("../stylesheet/images/advert design.png");
+    background-size: cover;
+    background-repeat: no-repeat; }
+
+@media screen and (max-width: 450px) {
+  .navbar {
+    width: 100%;
+    z-index: 1; }
+    .navbar .link-container {
+      display: inline; }
+      .navbar .link-container img {
+        width: 100px; }
+    .navbar a {
+      color: white !important;
+      font-size: 20px; }
+
+  .full-page {
+    width: auto;
+    height: 100vh;
+    position: relative; }
+    .full-page * {
+      box-sizing: border-box; }
+    .full-page .content-page {
+      width: 70%;
+      height: 70vh; }
+      .full-page .content-page .register-business {
+        width: auto;
+        height: auto; }
+        .full-page .content-page .register-business h2 {
+          font-size: 20px !important;
+          margin: 25px auto;
+          padding-bottom: 2%; }
+      .full-page .content-page .business-story {
+        display: none; } }
 
 /*# sourceMappingURL=main.css.map */
