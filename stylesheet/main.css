@@ -314,8 +314,9 @@ body {
     border-radius: 20px;
     width: 29%;
     height: 90%;
-    background-image: url("../stylesheet/images/advert design.png");
+    background-image: url("../stylesheet/images/advert.png");
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat; }
 
 @media screen and (max-width: 1100px) {
