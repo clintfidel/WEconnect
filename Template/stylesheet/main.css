@@ -12,7 +12,8 @@ body {
   margin: 10px 40px; }
   .nav-header .user li {
     display: inline-block;
-    margin: 5px 25px; }
+    margin: 5px 25px;
+    font-family: 'Philosopher', sans-serif; }
     .nav-header .user li button {
       height: 40px;
       width: 150%;
@@ -165,7 +166,7 @@ body {
     box-sizing: border-box; }
 
   .nav-header {
-    position: fixed;
+    position: absolute;
     z-index: 5;
     margin: auto 15px; }
     .nav-header .user li {

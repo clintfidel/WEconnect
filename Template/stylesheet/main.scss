@@ -26,6 +26,7 @@ body {
         li {
             display: inline-block;
             margin: $margin ($margin * 5);
+            font-family:  'Philosopher', sans-serif;
             
             button {
                 height: 40px;
@@ -248,7 +249,7 @@ body {
         box-sizing: border-box;
     }
     .nav-header {
-        position: fixed;
+        position: absolute;
         z-index: 5;
         margin: auto ($margin * 3);
         .user {
