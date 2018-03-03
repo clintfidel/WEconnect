@@ -333,6 +333,7 @@ body {
 
   .full-page {
     width: auto;
+    min-height: 100vh;
     height: 90vh;
     position: relative; }
     .full-page * {
@@ -441,6 +442,9 @@ body {
         border-radius: 5%;
         background-color: white;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); }
+
+.modal-dialog {
+  transition: .5s; }
 
 .modal-header {
   background-color: #136c8b !important;
