@@ -487,6 +487,7 @@ body {
                 box-sizing: border-box;
             }  
             width: auto;
+            min-height:100vh;
             height: 90vh;
             position: relative;
             .content-page {
@@ -629,7 +630,9 @@ body {
 
 
 // edit modal
-
+.modal-dialog {
+    transition: .5s;
+}
     .modal-header {
         background-color: $backgroundcolor1 !important;
         color: white;
