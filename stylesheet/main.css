@@ -214,9 +214,7 @@ body {
         transform: scale(1.2) rotate(360deg); }
 
   .push {
-    position: static; }
-    .push p {
-      font-size: 17px !important; } }
+    display: none; } }
 .push {
   position: absolute;
   background-color: #136c8b;
@@ -612,6 +610,9 @@ body {
     .business-body .content-display .bus-info-details .business-content span {
       font-size: 20px; } }
 @media screen and (max-width: 800px) {
+  .push {
+    display: none; }
+
   .jumbotron .cataloge {
     height: 60%; }
     .jumbotron .cataloge .text {
@@ -630,6 +631,9 @@ body {
       padding: 5px;
       margin-left: auto; } }
 @media screen and (max-width: 640px) {
+  .push {
+    display: none; }
+
   .main-business {
     min-width: 30px; }
     .main-business #contain-form {
@@ -641,10 +645,18 @@ body {
       .main-business .jumbotron .cataloge {
         height: 60%; }
         .main-business .jumbotron .cataloge .text {
-          overflow-y: scroll; }
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap; }
           .main-business .jumbotron .cataloge .text h2 {
             font-size: 20px;
             font-weight: bolder; }
+        .main-business .jumbotron .cataloge .text::after {
+          content: 'view more';
+          background-color: #136c8b;
+          padding: 7px;
+          border-radius: 5px;
+          color: white; }
         .main-business .jumbotron .cataloge .image {
           background-size: cover; }
 
@@ -666,9 +678,20 @@ body {
     font-size: 20px !important;
     padding: 3% 0 !important; } }
 @media screen and (max-width: 450px) {
+  .nav-header {
+    position: relative; }
+
   .business-body .business-image {
     height: 40vh; }
     .business-body .business-image img {
-      padding-top: 27% !important; } }
+      padding-top: 27% !important; }
+
+  .main-business {
+    position: absolute;
+    margin-top: 10%;
+    height: 100vh;
+    padding-top: 335px; }
+    .main-business .jumbotron {
+      height: 50vh; } }
 
 /*# sourceMappingURL=main.css.map */

@@ -333,11 +333,8 @@ body {
  }
     
  .push {
-     position: static;
-    p {
-      font-size: ($size*2-3) !important;
+    display: none;
     }
-  }
 }
 
 
@@ -519,6 +516,7 @@ body {
         }        
     }
 }
+
 
 // All Business Page
 
@@ -879,6 +877,9 @@ body {
 
 
 @media screen and (max-width: 800px) {
+    .push {
+        display: none;
+    }
     .jumbotron {
         .cataloge {
             height: 60%;
@@ -917,6 +918,9 @@ body {
 }
 
 @media screen and (max-width: 640px) {
+    .push {
+        display: none;
+    }
     .main-business{ 
         min-width: 30px;
         #contain-form  {
@@ -930,12 +934,22 @@ body {
             .cataloge {
                 height: 60%;
                 .text {
-                    overflow-y: scroll;
+                    overflow:hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
                   
                     h2 {
                       font-size: ($size * 2);
                       font-weight: bolder
                     }
+                }
+                .text::after {
+                    content: 'view more';
+                    background-color: $backgroundcolor1;
+                    padding: 7px;
+                    border-radius: $radius;
+                    color: white
                 }
                 .image {
                     background-size: cover
@@ -970,6 +984,10 @@ body {
 }
 
 @media screen and (max-width: 450px) { 
+    .nav-header {
+         position: relative;
+        
+    }
     .business-body {
         .business-image {
             height: 40vh ;
@@ -978,4 +996,15 @@ body {
            }
         }
     }
+    .main-business {
+        position: absolute;
+        margin-top: 10%;
+        height: 100vh;
+        padding-top: 335px;
+        .jumbotron {
+          height: 50vh;  
+        }
+       
+    }
+   
 }
