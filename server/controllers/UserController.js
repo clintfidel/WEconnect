@@ -66,7 +66,8 @@ class UserController {
         }
         const expiresIn = { exp: '1hr' };
         const token = jwt.sign({ username, expiresIn }, secret);
-        return res.status(200).json({
+
+        return res.status(201).json({
           message: 'logged in successfully',
           token
         });
@@ -100,6 +101,40 @@ class UserController {
       status: 'Success',
       Users,
     });
+  }
+
+  /**
+   * @static
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - JSON object (edit user profile )
+   */
+  static updateUserProfile(req, res) {
+    const {
+      fullname, username, password, email
+    } = req.body;
+    let user;
+    for (let i = 0; i < Users.length; i += 1) {
+      if (Users[i].id === Number(req.params.id)) {
+        Users[i].fullname = fullname;
+        Users[i].username = username;
+        Users[i].email = email;
+        Users[i].password = password;
+        user = Users[i];
+        return res.status(200).json({
+          message: 'user profile updated successfully',
+          user
+        });
+      }
+      return res.status(404).json({
+        message: 'No user found!'
+      });
+    }
   }
 }
 
