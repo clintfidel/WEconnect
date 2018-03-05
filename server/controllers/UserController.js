@@ -6,7 +6,7 @@ import dummyDb from '../dummyModels/index';
 dotenv.load();
 
 const secret = process.env.secretKey;
-const { UserModel } = dummyDb;
+const { Users } = dummyDb;
 
 /**
  *
@@ -24,10 +24,11 @@ class UserController {
    * @return {object} Success message with the user created or error message
    * @memberof UserController
    */
+
   static addUser(req, res) {
     const password = bcrypt.hashSync(req.body.password, 10);
     const addedUser = {
-      id: UserModel.length + 1,
+      id: Users.length + 1,
       fullname: req.body.fullname,
       username: req.body.username,
       email: req.body.email,
@@ -35,9 +36,7 @@ class UserController {
     };
     const expiresIn = { exp: '1hr' };
     const token = jwt.sign({ addedUser, expiresIn }, secret);
-    Object.assign(req.body, addedUser);
-    UserModel.push(req.body);
-    console.log(UserModel);
+    Users.push(addedUser);
     return res.status(201).json({
       message: 'signed up successfully',
       token
@@ -55,25 +54,28 @@ class UserController {
    *
    * @return {object} - status code and  message
    */
+
   static login(req, res) {
-    const loggedInUser = {
-      username: req.body.username,
-    };
-    for (let i = 0; i < UserModel.length; i += 1) {
-      if (UserModel[i] && UserModel[i].username === req.body.username) {
-        if (req.body.password === UserModel[i].password) {
-          const expiresIn = { exp: '1hr' };
-          const token = jwt.sign({ loggedInUser, expiresIn }, secret);
+    const { username, password } = req.body;
+    Users.forEach((user) => {
+      if (user.username === username) {
+        if (user.password !== password) {
           return res.status(200).json({
-            message: 'Loggedin successfully',
-            token
+            message: 'password provided does not match username'
           });
         }
+        const expiresIn = { exp: '1hr' };
+        const token = jwt.sign({ username, expiresIn }, secret);
+        return res.status(200).json({
+          message: 'logged in successfully',
+          token
+        });
       }
-      return res.status(401).json({
-        message: 'Invalid details'
+
+      return res.status(403).json({
+        message: 'you are not authorized'
       });
-    }
+    });
   }
 
   /**
@@ -85,26 +87,20 @@ class UserController {
    *
    * @memberOf UserController
    *
-   * @return {object} - status code and  message
+   * @return {object} - JSON object (message and all users )
    */
 
   static getUser(req, res) {
-    const user = [];
-    for (let i = 0; i < UserModel.length; i += 1) {
-      if (UserModel.length === 0) {
-        return res.status(404).json({
-          message: 'no user found'
-        });
-      }
-      user.push(UserModel[i]);
-      console.log(user);
-      return res.status(200).json({
-        message: 'users found',
-        user
+    if (!Users) {
+      return res.status(404).send({
+        message: 'No user Found!'
       });
     }
+    return res.status(200).send({
+      status: 'Success',
+      Users,
+    });
   }
 }
-
 
 export default UserController;
