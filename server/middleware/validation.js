@@ -4,7 +4,7 @@ import dummyDb from '../dummyModels/index';
 
 dotenv.config();
 
-const { UserModel } = dummyDb;
+const { Users } = dummyDb;
 /**
    * @description - Checks that a user signs in with right details
    *
@@ -75,7 +75,7 @@ export const checkUserInput = (req, res, next) => {
    */
 export const userNameOrEmailExist = (req, res, next) => {
   const { username, email } = req.body;
-  UserModel.forEach((user) => {
+  Users.forEach((user) => {
     if (user && user.username === username) {
       return res.status(409).json({
         message: 'username already exist'
