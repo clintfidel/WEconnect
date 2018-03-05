@@ -2,6 +2,7 @@ import express from 'express';
 import winston from 'winston';
 import validator from 'express-validator';
 import bodyParser from 'body-parser';
+import UserRouter from './server/routes/UserRoutes';
 
 const app = express();
 
@@ -9,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 
-// app.use();
+app.use('/auth', UserRouter);
 // app.use();
 
 app.get('/', (req, res) => {
