@@ -3,7 +3,7 @@ import User from '../controllers/UserController';
 import { checkUserInput, userNameOrEmailExist } from '../middleware/validation';
 
 const {
-  addUser, getUser, login
+  addUser, getUser, login, updateUserProfile
 } = User;
 
 const userRouter = express.Router();
@@ -17,8 +17,8 @@ userRouter.route('/')
 userRouter.route('/login')
   .post(login);
 
-// userRouter.route('/updateProfile/:id')
-//   .post(updateUserProfile);
+userRouter.route('/updateProfile/:id')
+  .post(updateUserProfile);
 
 
 export default userRouter;
