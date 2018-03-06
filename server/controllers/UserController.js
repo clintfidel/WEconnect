@@ -57,15 +57,15 @@ class UserController {
 
   static login(req, res) {
     const { username, password } = req.body;
-    Users.forEach((user) => {
-      if (user.username === username) {
-        if (user.password !== password) {
+    for (let i = 0; i < Users.length; i += 1) {
+      if (Users[i].username === username) {
+        if (Users[i].password !== password) {
           return res.status(200).json({
             message: 'password provided does not match username'
           });
         }
         const expiresIn = { exp: '1hr' };
-        const token = jwt.sign({ username, expiresIn }, secret);
+        const token = jwt.sign({ Users, expiresIn }, secret);
 
         return res.status(201).json({
           message: 'logged in successfully',
@@ -76,7 +76,7 @@ class UserController {
       return res.status(403).json({
         message: 'you are not authorized'
       });
-    });
+    }
   }
 
   /**
