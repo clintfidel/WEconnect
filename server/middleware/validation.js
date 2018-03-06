@@ -80,7 +80,7 @@ export const userNameOrEmailExist = (req, res, next) => {
       return res.status(409).json({
         message: 'username already exist'
       });
-    } else if (user && user.email === email) {
+    } if (user && user.email === email) {
       return res.status(409).json({
         message: 'username already exist'
       });
