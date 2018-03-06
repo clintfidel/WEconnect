@@ -60,21 +60,21 @@ class UserController {
     for (let i = 0; i < Users.length; i += 1) {
       if (Users[i].username === username) {
         if (Users[i].password !== password) {
-          return res.status(200).json({
+          return res.status(403).json({
             message: 'password provided does not match username'
           });
         }
         const expiresIn = { exp: '1hr' };
         const token = jwt.sign({ Users, expiresIn }, secret);
 
-        return res.status(201).json({
+        return res.status(200).json({
           message: 'logged in successfully',
           token
         });
       }
 
       return res.status(403).json({
-        message: 'you are not authorized'
+        message: 'you are not authenticated'
       });
     }
   }
@@ -92,11 +92,6 @@ class UserController {
    */
 
   static getUser(req, res) {
-    if (!Users) {
-      return res.status(404).send({
-        message: 'No user Found!'
-      });
-    }
     return res.status(200).send({
       status: 'Success',
       Users,
@@ -131,8 +126,8 @@ class UserController {
           user
         });
       }
-      return res.status(404).json({
-        message: 'No user found!'
+      return res.status(403).json({
+        message: 'Unauthorized User!'
       });
     }
   }
