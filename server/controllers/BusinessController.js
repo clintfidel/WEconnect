@@ -138,6 +138,32 @@ class BusinessController {
     }
   }
 
+  /**
+   * @description - Review user's business profile
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - status code and  message
+   */
+  static reviewBusiness(req, res) {
+    const { content, userId } = req.body;
+    const reviewAdded = {
+      id: Review.length + 1,
+      businessId: req.params.businessId,
+      userId,
+      content
+    };
+    Review.push(reviewAdded);
+    return res.status(201).json({
+      message: 'you have successfully reviewed this business',
+      review: Review[Review.length - 1]
+    });
+  }
+
   
 }
 
