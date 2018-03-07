@@ -97,6 +97,26 @@ class BusinessController {
       });
     }
   }
+
+  /**
+   * @description - Gets all user's business profile
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - status code and  message
+   */
+  static getAllBusiness(req, res) {
+    return res.status(200).send({
+      status: 'Success',
+      Business,
+    });
+  }
+
+  
 }
 
 export default BusinessController;
