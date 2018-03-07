@@ -116,6 +116,28 @@ class BusinessController {
     });
   }
 
+  /**
+   * @description - Gets one user business profile
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - status code and  message
+   */
+  static getOneBusiness(req, res) {
+    for (let i = 0; i < Business.length; i += 1) {
+      if (Business[i].id === parseInt(req.params.id, 10)) {
+        return res.status(200).json({
+          status: 'success',
+          Business: Business[i]
+        });
+      }
+    }
+  }
+
   
 }
 
