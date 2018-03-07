@@ -72,6 +72,31 @@ class BusinessController {
       });
     }
   }
+
+  /**
+   * @description - Deletes a user's business profile
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - status code and  message
+   */
+  static deleteBusiness(req, res) {
+    for (let i = 0; i < Business.length; i += 1) {
+      if (Business[i].id === Number(req.params.id)) {
+        Business.slice(i, 1);
+        return res.status(200).json({
+          message: 'blog deleted successfully'
+        });
+      }
+      return res.status(403).json({
+        message: 'Unauthorized user!'
+      });
+    }
+  }
 }
 
 export default BusinessController;
