@@ -1,6 +1,6 @@
 import dummyDb from '../dummyModels/index';
 
-const { Business } = dummyDb;
+const { Review, Category, Business } = dummyDb;
 
 /**
  *
@@ -35,6 +35,42 @@ class BusinessController {
       message: 'you have successfully Rgistered this business',
       newBusiness: Business[Business.length - 1]
     });
+  }
+
+  /**
+   * @description - Updates a user's business profile
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - status code and  message
+   */
+  static updateBusiness(req, res) {
+    const {
+      businessName, businessDetails, businessLocation, categoryId, userId
+    } = req.body;
+    let business;
+    for (let i = 0; i < Business.length; i += 1) {
+      if (Business[i].id === parseInt(req.params.id, 10)) {
+        Business[i].businessName = businessName;
+        Business[i].businessDetails = businessDetails;
+        Business[i].businessLocation = businessLocation;
+        Business[i].categoryId = categoryId;
+        Business[i].userId = userId;
+        business = Business[i];
+        return res.status(200).json({
+          message: 'You have successfully updated your Business',
+          business
+        });
+      }
+      return res.status(403).json({
+        status: false,
+        message: 'Unauthorized useer'
+      });
+    }
   }
 }
 
