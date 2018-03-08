@@ -34,9 +34,9 @@ class UserController {
       email: req.body.email,
       password
     };
+    Users.push(addedUser);
     const expiresIn = { exp: '1hr' };
     const token = jwt.sign({ addedUser, expiresIn }, secret);
-    Users.push(addedUser);
     return res.status(201).json({
       message: 'signed up successfully',
       token
@@ -59,13 +59,16 @@ class UserController {
     const { username, password } = req.body;
     for (let i = 0; i < Users.length; i += 1) {
       if (Users[i].username === username) {
+        const value = Users;
         if (Users[i].password !== password) {
           return res.status(403).json({
             message: 'password provided does not match username'
           });
         }
+        
         const expiresIn = { exp: '1hr' };
-        const token = jwt.sign({ Users, expiresIn }, secret);
+        const token = jwt.sign({ value, expiresIn }, secret);
+        console.log(secret)
 
         return res.status(200).json({
           message: 'logged in successfully',
