@@ -59,8 +59,6 @@ describe('WEconnect API: ', () => {
           })
           .expect(200)
           .end((err, res) => {
-            console.log(err);
-            console.log(res, '===>');
             if (err) {
               return done(err);
             }
@@ -72,7 +70,7 @@ describe('WEconnect API: ', () => {
         supertest(app)
           .put('/auth/updateProfile/4')
           .send({
-            username: 'Fidelis Ugonna',
+            username: 'Fidelis',
             fullname: 'test user2',
             email: 'testing2@example.com',
             password: 'mypassword'
