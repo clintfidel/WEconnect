@@ -1,7 +1,6 @@
 import dummyDb from '../dummyModels/index';
 
 const { Review, Category, Business } = dummyDb;
-
 /**
  *
  *@class BusinessController
@@ -164,7 +163,31 @@ class BusinessController {
     });
   }
 
-  
+
+  static getOneReview(req, res) {
+    for (let i = 0; i < Review.length; i += 1) {
+      if (Review[i].id === parseInt(req.params.id, 10)) {
+        return res.status(200).json({
+          status: 'success',
+          review: Review[i]
+        });
+      }
+    }
+  }
+
+  static addCategory(req, res) {
+    const { name, description } = req.body;
+    const categoryAdded = {
+      id: Category.length + 1,
+      name,
+      description
+    };
+    Category.push(categoryAdded);
+    return res.status(201).json({
+      message: 'you have successfully added a new category',
+      category: Category[Category.length - 1]
+    });
+  }
 }
 
 export default BusinessController;
