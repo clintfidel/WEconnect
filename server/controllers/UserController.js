@@ -73,8 +73,8 @@ class UserController {
         });
       }
 
-      return res.status(403).json({
-        message: 'you are not authenticated'
+      return res.status(401).json({
+        message: 'Invalid credentials'
       });
     }
   }

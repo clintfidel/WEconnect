@@ -1,6 +1,7 @@
 import dummyDb from '../dummyModels/index';
 
-const { Review, Category, Business } = dummyDb;
+const { Review, Business } = dummyDb;
+
 /**
  *
  *@class BusinessController
@@ -31,7 +32,7 @@ class BusinessController {
     };
     Business.push(businessAdded);
     return res.status(201).json({
-      message: 'you have successfully Rgistered this business',
+      message: 'you have successfully Registered this business',
       newBusiness: Business[Business.length - 1]
     });
   }
@@ -65,9 +66,8 @@ class BusinessController {
           business
         });
       }
-      return res.status(403).json({
-        status: false,
-        message: 'Unauthorized useer'
+      return res.status(400).json({
+        message: 'You are currently making a bad request'
       });
     }
   }
@@ -88,11 +88,11 @@ class BusinessController {
       if (Business[i].id === Number(req.params.id)) {
         Business.slice(i, 1);
         return res.status(200).json({
-          message: 'blog deleted successfully'
+          message: 'Business deleted successfully'
         });
       }
-      return res.status(403).json({
-        message: 'Unauthorized user!'
+      return res.status(400).json({
+        message: 'You are currently making a bad request'
       });
     }
   }
@@ -134,6 +134,9 @@ class BusinessController {
           Business: Business[i]
         });
       }
+      return res.status(400).json({
+        message: 'No business with that id found'
+      });
     }
   }
 
@@ -156,38 +159,66 @@ class BusinessController {
       userId,
       content
     };
-    Review.push(reviewAdded);
-    return res.status(201).json({
-      message: 'you have successfully reviewed this business',
-      review: Review[Review.length - 1]
-    });
-  }
-
-
-  static getOneReview(req, res) {
-    for (let i = 0; i < Review.length; i += 1) {
-      if (Review[i].id === parseInt(req.params.id, 10)) {
-        return res.status(200).json({
-          status: 'success',
-          review: Review[i]
+    for (let i = 0; i < Business.length; i += 1) {
+      if (Business[i].id === parseInt(req.params.businessId, 10)) {
+        Review.push(reviewAdded);
+        return res.status(201).json({
+          message: 'you have successfully reviewed this business',
+          review: Review[Review.length - 1]
         });
       }
+      return res.status(400).json({
+        message: 'You are currently making a bad request'
+      });
     }
   }
+  /**
+   * @description - Get one review for business profile
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - status code and  message
+   */
 
-  static addCategory(req, res) {
-    const { name, description } = req.body;
-    const categoryAdded = {
-      id: Category.length + 1,
-      name,
-      description
-    };
-    Category.push(categoryAdded);
-    return res.status(201).json({
-      message: 'you have successfully added a new category',
-      category: Category[Category.length - 1]
-    });
-  }
+  // static getOneReview(req, res) {
+  //   for (let i = 0; i < Review.length; i += 1) {
+  //     if (Review[i].id === parseInt(req.params.id, 10)) {
+  //       return res.status(200).json({
+  //         status: 'success',
+  //         review: Review[i]
+  //       });
+  //     }
+  //   }
+  // }
+
+  /**
+   * @description - Admin add category for business profile
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @memberOf UserController
+   *
+   * @return {object} - status code and  message
+   */
+  // static addCategory(req, res) {
+  //   const { name, description } = req.body;
+  //   const categoryAdded = {
+  //     id: Category.length + 1,
+  //     name,
+  //     description
+  //   };
+  //   Category.push(categoryAdded);
+  //   return res.status(201).json({
+  //     message: 'you have successfully added a new category',
+  //     category: Category[Category.length - 1]
+  //   });
+  // }
 }
 
 export default BusinessController;
