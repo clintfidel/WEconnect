@@ -5,7 +5,9 @@ node_js:
 services:
   - postgresql
 script:
+  - npm run server-dummy:test
 after_success:
-npm run coverage
+  - npm run coverage
+
 env:
   global:
