@@ -86,11 +86,14 @@ class BusinessController {
   static deleteBusiness(req, res) {
     for (let i = 0; i < Business.length; i += 1) {
       if (Business[i].id === Number(req.params.id)) {
-        Business.slice(i, 1);
-        return res.status(200).json({
-          message: 'Business deleted successfully'
-        });
+        if (parseInt(req.body.userId, 10) === Business[i].userId) {
+          Business.slice(i, 1);
+          return res.status(200).json({
+            message: 'Business deleted successfully'
+          });
+        }
       }
+
       return res.status(400).json({
         message: 'You are currently making a bad request'
       });
@@ -173,7 +176,7 @@ class BusinessController {
     }
   }
   /**
-   * @description - Get one review for business profile
+   * @description - Get all review for business profile
    *
    * @param  {Object} req - request
    *
@@ -184,16 +187,27 @@ class BusinessController {
    * @return {object} - status code and  message
    */
 
-  // static getOneReview(req, res) {
-  //   for (let i = 0; i < Review.length; i += 1) {
-  //     if (Review[i].id === parseInt(req.params.id, 10)) {
-  //       return res.status(200).json({
-  //         status: 'success',
-  //         review: Review[i]
-  //       });
-  //     }
-  //   }
-  // }
+  static getAllReview(req, res) {
+    const { businessId } = req.params;
+    const allReviews = [];
+    for (let i = 0; i < Business.length; i += 1) {
+      if (Business[i].id === parseInt(businessId, 10)) {
+        for (let j = 0; j < Review.length; j += 1) {
+          if (Review[j].businessId === parseInt(Business[i].id, 10)) {
+            allReviews.push(Review[j]);
+          }
+        }
+        res.status(200).send({
+          status: 'success',
+          business: Business[i].businessName,
+          review: allReviews
+        });
+      }
+      return res.status(400).json({
+        message: 'You are currently making a bad request'
+      });
+    }
+  }
 
   /**
    * @description - Admin add category for business profile
