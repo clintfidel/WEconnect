@@ -34,9 +34,9 @@ class UserController {
       email: req.body.email,
       password
     };
+    Users.push(addedUser);
     const expiresIn = { exp: '1hr' };
     const token = jwt.sign({ addedUser, expiresIn }, secret);
-    Users.push(addedUser);
     return res.status(201).json({
       message: 'signed up successfully',
       token
@@ -65,7 +65,7 @@ class UserController {
           });
         }
         const expiresIn = { exp: '1hr' };
-        const token = jwt.sign({ Users, expiresIn }, secret);
+        const token = jwt.sign({ username, expiresIn }, secret);
 
         return res.status(200).json({
           message: 'logged in successfully',
