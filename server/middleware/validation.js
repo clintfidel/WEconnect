@@ -28,7 +28,7 @@ export const checkUserInput = (req, res, next) => {
     email: {
       notEmpty: true,
       isEmail: {
-        errorMessage: 'Provide a valid a Email Adrress'
+        errorMessage: 'Provide a valid a Email Address'
       },
       errorMessage: 'Your Email Address is required'
     },
@@ -163,6 +163,7 @@ export const checkReviewsInput = (req, res, next) => {
         error: error.msg
       });
     });
+
     return res.status(409)
       .json(allErrors);
   }
@@ -189,7 +190,9 @@ export const seaarchBusiness = (req, res, next) => {
     Business.filter((found) => {
       if (found.categoryId === parseInt(category, 10)) {
         searchedCategory.push(found);
-        return res.status(200).send(searchedCategory);
+        return res.status(200).send({
+          Business: searchedCategory
+        });
       }
       return res.status(404).json({
         message: 'No match found'
@@ -200,7 +203,9 @@ export const seaarchBusiness = (req, res, next) => {
     Business.filter((found) => {
       if (location.toLowerCase() === found.businessLocation.toLowerCase()) {
         searchedLocation.push(found);
-        return res.status(200).send(searchedLocation);
+        return res.status(200).send({
+          Business: searchedLocation
+        });
       }
       return res.status(404).json({
         message: 'No match found'
@@ -224,42 +229,45 @@ export const seaarchBusiness = (req, res, next) => {
    */
 export const userNameOrEmailExist = (req, res, next) => {
   const { username, email } = req.body;
-  Users.forEach((user) => {
-    if (user && user.username === username) {
+  for (let i = 0; i < Users.length; i += 1) {
+    if (Users[i].username === username) {
       return res.status(409).json({
         message: 'username already exist'
       });
-    } if (user && user.email === email) {
+    } else if (Users[i].email === email) {
       return res.status(409).json({
-        message: 'username already exist'
+        message: 'email already exist'
       });
     }
     next();
-  });
+  }
 };
 
 export const checkBusinessNameExist = (req, res, next) => {
-  const { businessNmae } = req.body;
-  Business.forEach((name) => {
-    if (name && name.businessName === businessNmae) {
+  const { businessName } = req.body;
+  for (let i = 0; i < Business.length; i += 1) {
+    if (Business[i].businessName === businessName) {
       return res.status(409).json({
         message: 'business name already exist'
       });
     }
     next();
-  });
+  }
 };
 
 export const checkAuthorizedUser = (req, res, next) => {
   const { userId } = req.body;
-  const { id } = req.params;
   for (let i = 0; i < Business.length; i += 1) {
-    if (Business[i].id === id && Business[i].userId !== userId) {
-      return res.status(403).json({
-        message: 'you are not allowed to perform this operation'
-      });
+    if (Business[i].userId === parseInt(userId, 10)) {
+      for (let j = 0; j < Users.length; j += 1) {
+        if (Users[j].id === Business[i].userId) {
+          next();
+        }
+      }
     }
-    next();
+    res.status(403).json({
+      message: 'you cannot perform this action'
+    });
   }
 };
 
