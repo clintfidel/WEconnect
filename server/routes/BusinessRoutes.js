@@ -4,7 +4,7 @@ import isLoggedIn from '../middleware//Authorization';
 import { checkBusinessInput, checkReviewsInput, seaarchBusiness, checkAuthorizedUser, checkBusinessNameExist } from '../middleware/validation';
 
 const {
-  reviewBusiness, getOneReview, addbusiness, addCategory, updateBusiness,
+  reviewBusiness, addbusiness, updateBusiness,
   deleteBusiness, getAllBusiness, getOneBusiness
 } = Business;
 
@@ -14,23 +14,19 @@ businessRouter.route('/')
   .post(isLoggedIn, checkBusinessInput, checkBusinessNameExist, checkBusinessInput, addbusiness)
   .get(isLoggedIn, seaarchBusiness, getAllBusiness);
 
-businessRouter.route('/:id')
-  .get(isLoggedIn, getOneBusiness);
-
-businessRouter.route('/updateBusiness/:id')
-  .put(isLoggedIn, checkBusinessInput, checkBusinessNameExist, checkAuthorizedUser, updateBusiness);
-
-businessRouter.route('/deleteBusiness/:id')
+businessRouter.route('/:id/business')
+  .get(isLoggedIn, getOneBusiness)
+  .put(isLoggedIn, checkBusinessInput, checkBusinessNameExist, checkAuthorizedUser, updateBusiness)
   .delete(isLoggedIn, deleteBusiness);
 
 businessRouter.route('/review/:businessId')
   .post(isLoggedIn, checkReviewsInput, reviewBusiness);
 
-businessRouter.route('/review/:id')
-  .get(isLoggedIn, getOneReview);
+// businessRouter.route('/review/:id')
+//   .get(isLoggedIn, getOneReview);
 
-businessRouter.route('/category')
-  .post(isLoggedIn, addCategory);
+// businessRouter.route('/category')
+//   .post(isLoggedIn, addCategory);
 
 
 export default businessRouter;

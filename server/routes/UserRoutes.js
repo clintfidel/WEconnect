@@ -18,7 +18,7 @@ userRouter.route('/login')
   .post(login);
 
 userRouter.route('/updateProfile/:id')
-  .post(updateUserProfile);
+  .put(updateUserProfile);
 
 
 export default userRouter;
