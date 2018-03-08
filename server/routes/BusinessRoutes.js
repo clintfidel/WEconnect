@@ -5,7 +5,7 @@ import { checkBusinessInput, checkReviewsInput, seaarchBusiness, checkAuthorized
 
 const {
   reviewBusiness, addbusiness, updateBusiness,
-  deleteBusiness, getAllBusiness, getOneBusiness
+  deleteBusiness, getAllBusiness, getOneBusiness, getAllReview
 } = Business;
 
 const businessRouter = express.Router();
@@ -17,13 +17,13 @@ businessRouter.route('/')
 businessRouter.route('/:id/business')
   .get(isLoggedIn, getOneBusiness)
   .put(isLoggedIn, checkBusinessInput, checkBusinessNameExist, checkAuthorizedUser, updateBusiness)
-  .delete(isLoggedIn, deleteBusiness);
+  .delete(isLoggedIn, deleteBusiness, checkAuthorizedUser);
 
 businessRouter.route('/review/:businessId')
   .post(isLoggedIn, checkReviewsInput, reviewBusiness);
 
-// businessRouter.route('/review/:id')
-//   .get(isLoggedIn, getOneReview);
+businessRouter.route('/:businessId/reviews')
+  .get(isLoggedIn, getAllReview);
 
 // businessRouter.route('/category')
 //   .post(isLoggedIn, addCategory);
