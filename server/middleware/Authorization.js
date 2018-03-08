@@ -18,7 +18,7 @@ const key = process.env.secretKey;
 const isLoggedIn = (req, res, next) => {
   let token;
   const tokenAvailable = req.headers.authorization ||
-    req.headers['x-access-token'];
+    req.headers['x-access-token'] || req.body.token;
   if (req.headers.authorization) {
     [token] = req.headers.authorization.split(' ');
   } else {
