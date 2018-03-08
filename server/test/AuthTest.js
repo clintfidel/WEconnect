@@ -15,7 +15,7 @@ describe('WEconnect API: ', () => {
     });
     it('should create a new User', (done) => {
       supertest(app)
-        .post('/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           username: 'testing',
           fullname: 'test user',
@@ -33,7 +33,7 @@ describe('WEconnect API: ', () => {
     });
     it('should log an existing user in', (done) => {
       supertest(app)
-        .post('/auth/login')
+        .post('/api/v1/auth/login')
         .send({
           username: 'Clintfidel',
           password: 'clint2016'
@@ -50,7 +50,7 @@ describe('WEconnect API: ', () => {
     describe('Update user Profile Success: ', () => {
       it('should successfully update a users profile', (done) => {
         supertest(app)
-          .put(`/auth/updateProfile/${1}`)
+          .put(`/api/v1/auth/updateProfile/${1}`)
           .send({
             username: 'Fidelis',
             fullname: 'test user2',
@@ -68,7 +68,7 @@ describe('WEconnect API: ', () => {
       });
       it('should return error message for unauthorized user', (done) => {
         supertest(app)
-          .put('/auth/updateProfile/4')
+          .put('/api/v1/auth/updateProfile/4')
           .send({
             username: 'Fidelis',
             fullname: 'test user2',
@@ -89,7 +89,7 @@ describe('WEconnect API: ', () => {
   describe('user Authentication failed: ', () => {
     it('should throw an error message for invalid username', (done) => {
       supertest(app)
-        .post('/auth/login')
+        .post('/api/v1/auth/login')
         .send({
           username: 'Clintclint',
           password: 'clint2016'
@@ -105,7 +105,7 @@ describe('WEconnect API: ', () => {
     });
     it('should throw an error message for invalid password', (done) => {
       supertest(app)
-        .post('/auth/login')
+        .post('/api/v1/auth/login')
         .send({
           username: 'Fidelis',
           password: 'clint2017'
@@ -123,7 +123,7 @@ describe('WEconnect API: ', () => {
   describe('Get all user sucess: ', () => {
     it('should successfully get all registered users', (done) => {
       supertest(app)
-        .get('/auth/')
+        .get('/api/v1/auth/')
         .expect(200)
         .end((err, res) => {
           if (err) {
@@ -135,7 +135,7 @@ describe('WEconnect API: ', () => {
     });
     it('should return list of all users', (done) => {
       supertest(app)
-        .get('/auth/')
+        .get('/api/v1/auth/')
         .expect(200)
         .end((err, res) => {
           if (err) {

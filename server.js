@@ -11,8 +11,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 
-app.use('/auth', UserRouter);
-app.use('/business', BusinessRouter);
+app.use('/api/v1/auth', UserRouter);
+app.use('/api/v1/business', BusinessRouter);
 
 app.get('/', (req, res) => {
   res.status(200).send('testing out Mock-data');

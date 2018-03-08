@@ -9,7 +9,7 @@ describe('WEconnect API: ', () => {
   describe('Business: ', () => {
     it('should create a new User', (done) => {
       supertest(app)
-        .post('/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           fullname: 'test test',
           username: 'test me',
@@ -27,7 +27,7 @@ describe('WEconnect API: ', () => {
     });
     it('should log a user in', (done) => {
       supertest(app)
-        .post('/auth/login')
+        .post('/api/v1/auth/login')
         .send({
           username: 'Fidelis',
           password: 'mypassword',
@@ -44,7 +44,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not create a new Business without a token', (done) => {
       supertest(app)
-        .post('/business/')
+        .post('/api/v1/business/')
         .send({
           businessName: 'testing',
           businessDetails: 'test user',
@@ -63,7 +63,7 @@ describe('WEconnect API: ', () => {
     });
     it('should create new Business profile', (done) => {
       supertest(app)
-        .post('/business/')
+        .post('/api/v1/business/')
         .send({
           businessName: 'testing',
           businessDetails: 'test user',
@@ -83,7 +83,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not get Business with wrong id ', (done) => {
       supertest(app)
-        .get(`/business/${2}/business`)
+        .get(`/api/v1/business/${2}/business`)
         .send({
           token: `${token}`
         })
@@ -98,7 +98,7 @@ describe('WEconnect API: ', () => {
     });
     it('should get one Business ', (done) => {
       supertest(app)
-        .get(`/business/${1}/business`)
+        .get(`/api/v1/business/${1}/business`)
         .send({
           token: `${token}`
         })
@@ -114,7 +114,7 @@ describe('WEconnect API: ', () => {
     });
     it('should get all Businesses ', (done) => {
       supertest(app)
-        .get('/business')
+        .get('/api/v1/business')
         .send({
           token: `${token}`
         })
@@ -130,7 +130,7 @@ describe('WEconnect API: ', () => {
     });
     it('should update user Business profile', (done) => {
       supertest(app)
-        .put(`/business/${1}/business`)
+        .put(`/api/v1/business/${1}/business`)
         .send({
           businessName: 'tested',
           businessDetails: 'change test user',
@@ -150,9 +150,9 @@ describe('WEconnect API: ', () => {
     });
     it('should not update invalid business id', (done) => {
       supertest(app)
-        .put(`/business/${4}/business`)
+        .put(`/api/v1/business/${4}/business`)
         .send({
-          businessName: 'tested',
+          businessName: 'tested again',
           businessDetails: 'change test user',
           businessLocation: 'Abuja',
           categoryId: 2,
@@ -168,26 +168,64 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
+    it('should not update business with invalid user id', (done) => {
+      supertest(app)
+        .put(`/api/v1/business/${1}/business`)
+        .send({
+          businessName: 'tested again',
+          businessDetails: 'change test user',
+          businessLocation: 'Abuja',
+          categoryId: 2,
+          userId: 3,
+          token: `${token}`
+        })
+        .expect(403)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('you cannot perform this action');
+          done();
+        });
+    });
     it('should delete user Business ', (done) => {
       supertest(app)
-        .delete(`/business/${1}/business`)
+        .delete(`/api/v1/business/${1}/business`)
         .send({
-          token: `${token}`
+          token: `${token}`,
+          userId: 1
         })
         .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res);
+          expect(res.body.message).toBe('Business deleted successfully');
           done();
         });
     });
     it('should not delete invalid business id', (done) => {
       supertest(app)
-        .delete(`/business/${3}/business`)
+        .delete(`/api/v1/business/${3}/business`)
         .send({
-          token: `${token}`
+          token: `${token}`,
+          userId: 1
+        })
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('You are currently making a bad request');
+          done();
+        });
+    });
+    it('should not delete business with invalid user id', (done) => {
+      supertest(app)
+        .delete(`/api/v1/business/${1}/business`)
+        .send({
+          token: `${token}`,
+          userId: 2
         })
         .expect(400)
         .end((err, res) => {
