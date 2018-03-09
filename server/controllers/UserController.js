@@ -68,7 +68,6 @@ class UserController {
         
         const expiresIn = { exp: '1hr' };
         const token = jwt.sign({ value, expiresIn }, secret);
-        console.log(secret)
 
         return res.status(200).json({
           message: 'logged in successfully',
