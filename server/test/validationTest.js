@@ -20,7 +20,8 @@ describe('WEconnect API: ', () => {
     //       if (err) {
     //         return done(err);
     //       }
-    //       expect(res.body.error.msg).toBe('Please provide a username with atleast 5 characters.');
+    //       expect(res.body.error.msg)
+    // .toBe('Please provide a username with atleast 5 characters.');
     //       done();
     //     });
     // });
@@ -110,28 +111,29 @@ describe('WEconnect API: ', () => {
     //       if (err) {
     //         return done(err);
     //       }
-    //       expect(res.body.error.msg).toBe('Provide a valid password with minimum of 8 characters');
+    //       expect(res.body.error.msg)
+    // .toBe('Provide a valid password with minimum of 8 characters');
     //       done();
     //     });
     // });
-    it('should create a User  ', (done) => {
-      supertest(app)
-        .post('/api/v1/auth/signup')
-        .send({
-          fullname: 'test',
-          username: 'test me',
-          password: 'clint2018',
-          email: 'test1@gmail.com'
-        })
-        .expect(201)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.message).toBe('signed up successfully');
-          done();
-        });
-    });
+    // it('should create a User  ', (done) => {
+    //   supertest(app)
+    //     .post('/api/v1/auth/signup')
+    //     .send({
+    //       fullname: 'test',
+    //       username: 'test me',
+    //       password: 'clint2018',
+    //       email: 'test1@gmail.com'
+    //     })
+    //     .expect(201)
+    //     .end((err, res) => {
+    //       if (err) {
+    //         return done(err);
+    //       }
+    //       expect(res.body.message).toBe('signed up successfully');
+    //       done();
+    //     });
+    // });
     it('should not create a User with an existing username ', (done) => {
       supertest(app)
         .post('/api/v1/auth/signup')

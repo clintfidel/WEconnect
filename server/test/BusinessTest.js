@@ -21,6 +21,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
+
           expect(res.body.message).toBe('signed up successfully');
           done();
         });

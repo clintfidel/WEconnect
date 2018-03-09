@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import app from '../../server';
 import Users from '../dummyModels/UserModel';
 
-let token;
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2YWx1ZSI6eyJpZCI6MSwiZnVsbG5hbWUiOiJGaWRlbGlzIENsaW50b24iLCJ1c2VybmFtZSI6IkNsaW50ZmlkZWwiLCJlbWFpbCI6IkNsaW50ZmlkZWxAZ21haWwuY29tIiwicGFzc3dvcmQiOiJjbGludDIwMTYifSwiZXhwaXJlc0luIjp7ImV4cCI6IjFociJ9LCJpYXQiOjE1MjA1ODk2MDJ9.7cQ1GiIDam2nG74oHeQkWc7OV_tcjMvj26SqDdltYlY';
 describe('WEconnect API: ', () => {
   describe('user Authentication: ', () => {
     it('Should return 200 for the default route', (done) => {
@@ -29,24 +29,6 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.message).toBe('signed up successfully');
-          done();
-        });
-    });
-    it('should log an existing user in', (done) => {
-      supertest(app)
-        .post('/api/v1/auth/login')
-        .send({
-          username: 'Clintfidel',
-          password: 'clint2016'
-        })
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          token = res.body.token;
-          
-          expect(res.body.message).toBe('logged in successfully');
           done();
         });
     });
@@ -79,6 +61,22 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.message).toBe('password provided does not match username');
+          done();
+        });
+    });
+    it('should log existing user in  ', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/login')
+        .send({
+          username: 'Clintfidel',
+          password: 'clint2016'
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('logged in successfully');
           done();
         });
     });
