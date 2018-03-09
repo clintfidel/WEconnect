@@ -177,7 +177,7 @@ describe('WEconnect API: ', () => {
           businessName: 'tested',
           businessDetails: 'change test user',
           businessLocation: 'Abuja',
-          categoryId: 2,
+          category: 'Technology',
           userId: 1,
           token: `${token}`
         })
@@ -209,7 +209,7 @@ describe('WEconnect API: ', () => {
     });
     it('search for business by category', (done) => {
       supertest(app)
-        .get('/api/v1/business?category=2')
+        .get('/api/v1/business?category=Technology')
         .send({
           token: `${token}`
         })
@@ -239,7 +239,7 @@ describe('WEconnect API: ', () => {
     });
     it('should return error message for business not seen ', (done) => {
       supertest(app)
-        .get('/api/v1/business?category=5')
+        .get('/api/v1/business?category=Fashion')
         .send({
           token: `${token}`
         })

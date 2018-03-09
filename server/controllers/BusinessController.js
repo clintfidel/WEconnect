@@ -20,14 +20,14 @@ class BusinessController {
    */
   static addbusiness(req, res) {
     const {
-      businessName, businessDetails, businessLocation, categoryId, userId
+      businessName, businessDetails, businessLocation, category, userId
     } = req.body;
     const businessAdded = {
       id: Business.length + 1,
       businessName,
       businessDetails,
       businessLocation,
-      categoryId,
+      category,
       userId
     };
     Business.push(businessAdded);
@@ -50,7 +50,7 @@ class BusinessController {
    */
   static updateBusiness(req, res) {
     const {
-      businessName, businessDetails, businessLocation, categoryId, userId
+      businessName, businessDetails, businessLocation, category, userId
     } = req.body;
     let business;
     for (let i = 0; i < Business.length; i += 1) {
@@ -58,7 +58,7 @@ class BusinessController {
         Business[i].businessName = businessName;
         Business[i].businessDetails = businessDetails;
         Business[i].businessLocation = businessLocation;
-        Business[i].categoryId = categoryId;
+        Business[i].categoryId = category;
         Business[i].userId = userId;
         business = Business[i];
         return res.status(200).json({
@@ -197,7 +197,7 @@ class BusinessController {
             allReviews.push(Review[j]);
           }
         }
-        res.status(200).send({
+        return res.status(200).send({
           status: 'success',
           business: Business[i].businessName,
           review: allReviews

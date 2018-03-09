@@ -37,7 +37,7 @@ class UserController {
     Users.push(addedUser);
     const expiresIn = { exp: '1hr' };
     const token = jwt.sign({ addedUser, expiresIn }, process.env.secretKey);
-    return res.status(201).json({
+    res.status(201).json({
       message: 'signed up successfully',
       token
     });

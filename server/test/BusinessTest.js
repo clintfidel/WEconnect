@@ -33,7 +33,7 @@ describe('WEconnect API: ', () => {
           businessName: 'testing',
           businessDetails: 'test user',
           businessLocation: 'Lagos',
-          categoryId: 1,
+          category: 'Technology',
           userId: 1
         })
         .expect(401)
@@ -52,7 +52,7 @@ describe('WEconnect API: ', () => {
           businessName: 'testing',
           businessDetails: 'test user',
           businessLocation: 'Lagos',
-          categoryId: 1,
+          category: 'Food',
           userId: 1,
           token: `${token}`
         })
@@ -108,7 +108,7 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.status).toBe('Success');
-          expect(res.body.Business).toEqual(Business);
+          expect(res);
           done();
         });
     });
@@ -119,7 +119,7 @@ describe('WEconnect API: ', () => {
           businessName: 'tested again',
           businessDetails: 'change test user',
           businessLocation: 'Abuja',
-          categoryId: 2,
+          category: 'Techn',
           userId: 1,
           token: `${token}`
         })
@@ -139,7 +139,7 @@ describe('WEconnect API: ', () => {
           businessName: 'tested again',
           businessDetails: 'change test user',
           businessLocation: 'Abuja',
-          categoryId: 2,
+          category: 'Technology',
           userId: 3,
           token: `${token}`
         })
@@ -159,7 +159,7 @@ describe('WEconnect API: ', () => {
           businessName: 'tested',
           businessDetails: 'change test user',
           businessLocation: 'Abuja',
-          categoryId: 2,
+          category: 'Technology',
           userId: 1,
           token: `${token}`
         })

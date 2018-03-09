@@ -94,12 +94,13 @@ export const checkBusinessInput = (req, res, next) => {
       notEmpty: true,
       errorMessage: 'Your Fullname is required'
     },
-    categoryId: {
+    category: {
       notEmpty: true,
-      isDecimal: {
-        errorMessage: 'category Id has to be numeric value'
+      isLength: {
+        options: [{ min: 3, max: 10 }],
+        errorMessage: 'characters should be more than 5 and not greater than 10'
       },
-      errorMessage: 'category Id is required'
+      errorMessage: 'category is required'
     },
     userId: {
       notEmpty: true,
@@ -183,37 +184,30 @@ export const checkReviewsInput = (req, res, next) => {
    * @return {object} - status code and error message
    */
 export const seaarchBusiness = (req, res, next) => {
-  const searchedLocation = [];
-  const searchedCategory = [];
   const { category, location } = req.query;
+  if (!category && !location) {
+    return next();
+  }
+
+  let searchedLocation;
+  let searchedCategory;
   if (category) {
-    Business.filter((found) => {
-      if (found.categoryId === parseInt(category, 10)) {
-        searchedCategory.push(found);
-        return res.status(200).send({
-          Business: searchedCategory
-        });
-      }
-      return res.status(404).json({
-        message: 'No match found'
-      });
-    });
+    searchedCategory = Business.filter(found =>
+      found.category === category);
   }
   if (location) {
-    Business.filter((found) => {
-      if (location.toLowerCase() === found.businessLocation.toLowerCase()) {
-        searchedLocation.push(found);
-        return res.status(200).send({
-          Business: searchedLocation
-        });
-      }
-      return res.status(404).json({
-        message: 'No match found'
-      });
-    });
-  } else if (!category || !location) {
-    next();
+    searchedLocation = Business.filter(found =>
+      found.businessLocation === location);
   }
+  const search = [...(searchedCategory || []), ...(searchedLocation || [])];
+  if (search.length === 0) {
+    return res.status(404).json({
+      message: 'No match found'
+    });
+  }
+  return res.status(200).send({
+    Business: search
+  });
 };
 
 /**
@@ -239,7 +233,7 @@ export const userNameOrEmailExist = (req, res, next) => {
         message: 'email already exist'
       });
     }
-    next();
+    return next();
   }
 };
 
@@ -251,7 +245,7 @@ export const checkBusinessNameExist = (req, res, next) => {
         message: 'business name already exist'
       });
     }
-    next();
+    return next();
   }
 };
 
@@ -261,11 +255,11 @@ export const checkAuthorizedUser = (req, res, next) => {
     if (Business[i].userId === parseInt(userId, 10)) {
       for (let j = 0; j < Users.length; j += 1) {
         if (Users[j].id === Business[i].userId) {
-          next();
+          return next();
         }
       }
     }
-    res.status(403).json({
+    return res.status(403).json({
       message: 'you cannot perform this action'
     });
   }
