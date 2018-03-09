@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import dummyDb from '../dummyModels/index';
 
-dotenv.load();
+dotenv.config();
 
-const secret = process.env.secretKey;
+// const secret = process.env.secretKey;
 const { Users } = dummyDb;
 
 /**
@@ -36,7 +36,7 @@ class UserController {
     };
     Users.push(addedUser);
     const expiresIn = { exp: '1hr' };
-    const token = jwt.sign({ addedUser, expiresIn }, secret);
+    const token = jwt.sign({ addedUser, expiresIn }, process.env.secretKey);
     return res.status(201).json({
       message: 'signed up successfully',
       token
@@ -58,25 +58,22 @@ class UserController {
   static login(req, res) {
     const { username, password } = req.body;
     for (let i = 0; i < Users.length; i += 1) {
-      if (Users[i].username === username) {
-        const value = Users;
-        if (Users[i].password !== password) {
+      if (username === Users[i].username) {
+        if (password !== Users[i].password) {
           return res.status(403).json({
             message: 'password provided does not match username'
           });
         }
-        
+        const value = Users[i];
         const expiresIn = { exp: '1hr' };
-        const token = jwt.sign({ value, expiresIn }, secret);
-
+        const token = jwt.sign({ value, expiresIn }, process.env.secretKey);
         return res.status(200).json({
           message: 'logged in successfully',
           token
         });
       }
-
       return res.status(401).json({
-        message: 'Invalid credentials'
+        message: 'invalid credentials'
       });
     }
   }
@@ -112,8 +109,9 @@ class UserController {
    * @return {object} - JSON object (edit user profile )
    */
   static updateUserProfile(req, res) {
+    const password = bcrypt.hashSync(req.body.password, 10);
     const {
-      fullname, username, password, email
+      fullname, username, email
     } = req.body;
     let user;
     for (let i = 0; i < Users.length; i += 1) {
@@ -123,9 +121,11 @@ class UserController {
         Users[i].email = email;
         Users[i].password = password;
         user = Users[i];
+        const expiresIn = { exp: '1hr' };
+        const token = jwt.sign({ user, expiresIn }, process.env.secretKey);
         return res.status(200).json({
           message: 'user profile updated successfully',
-          user
+          token
         });
       }
       return res.status(403).json({

@@ -1,6 +1,7 @@
 import express from 'express';
-import User from '../controllers/UserController';
 import { checkUserInput, userNameOrEmailExist } from '../middleware/validation';
+import isLoggedIn from '../middleware/Authorization';
+import User from '../controllers/UserController';
 
 const {
   addUser, getUser, login, updateUserProfile
@@ -18,7 +19,7 @@ userRouter.route('/login')
   .post(login);
 
 userRouter.route('/updateProfile/:id')
-  .put(updateUserProfile);
+  .put(isLoggedIn, updateUserProfile);
 
 
 export default userRouter;

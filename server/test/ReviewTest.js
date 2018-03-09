@@ -2,22 +2,40 @@ import expect from 'expect';
 import supertest from 'supertest';
 import app from '../../server';
 
-let token;
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2YWx1ZSI6eyJpZCI6MSwiZnVsbG5hbWUiOiJGaWRlbGlzIENsaW50b24iLCJ1c2VybmFtZSI6IkNsaW50ZmlkZWwiLCJlbWFpbCI6IkNsaW50ZmlkZWxAZ21haWwuY29tIiwicGFzc3dvcmQiOiJjbGludDIwMTYifSwiZXhwaXJlc0luIjp7ImV4cCI6IjFociJ9LCJpYXQiOjE1MjA1ODk2MDJ9.7cQ1GiIDam2nG74oHeQkWc7OV_tcjMvj26SqDdltYlY';
 describe('Review: ', () => {
-  it('should log a user in', (done) => {
+  it('should create a new User', (done) => {
     supertest(app)
-      .post('/api/v1/auth/login')
+      .post('/api/v1/auth/signup')
       .send({
-        username: 'Fidelis',
-        password: 'mypassword',
+        username: 'testing',
+        fullname: 'test user',
+        email: 'testing@example.com',
+        password: 'mypassword'
       })
-      .expect(200)
+      .expect(201)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        token = res.body.token;
-        expect(res.body.message).toBe('logged in successfully');
+        expect(res.body.message).toBe('signed up successfully');
+        done();
+      });
+  });
+  it('should not create a new review for invalid business id', (done) => {
+    supertest(app)
+      .post('/api/v1/business/review/5')
+      .send({
+        content: 'testing',
+        userId: 1,
+        token: `${token}`
+      })
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('You are currently making a bad request');
         done();
       });
   });
@@ -38,12 +56,10 @@ describe('Review: ', () => {
         done();
       });
   });
-  it('should not create a new review for invalid business id', (done) => {
+  it('should not get review for invalid business id', (done) => {
     supertest(app)
-      .post('/api/v1/business/review/5')
+      .get('/api/v1/business/5/reviews')
       .send({
-        content: 'testing',
-        userId: 1,
         token: `${token}`
       })
       .expect(400)
@@ -68,21 +84,6 @@ describe('Review: ', () => {
         }
         expect(res.body.status).toBe('success');
         expect(res);
-        done();
-      });
-  });
-  it('should not get review for invalid business id', (done) => {
-    supertest(app)
-      .get('/api/v1/business/5/reviews')
-      .send({
-        token: `${token}`
-      })
-      .expect(400)
-      .end((err, res) => {
-        if (err) {
-          return done(err);
-        }
-        expect(res.body.message).toBe('You are currently making a bad request');
         done();
       });
   });

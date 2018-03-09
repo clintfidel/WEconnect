@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import app from '../../server';
 import Business from '../dummyModels/BusinessModel';
 
-let token;
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2YWx1ZSI6eyJpZCI6MSwiZnVsbG5hbWUiOiJGaWRlbGlzIENsaW50b24iLCJ1c2VybmFtZSI6IkNsaW50ZmlkZWwiLCJlbWFpbCI6IkNsaW50ZmlkZWxAZ21haWwuY29tIiwicGFzc3dvcmQiOiJjbGludDIwMTYifSwiZXhwaXJlc0luIjp7ImV4cCI6IjFociJ9LCJpYXQiOjE1MjA1ODk2MDJ9.7cQ1GiIDam2nG74oHeQkWc7OV_tcjMvj26SqDdltYlY';
 
 describe('WEconnect API: ', () => {
   describe('Business: ', () => {
@@ -11,10 +11,10 @@ describe('WEconnect API: ', () => {
       supertest(app)
         .post('/api/v1/auth/signup')
         .send({
-          fullname: 'test test',
-          username: 'test me',
-          password: 'clint2018',
-          email: 'test1@gmail.com'
+          username: 'tested',
+          fullname: 'test user',
+          email: 'testing@example.com',
+          password: 'mypassword'
         })
         .expect(201)
         .end((err, res) => {
@@ -22,23 +22,6 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.message).toBe('signed up successfully');
-          done();
-        });
-    });
-    it('should log a user in', (done) => {
-      supertest(app)
-        .post('/api/v1/auth/login')
-        .send({
-          username: 'Fidelis',
-          password: 'mypassword',
-        })
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          token = res.body.token;
-          expect(res.body.message).toBe('logged in successfully');
           done();
         });
     });
@@ -128,27 +111,7 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should update user Business profile', (done) => {
-      supertest(app)
-        .put(`/api/v1/business/${1}/business`)
-        .send({
-          businessName: 'tested',
-          businessDetails: 'change test user',
-          businessLocation: 'Abuja',
-          categoryId: 2,
-          userId: 1,
-          token: `${token}`
-        })
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.message).toBe('You have successfully updated your Business');
-          done();
-        });
-    });
-    it('should not update invalid business id', (done) => {
+    it('should not update budiness with invalid business id', (done) => {
       supertest(app)
         .put(`/api/v1/business/${4}/business`)
         .send({
@@ -188,19 +151,23 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should delete user Business ', (done) => {
+    it('should update user Business profile', (done) => {
       supertest(app)
-        .delete(`/api/v1/business/${1}/business`)
+        .put(`/api/v1/business/${1}/business`)
         .send({
-          token: `${token}`,
-          userId: 1
+          businessName: 'tested',
+          businessDetails: 'change test user',
+          businessLocation: 'Abuja',
+          categoryId: 2,
+          userId: 1,
+          token: `${token}`
         })
         .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Business deleted successfully');
+          expect(res.body.message).toBe('You have successfully updated your Business');
           done();
         });
     });
@@ -233,6 +200,22 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.message).toBe('You are currently making a bad request');
+          done();
+        });
+    });
+    it('should delete user Business ', (done) => {
+      supertest(app)
+        .delete(`/api/v1/business/${1}/business`)
+        .send({
+          token: `${token}`,
+          userId: 1
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Business deleted successfully');
           done();
         });
     });

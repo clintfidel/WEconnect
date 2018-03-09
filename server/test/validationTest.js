@@ -1,9 +1,8 @@
 import expect from 'expect';
 import supertest from 'supertest';
 import app from '../../server';
-import Business from '../dummyModels/BusinessModel';
 
-let token;
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2YWx1ZSI6eyJpZCI6MSwiZnVsbG5hbWUiOiJGaWRlbGlzIENsaW50b24iLCJ1c2VybmFtZSI6IkNsaW50ZmlkZWwiLCJlbWFpbCI6IkNsaW50ZmlkZWxAZ21haWwuY29tIiwicGFzc3dvcmQiOiJjbGludDIwMTYifSwiZXhwaXJlc0luIjp7ImV4cCI6IjFociJ9LCJpYXQiOjE1MjA1ODk2MDJ9.7cQ1GiIDam2nG74oHeQkWc7OV_tcjMvj26SqDdltYlY';
 
 describe('WEconnect API: ', () => {
   describe('User validations: ', () => {
@@ -169,25 +168,28 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-  });
-  describe('search business: ', () => {
-    it('should log a user in', (done) => {
+    it('should not create a Business existing Business name ', (done) => {
       supertest(app)
-        .post('/api/v1/auth/login')
+        .post('/api/v1/business/')
         .send({
-          username: 'Fidelis',
-          password: 'mypassword',
+          businessName: 'tested',
+          businessDetails: 'change test user',
+          businessLocation: 'Abuja',
+          categoryId: 2,
+          userId: 1,
+          token: `${token}`
         })
-        .expect(200)
+        .expect(409)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          token = res.body.token;
-          expect(res.body.message).toBe('logged in successfully');
+          expect(res.body.message).toBe('business name already exist');
           done();
         });
     });
+  });
+  describe('search business: ', () => {
     it('search for business by location', (done) => {
       supertest(app)
         .get('/api/v1/business?location=Abuja')
@@ -245,26 +247,6 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.message).toBe('No match found');
-          done();
-        });
-    });
-    it('should not create a Business existing Business name ', (done) => {
-      supertest(app)
-        .post('/api/v1/business/')
-        .send({
-          businessName: 'tested',
-          businessDetails: 'change test user',
-          businessLocation: 'Abuja',
-          categoryId: 2,
-          userId: 1,
-          token: `${token}`
-        })
-        .expect(409)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.message).toBe('business name already exist');
           done();
         });
     });

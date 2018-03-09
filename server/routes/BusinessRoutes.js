@@ -1,6 +1,6 @@
 import express from 'express';
 import Business from '../controllers/BusinessController';
-import isLoggedIn from '../middleware//Authorization';
+import isLoggedIn from '../middleware/Authorization';
 import { checkBusinessInput, checkReviewsInput, seaarchBusiness, checkAuthorizedUser, checkBusinessNameExist } from '../middleware/validation';
 
 const {
