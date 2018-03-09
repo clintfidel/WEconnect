@@ -115,21 +115,39 @@ describe('WEconnect API: ', () => {
     //       done();
     //     });
     // });
-    it('should create a User  ', (done) => {
+    // it('should create a User  ', (done) => {
+    //   supertest(app)
+    //     .post('/api/v1/auth/signup')
+    //     .send({
+    //       fullname: 'test',
+    //       username: 'test me',
+    //       password: 'clint2018',
+    //       email: 'test1@gmail.com'
+    //     })
+    //     .expect(201)
+    //     .end((err, res) => {
+    //       if (err) {
+    //         return done(err);
+    //       }
+    //       expect(res.body.message).toBe('signed up successfully');
+    //       done();
+    //     });
+    // });
+    it('should log a user in', (done) => {
       supertest(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v1/auth/login')
         .send({
-          fullname: 'test',
-          username: 'test me',
-          password: 'clint2018',
-          email: 'test1@gmail.com'
+          username: 'Fidelis',
+          password: 'mypassword',
         })
-        .expect(201)
+        .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('signed up successfully');
+          token = res.body.token;
+          console.log(token)
+          expect(res.body.message).toBe('logged in successfully');
           done();
         });
     });
@@ -169,25 +187,28 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-  });
-  describe('search business: ', () => {
-    it('should log a user in', (done) => {
+    it('should not create a Business existing Business name ', (done) => {
       supertest(app)
-        .post('/api/v1/auth/login')
+        .post('/api/v1/business/')
         .send({
-          username: 'Fidelis',
-          password: 'mypassword',
+          businessName: 'tested',
+          businessDetails: 'change test user',
+          businessLocation: 'Abuja',
+          categoryId: 2,
+          userId: 1,
+          token: `${token}`
         })
-        .expect(200)
+        .expect(409)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          token = res.body.token;
-          expect(res.body.message).toBe('logged in successfully');
+          expect(res.body.message).toBe('business name already exist');
           done();
         });
     });
+  });
+  describe('search business: ', () => {
     it('search for business by location', (done) => {
       supertest(app)
         .get('/api/v1/business?location=Abuja')
@@ -245,26 +266,6 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.message).toBe('No match found');
-          done();
-        });
-    });
-    it('should not create a Business existing Business name ', (done) => {
-      supertest(app)
-        .post('/api/v1/business/')
-        .send({
-          businessName: 'tested',
-          businessDetails: 'change test user',
-          businessLocation: 'Abuja',
-          categoryId: 2,
-          userId: 1,
-          token: `${token}`
-        })
-        .expect(409)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.message).toBe('business name already exist');
           done();
         });
     });

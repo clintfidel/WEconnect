@@ -3,6 +3,7 @@ import supertest from 'supertest';
 import app from '../../server';
 import Users from '../dummyModels/UserModel';
 
+let token;
 describe('WEconnect API: ', () => {
   describe('user Authentication: ', () => {
     it('Should return 200 for the default route', (done) => {
@@ -35,37 +36,20 @@ describe('WEconnect API: ', () => {
       supertest(app)
         .post('/api/v1/auth/login')
         .send({
-          username: 'Clintfidel',
-          password: 'clint2016'
+          username: 'testing',
+          password: 'mypassword'
         })
         .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
+          token = res.body.token;
           expect(res.body.message).toBe('logged in successfully');
           done();
         });
     });
     describe('Update user Profile Success: ', () => {
-      it('should successfully update a users profile', (done) => {
-        supertest(app)
-          .put(`/api/v1/auth/updateProfile/${1}`)
-          .send({
-            username: 'Fidelis',
-            fullname: 'test user2',
-            email: 'testing2@example.com',
-            password: 'mypassword'
-          })
-          .expect(200)
-          .end((err, res) => {
-            if (err) {
-              return done(err);
-            }
-            expect(res.body.message).toBe('user profile updated successfully');
-            done();
-          });
-      });
       it('should return error message for unauthorized user', (done) => {
         supertest(app)
           .put('/api/v1/auth/updateProfile/4')
@@ -73,7 +57,8 @@ describe('WEconnect API: ', () => {
             username: 'Fidelis',
             fullname: 'test user2',
             email: 'testing2@example.com',
-            password: 'mypassword'
+            password: 'mypassword',
+            token: `${token}`
           })
           .expect(403)
           .end((err, res) => {
@@ -85,37 +70,22 @@ describe('WEconnect API: ', () => {
           });
       });
     });
-  });
-  describe('user Authentication failed: ', () => {
-    it('should throw an error message for invalid username', (done) => {
+    it('should successfully update a users profile', (done) => {
       supertest(app)
-        .post('/api/v1/auth/login')
-        .send({
-          username: 'Clintclint',
-          password: 'clint2016'
-        })
-        .expect(401)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.message).toBe('Invalid credentials');
-          done();
-        });
-    });
-    it('should throw an error message for invalid password', (done) => {
-      supertest(app)
-        .post('/api/v1/auth/login')
+        .put(`/api/v1/auth/updateProfile/${1}`)
         .send({
           username: 'Fidelis',
-          password: 'clint2017'
+          fullname: 'test user2',
+          email: 'testing2@example.com',
+          password: 'mypassword',
+          token: `${token}`
         })
-        .expect(403)
+        .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('password provided does not match username');
+          expect(res.body.message).toBe('user profile updated successfully');
           done();
         });
     });
