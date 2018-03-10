@@ -6,134 +6,134 @@ const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2YWx1ZSI6eyJpZCI6MSwiZnVs
 
 describe('WEconnect API: ', () => {
   describe('User validations: ', () => {
-    // it('should create a User with username less than 5 characters long', (done) => {
-    //   supertest(app)
-    //     .post('/api/v1/auth/signup')
-    //     .send({
-    //       fullname: 'test test',
-    //       username: 'test',
-    //       password: 'clint2018',
-    //       email: 'test1@gmail.com'
-    //     })
-    //     .expect(409)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect(res.body.error.msg)
-    // .toBe('Please provide a username with atleast 5 characters.');
-    //       done();
-    //     });
-    // });
-    // it('should create a User with empty username ', (done) => {
-    //   supertest(app)
-    //     .post('/api/v1/auth/signup')
-    //     .send({
-    //       fullname: 'test',
-    //       username: '',
-    //       password: 'clint2018',
-    //       email: 'test1@gmail.com'
-    //     })
-    //     .expect(409)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect(res.body.error.msg).toBe('Your Username is required');
-    //       done();
-    //     });
-    // });
-    // it('should create a User with empty email address ', (done) => {
-    //   supertest(app)
-    //     .post('/api/v1/auth/signup')
-    //     .send({
-    //       fullname: 'test',
-    //       username: 'test again',
-    //       password: 'clint2018',
-    //       email: ''
-    //     })
-    //     .expect(409)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect(res.body.error.msg).toBe('Your Email Address is required');
-    //       done();
-    //     });
-    // });
-    // it('should create a User with invalid email address ', (done) => {
-    //   supertest(app)
-    //     .post('/api/v1/auth/signup')
-    //     .send({
-    //       fullname: 'test',
-    //       username: ' test again',
-    //       password: 'clint2018',
-    //       email: 'test1@'
-    //     })
-    //     .expect(409)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect(res.body.error.msg).toBe('Provide a valid a Email Address');
-    //       done();
-    //     });
-    // });
-    // it('should create a User with empty password', (done) => {
-    //   supertest(app)
-    //     .post('/api/v1/auth/signup')
-    //     .send({
-    //       fullname: 'test',
-    //       username: 'test me',
-    //       password: '',
-    //       email: 'test1@gmail.com'
-    //     })
-    //     .expect(409)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect(res.body.error.msg).toBe('Your Password is required');
-    //       done();
-    //     });
-    // });
-    // it('should create a User with password less than 8 character long ', (done) => {
-    //   supertest(app)
-    //     .post('/api/v1/auth/signup')
-    //     .send({
-    //       fullname: 'test',
-    //       username: 'test me',
-    //       password: 'clint',
-    //       email: 'test1@gmail.com'
-    //     })
-    //     .expect(409)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect(res.body.error.msg)
-    // .toBe('Provide a valid password with minimum of 8 characters');
-    //       done();
-    //     });
-    // });
-    // it('should create a User  ', (done) => {
-    //   supertest(app)
-    //     .post('/api/v1/auth/signup')
-    //     .send({
-    //       fullname: 'test',
-    //       username: 'test me',
-    //       password: 'clint2018',
-    //       email: 'test1@gmail.com'
-    //     })
-    //     .expect(201)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect(res.body.message).toBe('signed up successfully');
-    //       done();
-    //     });
-    // });
+    it('should not create a User with username less than 5 characters long', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          fullname: 'test test',
+          username: 'test',
+          password: 'clint2018',
+          email: 'test1@gmail.com'
+        })
+        .expect(409)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body[0].error)
+            .toBe('Please provide a username with atleast 5 characters.');
+          done();
+        });
+    });
+    it('should not create a User with empty username ', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          fullname: 'test',
+          username: '',
+          password: 'clint2018',
+          email: 'test1@gmail.com'
+        })
+        .expect(409)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body[0].error).toBe('Your Username is required');
+          done();
+        });
+    });
+    it('should not create a User with empty email address ', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          fullname: 'test',
+          username: 'test again',
+          password: 'clint2018',
+          email: ''
+        })
+        .expect(409)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body[0].error).toBe('Your Email Address is required');
+          done();
+        });
+    });
+    it('should create a User with invalid email address ', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          fullname: 'test',
+          username: ' test again',
+          password: 'clint2018',
+          email: 'test1@'
+        })
+        .expect(409)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body[0].error).toBe('Provide a valid a Email Address');
+          done();
+        });
+    });
+    it('should not create a User with empty password', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          fullname: 'test',
+          username: 'test me',
+          password: '',
+          email: 'test1@gmail.com'
+        })
+        .expect(409)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body[0].error).toBe('Your Password is required');
+          done();
+        });
+    });
+    it('should not create a User with password less than 8 character long ', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          fullname: 'test',
+          username: 'test me',
+          password: 'clint',
+          email: 'test1@gmail.com'
+        })
+        .expect(409)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body[0].error)
+            .toBe('Provide a valid password with minimum of 8 characters');
+          done();
+        });
+    });
+    it('should create a User  ', (done) => {
+      supertest(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          fullname: 'test',
+          username: 'test me',
+          password: 'clint2018',
+          email: 'test1@gmail.com'
+        })
+        .expect(201)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('signed up successfully');
+          done();
+        });
+    });
     it('should not create a User with an existing username ', (done) => {
       supertest(app)
         .post('/api/v1/auth/signup')
@@ -203,7 +203,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res);
+          expect(res.body.Business[0].businessLocation).toBe('Abuja');
           done();
         });
     });
@@ -218,7 +218,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res);
+          expect(res.body.Business[0].category).toBe('Technology');
           done();
         });
     });

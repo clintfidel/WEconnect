@@ -9,6 +9,11 @@
     "server-dummy:test": "nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register server/test || true",
     "lint": "eslint ./ || true"
   },
+  "nyc": {
+    "exclude": [
+      "server/test/**.js"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/clintfidel/WEconnect.git"
