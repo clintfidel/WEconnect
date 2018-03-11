@@ -25,8 +25,5 @@ businessRouter.route('/reviews/:businessId')
 businessRouter.route('/:businessId/reviews')
   .get(isLoggedIn, getAllReview);
 
-// businessRouter.route('/category')
-//   .post(isLoggedIn, addCategory);
-
 
 export default businessRouter;
