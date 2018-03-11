@@ -1,2 +1,6 @@
 .coveralls.yml
 node_modules
+.vscode
+.env
+.nyc_output
+coverage
