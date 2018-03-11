@@ -30,11 +30,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../Html/all-business-page.html">Businesses</a>
+                        <a class="nav-link" href="../Html/all-business-page.html">Catalogue</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../Html/index.html">Logout</a>
-                    </li>
+                    </li>                  
                 </ul>
             </div>
         </div>
@@ -54,7 +54,7 @@
             </div>
             <div class="bus-reviews">
                 <span>
-                    <a href="#" id="my-reviews">Reviews</a>
+                    <a href="#reviews" class="active">Reviews</a>
                 </span>
             </div>
         </div>
@@ -70,39 +70,136 @@
                     <h5>
                         <span>Category:</span> TECHNOLOGY</h5>
 
-                    <h5 id="details">
-                        <span>Details</span>: As an entrepreneur, manager or leader, the thoughts you have each day matter. Thinking
-                        is where the process of launching your next busiess begins and your mind is where work through different
-                        scenarios before you invest time and money. For your thinking to be productive you must be optimistic
-                        and inspired. The right frame of mind is crucial to your quest for success. However, this can be
-                        challenging if you’re facing a slump in your professional life. The voice of others can sometimes
-                        be a deeper form of motivation than your own.
+                    <h5>
+                        <span>Details</span>:
+                        <p>
+                            As an entrepreneur, manager or leader, the thoughts you have each day matter. Thinking is where the process of launching
+                            your next busiess begins and your mind is where work through different scenarios before you invest
+                            time and money. For your thinking to be productive you must be optimistic and inspired. The right
+                            frame of mind is crucial to your quest for success. However, this can be challenging if you’re
+                            facing a slump in your professional life. The voice of others can sometimes be a deeper form
+                            of motivation than your own.
+                        </p>
                     </h5>
+                </div>
+                <div class="Icon-Images">
+                    <img src="../stylesheet/images/edit-icon-2375785_1280.png" alt="edit Icon" data-toggle="modal" data-target="#exampleModalVertical"
+                        data-toggle="modal" data-target="#exampleModalVertical" title="edit business">
+                    <img src="../stylesheet/images/delete-icon.png" alt="delete Icon" title="delete business">
+                </div>
+            <hr/>
+                <div class="modal" id="exampleModalVertical" tabindex="-1" role="dialog" aria-labelledby="exampleModalVerticalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="exampleModalVerticalLabel">Edit Business Profile</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="panel-body">
+                                    <form action="">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                </span>
+                                                <input type="text" name="Business-Name" placeholder="Business Name" class="form-control" autofocus="autofocus" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"></span>
+                                                <input type="text" name="Location" placeholder="Business Location" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    </i>
+                                                </span>
+                                                <select type="select" name="category" placeholder="category" class="form-control" required>
+                                                    <option value="fashion">select category</option>
+                                                    <option value="fashion">fashion</option>
+                                                    <option value="football">football</option>
+                                                    <option value="entertainment">entertainment</option>
+                                                    <option value="technology">technology</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"></span>
+                                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    </i>
+                                                </span>
+                                                <textarea name="Business-Details" placeholder="Business-Details" rows="10" class="form-control" type="text" required></textarea>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-
+                    <hr>
+                </div>
+                <!-- <a name="reviews"></a> -->
+                <div class="bus-info-reviews">
+                    <h3>Reviews</h3>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div class="post-form">
+                                    <div class="comment-contents">
+                                        <a href="#" class="comment-author" title="Comment Author">
+                                            <h4>John Jilius</h4>
+                                        </a>
+                                        <p>Hi, this is my comment on your article please go ahead and edit or delete it and
+                                            then go to the website!</p>
+                                        <small class="text-muted"> 31 minutes ago</small>
+                                    </div>
+                                    <div class="comment-contents">
+                                        <a href="#" class="comment-author" title="Comment Author">
+                                            <h4>John Jilius</h4>
+                                        </a>
+                                        <p>Hi, this is my comment on your article please go ahead and edit or delete it and
+                                            then go to the website!</p>
+                                        <small class="text-muted"> 31 minutes ago</small>
+                                    </div>
+                                    <textarea></textarea>
+                                    <a href="#" class="btn send-button">Add review</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="bus-info-reviews" style="display:block">
-                <h3>Reviews</h3>
-            </div>
         </div>
-    </div>
 
 
-    <footer class="push">
-        <p>
-            Policies: Terms of use | Privacy| Authentic Items Copyright &copy; WeConnect.herokuapp.com. All Rights reserved. Designed
-            by clintfidel
-        </p>
-    </footer>
+        <footer class="push">
+            <p>
+                Policies: Terms of use | Privacy| Authentic Items Copyright &copy; WeConnect.herokuapp.com. All Rights reserved. Designed
+                by clintfidel
+            </p>
+        </footer>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-        crossorigin="anonymous"></script>
-    <script src="../stylesheet/partials/index.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+        <script src="../stylesheet/partials/index.js"></script>
 </body>
 
 </html>
