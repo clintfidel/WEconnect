@@ -2,8 +2,8 @@ import express from 'express';
 import winston from 'winston';
 import validator from 'express-validator';
 import bodyParser from 'body-parser';
-import UserRouter from './server/routes/UserRoutes';
-import BusinessRouter from './server/routes/BusinessRoutes';
+import UserRouter from './dummyServer/routes/UserRoutes';
+import BusinessRouter from './dummyServer/routes/BusinessRoutes';
 
 const app = express();
 
