@@ -10,6 +10,8 @@ body {
     margin: 0;
     box-sizing: border-box;
     padding: 0;
+    font-family: 'Philosopher', sans-serif;
+
   
     
 }
@@ -17,17 +19,129 @@ body {
 //landing-page
 
 .nav-header {
-    position: absolute;
+    position: fixed;
     right: 0;
+    margin: ($margin * 2) ($margin * 8);
     .user {
         li {
-        display: inline-block;
-        margin: $margin
+            display: inline-block;
+            margin: $margin ($margin * 5);
+            
+            button {
+                height: 40px;
+                width: 150%;
+                border: transparent;
+                border-radius: $radius;
+                background-color: rgba(19, 108, 139, 1);
+                color:  white;
+                font-size: ($size * 2);
+                outline: none;
+            }
         }
         
     }
    
 }
+
+.landing-page-container {
+    
+    .our-brand {
+        // box-sizing: border-box;
+        position: relative;
+        background-image: url('../stylesheet/images/business-background (1).png');
+         background-repeat: no-repeat;
+        background-size: cover;
+        z-index: 3;
+        height: 50vh;
+        .brand-logo {
+            img {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+                height: 35%;
+                width: 20%;
+                border: transparent;
+                border-radius: $radius;
+                z-index: 5
+            }
+        }
+        
+    }
+    
+    .about-weconnect {
+        width: 90%;
+        margin: auto;
+        background-color: white;
+        background-image: url('../stylesheet/images/hand (1).png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: 90% 50%; 
+        position: relative;
+        height: 100%;
+        .wrap {
+            width: auto;
+            height: 100%;
+            max-width: 55%;
+            min-height: 100%;
+
+            h2 {
+                font-weight: bolder;
+                font-size: ($size * 3);
+                margin: 5% 20% 0;
+            }
+
+            p {
+            font-size: ($size * 2 ) ;
+            padding: 0 20% 5%;
+            line-height: 1.5em;
+            }
+            
+        }
+        
+    }
+    
+    .contact {
+        background-image: url('../stylesheet/images/backgroung.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        min-height: auto;
+        padding: 2%;
+        height: auto;
+        p {
+            width: 40%;
+            margin: auto;
+            max-width: 50%;
+            text-align: center;
+            font-size: ($size * 2);
+            padding-bottom: 2%;
+            line-height: 1.4em;
+            color: white;
+           
+        }
+        .social {
+            display: flex;
+            justify-content: center;
+            
+            img {
+                padding: 0 $margin;
+                width: 50px;
+                transition: .5s;
+                &:hover {
+                    transform: scale(1.2) rotate(360deg);
+                }
+                
+            }
+        }
+        
+    }
+   
+        
+}
+
    
 
 
@@ -71,7 +185,7 @@ body {
     margin: 20px auto;
     padding: 30px 0;
     width: 30%;
-    
+    box-shadow: 0 0 50px rgba(0, 0, 0, .5);
    
     input {
         display: flex;
@@ -124,4 +238,114 @@ body {
         }
        
     }
+}
+
+@media screen and (max-width: 450px) {
+    * {
+        box-sizing: border-box;
+    }
+    .nav-header {
+        position: fixed;
+        z-index: 5;
+        margin: auto ($margin * 3);
+        .user {
+            li {
+                display: inline-block;
+                margin: $margin $margin;
+    
+                button {
+                    height: 40px;
+                    width: 100%;
+                   
+                }
+            }
+            
+        }
+       
+    }
+    .landing-page-container {
+      .our-brand {
+        .brand-logo {
+            img {
+                height: 20%;
+                width: 30%;
+                z-index: 2;
+               
+            }
+        }
+      }
+     
+      .about-weconnect {
+       background-image: none;
+        .wrap {
+            width: auto;
+            height: 100%;
+            max-width:100%;
+            min-height: auto;
+
+            h2 {
+                font-weight: bolder;
+                font-size: ($size * 3);
+                margin: 5%  5%;
+            }
+
+            p {
+            font-size: ($size * 2 ) ;
+            padding: 0  5%;
+            line-height: 1.5em;
+            }
+            
+        }
+        
+    }
+    
+
+    .contact {
+      width: 100vw;
+      max-width: 100%;
+      p {
+          width: 100vw;
+          font-size: ($size * 2 - 3);
+          margin: auto;
+          max-width: 80%;
+          text-align: center;
+          padding: 8%;
+          line-height: 1.4em;
+          color: white;
+      }
+      .social {
+          img {
+
+              width: 35px;
+              transition: .5s;
+              &:hover {
+                  transform: scale(1.2) rotate(360deg);
+              }  
+          }
+      }
+      
+    }
+ }
+    
+ .push {
+    p {
+      font-size: ($size*2-3) !important;
+    }
+  }
+}
+
+
+.push{
+    background-color: rgba(235, 224, 224, 0.87);
+    
+    width: auto;
+    margin: auto;
+    padding: 3%;
+    p {
+        padding: 0;
+        margin:0;
+        text-align: center;
+        font-size: ($size * 2);
+    }
+
 }
