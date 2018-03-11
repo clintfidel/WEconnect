@@ -6,12 +6,12 @@
   "scripts": {
     "start": "nodemon --watch server --exec babel-node server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "server-dummy:test": "nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register server/test || true",
+    "server-dummy:test": "nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register dummyServer/test || true",
     "lint": "eslint ./ || true"
   },
   "nyc": {
     "exclude": [
-      "server/test/**.js"
+      "dummyServer/test/**.js"
     ]
   },
   "repository": {

@@ -24,7 +24,7 @@ describe('Review: ', () => {
   });
   it('should not create a new review for invalid business id', (done) => {
     supertest(app)
-      .post('/api/v1/business/review/5')
+      .post('/api/v1/business/reviews/5')
       .send({
         content: 'testing',
         userId: 1,
@@ -41,7 +41,7 @@ describe('Review: ', () => {
   });
   it('should create a new review for business', (done) => {
     supertest(app)
-      .post('/api/v1/business/review/1')
+      .post('/api/v1/business/reviews/1')
       .send({
         content: 'testing',
         userId: '1',
