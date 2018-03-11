@@ -19,7 +19,7 @@ businessRouter.route('/:id/business')
   .put(isLoggedIn, checkBusinessInput, checkBusinessNameExist, checkAuthorizedUser, updateBusiness)
   .delete(isLoggedIn, deleteBusiness, checkAuthorizedUser);
 
-businessRouter.route('/review/:businessId')
+businessRouter.route('/reviews/:businessId')
   .post(isLoggedIn, checkReviewsInput, reviewBusiness);
 
 businessRouter.route('/:businessId/reviews')

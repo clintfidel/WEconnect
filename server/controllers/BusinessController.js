@@ -58,7 +58,7 @@ class BusinessController {
         Business[i].businessName = businessName;
         Business[i].businessDetails = businessDetails;
         Business[i].businessLocation = businessLocation;
-        Business[i].categoryId = category;
+        Business[i].category = category;
         Business[i].userId = userId;
         business = Business[i];
         return res.status(200).json({
@@ -85,7 +85,7 @@ class BusinessController {
    */
   static deleteBusiness(req, res) {
     for (let i = 0; i < Business.length; i += 1) {
-      if (Business[i].id === Number(req.params.id)) {
+      if (Business[i].id === parseInt(req.params.id, 10)) {
         if (parseInt(req.body.userId, 10) === Business[i].userId) {
           Business.slice(i, 1);
           return res.status(200).json({
