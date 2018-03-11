@@ -314,8 +314,9 @@ body {
     border-radius: 20px;
     width: 29%;
     height: 90%;
-    background-image: url("../stylesheet/images/advert design.png");
+    background-image: url("../stylesheet/images/advert.png");
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat; }
 
 @media screen and (max-width: 1100px) {
@@ -442,6 +443,120 @@ body {
         background-color: white;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); }
 
+.modal-header {
+  background-color: #136c8b !important;
+  color: white; }
+
+.modal-footer {
+  background-color: #136c8b !important;
+  color: white; }
+  .modal-footer .btn-primary {
+    background-color: #003b4e !important;
+    border: transparent; }
+
+.business-body {
+  padding-top: 5%;
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll; }
+  .business-body .business-image {
+    text-align: center;
+    position: relative;
+    height: 50vh;
+    width: auto; }
+    .business-body .business-image img {
+      height: 50vh;
+      width: 70%;
+      border-radius: 5%;
+      min-height: auto; }
+    .business-body .business-image .text-center {
+      position: absolute;
+      top: 47%;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto; }
+      .business-body .business-image .text-center span {
+        font-size: 30px;
+        font-weight: bolder;
+        border: 1px solid transparent;
+        border-radius: 3%;
+        background-color: rgba(19, 108, 139, 0.9);
+        padding: 1%;
+        color: white; }
+  .business-body .row {
+    font-size: 30px;
+    margin: 2% 30%;
+    display: flex !important;
+    width: auto;
+    justify-content: space-between !important; }
+    .business-body .row a {
+      text-decoration: none; }
+    .business-body .row .active {
+      background-color: rgba(19, 108, 139, 0.9);
+      color: white !important;
+      padding: 5px;
+      border-radius: 5px; }
+    .business-body .row .bus-info {
+      color: rgba(19, 108, 139, 0.9); }
+    .business-body .row .bus-reviews {
+      color: rgba(19, 108, 139, 0.9); }
+  .business-body .content-display {
+    background-color: white;
+    width: auto;
+    color: #136c8b;
+    padding: 2%;
+    border-radius: 5%;
+    margin-right: 18%;
+    margin-bottom: 8%;
+    margin-left: 18%;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); }
+    .business-body .content-display h3 {
+      font-weight: bolder;
+      text-decoration: underline; }
+    .business-body .content-display .bus-info-details .business-content h5 {
+      padding: 1% 0;
+      line-height: 1.8em; }
+    .business-body .content-display .bus-info-details .business-content #details {
+      background-color: white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      overflow-y: scroll;
+      border-radius: 3%;
+      padding: 0 2%;
+      margin-bottom: 3%; }
+    .business-body .content-display .bus-info-details .business-content span {
+      font-size: 23px;
+      font-weight: bolder;
+      text-transform: uppercase; }
+
+@media screen and (max-width: 1700px) {
+  .jumbotron .cataloge {
+    height: 60%; }
+    .jumbotron .cataloge .text {
+      overflow-y: scroll; }
+
+  .business-body .business-image img {
+    padding-top: 10% !important;
+    height: 50vh !important;
+    border-radius: 4%; }
+  .business-body .content-display {
+    border-radius: 20px;
+    margin-bottom: 35%;
+    margin-left: 18%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); }
+    .business-body .content-display h3 {
+      font-weight: bolder;
+      text-decoration: underline; }
+    .business-body .content-display .bus-info-details .business-content h5 {
+      line-height: 1.4em; }
+    .business-body .content-display .bus-info-details .business-content #details {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      border-radius: 20px; }
+    .business-body .content-display .bus-info-details .business-content span {
+      font-size: 20px; } }
+@media screen and (max-width: 2000px) {
+  .jumbotron .cataloge .text {
+    overflow-y: scroll; } }
 @media screen and (max-width: 615px) {
   .main-business {
     min-width: 30px; }
@@ -459,11 +574,24 @@ body {
             font-size: 20px;
             font-weight: bolder; }
         .main-business .jumbotron .cataloge .image {
-          background-size: cover; } }
-@media screen and (max-width: 1605px) {
-  .jumbotron .cataloge {
-    height: 60%; }
-    .jumbotron .cataloge .text {
-      overflow-y: scroll; } }
+          background-size: cover; }
+
+  .business-body .business-image {
+    height: 40vh !important; }
+    .business-body .business-image img {
+      padding-top: 27% !important;
+      height: 40vh !important;
+      border-radius: 4%;
+      margin-bottom: 3px; }
+    .business-body .business-image .text-center {
+      top: 60%; }
+      .business-body .business-image .text-center span {
+        font-size: 20px;
+        padding: 2%;
+        color: white; }
+  .business-body .row {
+    margin: auto 20% !important;
+    font-size: 20px !important;
+    padding: 3% 0 !important; } }
 
 /*# sourceMappingURL=main.css.map */

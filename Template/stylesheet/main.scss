@@ -457,8 +457,9 @@ body {
                 border-radius: 20px;
                 width: 29%;
                 height: 90%;
-                background-image: url('../stylesheet/images/advert design.png');
+                background-image: url('../stylesheet/images/advert.png');
                 background-size: cover;
+                background-position: center;
                 background-repeat: no-repeat
             }
         }
@@ -623,8 +624,189 @@ body {
     
 }
 
+
+
+
+// edit modal
+
+    .modal-header {
+        background-color: $backgroundcolor1 !important;
+        color: white;
+        
+    }
+    .modal-footer {
+        background-color: $backgroundcolor1 !important;
+        color: white;
+        .btn-primary {
+            background-color: $backgroundcolor2 !important;
+            border: transparent;
+        }
+    }
+
+// view business page
+
+.business-body {
+    padding-top: 5%;
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    .business-image {
+        text-align: center;
+         position: relative;
+         height: 50vh;
+         width: auto;
+         img {
+             height: 50vh;
+             width: 70%;
+             border-radius: 5%;
+             min-height: auto;
+         }
+         .text-center {
+             position: absolute;
+             top:47%;
+             right: 0;
+             bottom: 0;
+             left: 0;
+              margin: auto;
+            //  z-index: 1;
+             span {
+                 font-size: ($size * 3);
+                 font-weight:bolder;
+                border: 1px solid transparent;
+                border-radius: 3%; 
+                background-color:rgba(19, 108, 139, .9);
+                 padding: 1%;
+                 color: white
+             }
+         }
+    }
+    .row {
+        font-size: ($size * 3);
+        margin: 2% 30%;
+        display: flex !important;
+        width: auto;
+        justify-content: space-between !important;
+        a {
+            text-decoration: none;
+            
+        }
+        .active {
+            background-color: rgba(19, 108, 139, .9);
+            color: white !important;
+            padding: 5px;
+            border-radius: $radius;
+        }
+        .bus-info {
+            color: rgba(19, 108, 139, .9);
+        }
+        .bus-reviews {
+            color: rgba(19, 108, 139, .9);
+        }
+    }
+    .content-display {
+        background-color:white;
+        width: auto;
+        color:  $backgroundcolor1;
+        padding: 2%;
+        border-radius: 5%;
+        margin-right:  18%;
+        margin-bottom: 8%; 
+        margin-left:  18%;
+        box-shadow: 0 0 50px rgba(0, 0, 0, .5);
+        h3 {
+            font-weight: bolder;
+            text-decoration: underline;
+        }
+        .bus-info-details {
+           .business-content {
+               h5 {
+                   padding: 1% 0;
+                   line-height: 1.8em;
+               }
+               #details {
+                   background-color: white;
+                   box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+                   overflow-y: scroll;
+                   border-radius: 3%;
+                   padding: 0 2%;
+                   margin-bottom: 3%;
+               }
+               span{
+                   font-size: ($size * 3- 7);
+                   font-weight: bolder;
+                   text-transform: uppercase;
+               }
+           }
+        }
+    }
+}
+
+@media screen and (max-width: 1700px) {
+    .jumbotron {
+        .cataloge {
+            height: 60%;
+            .text {
+                overflow-y: scroll;
+               
+            }
+        }
+    }
+    .business-body {
+        .business-image {
+           img {
+            padding-top: 10% !important;
+            height: 50vh !important;
+            border-radius: 4%
+           }
+        }
+       
+        .row {
+
+        }
+        .content-display {
+            border-radius: 20px;
+            margin-bottom: 35%; 
+            margin-left:  18%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+            h3 {
+                font-weight: bolder;
+                text-decoration: underline;
+            }
+            .bus-info-details {
+               .business-content {
+                   h5 {
+                       
+                       line-height: 1.4em;
+                   }
+                   #details {
+                      
+                       box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+                      
+                       border-radius: 20px;
+                       
+                   }
+                   span{
+                       font-size: ($size * 2);
+                   }
+               }
+            }
+        }
+    }
+}
+@media screen and (max-width: 2000px) {
+    .jumbotron {
+        .cataloge {
+            .text {
+                overflow-y: scroll;
+               
+             }
+        }
+    }
+}
+
 @media screen and (max-width: 615px) {
-    .main-business{ min-width: 30px;
+    .main-business{ 
+        min-width: 30px;
         #contain-form  {
             bottom: 57%; 
             .search {
@@ -649,15 +831,28 @@ body {
             }
         }
     }
-}
-
-@media screen and (max-width: 1605px) {
-    .jumbotron {
-        .cataloge {
-            height: 60%;
-            .text {
-                overflow-y: scroll;
+    .business-body {
+        .business-image {
+            height: 40vh !important;
+           img {
+            padding-top: 27% !important;
+            height: 40vh !important;
+            border-radius: 4%;
+            margin-bottom: 3px;
+           }
+           .text-center {
+            top:60%;
+            span {
+                font-size: ($size * 2);
+                padding: 2%;
+                color: white
             }
+        }
+        }
+        .row {
+            margin: auto 20% !important;
+            font-size: ($size * 2) !important;
+            padding: 3% 0 !important;
         }
     }
 }
