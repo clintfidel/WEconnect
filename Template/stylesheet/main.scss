@@ -26,6 +26,7 @@ body {
         li {
             display: inline-block;
             margin: $margin ($margin * 5);
+            font-family:  'Philosopher', sans-serif;
             
             button {
                 height: 40px;
@@ -246,7 +247,7 @@ body {
         box-sizing: border-box;
     }
     .nav-header {
-        position: fixed;
+        position: absolute;
         z-index: 5;
         margin: auto ($margin * 3);
         .user {
@@ -330,11 +331,8 @@ body {
  }
     
  .push {
-     position: static;
-    p {
-      font-size: ($size*2-3) !important;
+    display: none;
     }
-  }
 }
 
 
@@ -398,7 +396,7 @@ body {
         * {
             box-sizing: border-box;
         }
-        background-image: url('../stylesheet/images/texture-background.png');  
+        background-image: url('../stylesheet/images/app background.png');  
         width: 100%;
         height: 97vh;
         position: relative;
@@ -487,6 +485,7 @@ body {
                 box-sizing: border-box;
             }  
             width: auto;
+            min-height:100vh;
             height: 90vh;
             position: relative;
             .content-page {
@@ -517,11 +516,12 @@ body {
     }
 }
 
+
 // All Business Page
 
 .main-business {
     position: relative;
-    background-image: url('../stylesheet/images/texture-background.png');  
+    background-image: url('../stylesheet/images/app background.png');  
     width: 100%;
     height: 100vh;
     padding-top: 2%; 
@@ -628,7 +628,9 @@ body {
 
 
 // edit modal
-
+.modal-dialog {
+    transition: .5s;
+}
     .modal-header {
         background-color: $backgroundcolor1 !important;
         color: white;
@@ -646,7 +648,8 @@ body {
 // view business page
 
 .business-body {
-    padding-top: 5%;
+    background-image: url('../stylesheet/images/app background.png');
+    padding-top: 7%;
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
@@ -706,11 +709,12 @@ body {
     .content-display {
         background-color:white;
         width: auto;
+        height: auto;
         color:  $backgroundcolor1;
         padding: 2%;
         border-radius: 5%;
         margin-right:  18%;
-        margin-bottom: 8%; 
+        margin-bottom: 5%; 
         margin-left:  18%;
         box-shadow: 0 0 50px rgba(0, 0, 0, .5);
         h3 {
@@ -723,20 +727,98 @@ body {
                    padding: 1% 0;
                    line-height: 1.8em;
                }
-               #details {
-                   background-color: white;
-                   box-shadow: 0 0 20px rgba(0, 0, 0, .5);
-                   overflow-y: scroll;
-                   border-radius: 3%;
-                   padding: 0 2%;
-                   margin-bottom: 3%;
-               }
                span{
                    font-size: ($size * 3- 7);
                    font-weight: bolder;
                    text-transform: uppercase;
                }
            }
+           .Icon-Images {
+               display: flex;
+               flex-direction: column;
+               width: auto;
+               height:20vh;;
+               padding: 1%;
+               img {
+                   height: 45%;
+                   width: 8%;
+                   padding: 5px;
+                   margin-left: auto;
+               }
+           }
+        }
+    }
+    .post-form {
+        width: 160% !important;
+        margin-top: 10%;
+        margin-left: 10%;
+        margin-right: 150px;
+      }
+      .post-form textarea {
+        background: #fbfbfb;
+        margin-top: 5%;
+        width: 100%;
+        height: 150px;
+          border: 1px solid #eee;
+          border-radius: 3px;
+          resize:none;
+          font-size: 1em;
+        box-shadow: 0 2px 7px rgba(0,0,0,.3);
+      }
+      
+      .send-button {
+        background-color: #15b78d;
+        color: #ffff;
+        float: right;
+        padding-right: 4%;
+        padding-left: 4%;
+      }
+      
+      .send-button:hover {
+        color: #ffff;
+      }
+      
+      .comment-contents {
+        position: relative;
+        background: #e4e3e3;
+        color: #000000;
+        padding: 15px;
+        padding-bottom: 10px;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 2px rgba(0,0,0,.3);
+      }
+      
+      .comment-contents:before,
+      .comment-contents:after
+      {
+        position: absolute;
+        width: 0; height: 0; top: 30px;
+        left: -20px;
+        content: '';
+        border: 10px solid transparent;
+        border-right-color: #e4e3e3;
+      }
+      
+      .comment-author {
+        color: #ff6c6c;
+      }
+      
+      .comment-author:hover {
+        color: #ff6c6c;
+        text-decoration: none;
+      }
+      
+      
+}
+
+@media screen and (max-width: 2000px) {
+    .jumbotron {
+        .cataloge {
+            .text {
+                overflow-y: scroll;
+               
+             }
         }
     }
 }
@@ -754,15 +836,12 @@ body {
     .business-body {
         .business-image {
            img {
-            padding-top: 10% !important;
+            margin-top:auto !important;
             height: 50vh !important;
             border-radius: 4%
            }
         }
        
-        .row {
-
-        }
         .content-display {
             border-radius: 20px;
             margin-bottom: 35%; 
@@ -788,23 +867,61 @@ body {
                    span{
                        font-size: ($size * 2);
                    }
+                  
                }
+              
             }
         }
     }
 }
-@media screen and (max-width: 2000px) {
+
+
+
+@media screen and (max-width: 800px) {
+    .push {
+        display: none;
+    }
     .jumbotron {
         .cataloge {
+            height: 60%;
             .text {
                 overflow-y: scroll;
                
-             }
+            }
         }
+    }
+    .business-body {
+        .business-image {
+            
+           img {
+            margin-top:12% ;
+            margin-bottom: 10px ;
+            height: 30vh ;
+            border-radius: 4%;
+           }
+        }
+        .content-display {
+            .bus-info-details {
+                .Icon-Images {
+                    height: 20vh;
+                    img {
+                    height: 25%;
+                    width:23%;
+                    padding: 5px;
+                    margin-left: auto;
+                    }
+                }
+            }
+           
+        }
+       
     }
 }
 
-@media screen and (max-width: 615px) {
+@media screen and (max-width: 640px) {
+    .push {
+        display: none;
+    }
     .main-business{ 
         min-width: 30px;
         #contain-form  {
@@ -818,12 +935,22 @@ body {
             .cataloge {
                 height: 60%;
                 .text {
-                    overflow-y: scroll;
+                    overflow:hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
                   
                     h2 {
                       font-size: ($size * 2);
                       font-weight: bolder
                     }
+                }
+                .text::after {
+                    content: 'view more';
+                    background-color: $backgroundcolor1;
+                    padding: 7px;
+                    border-radius: $radius;
+                    color: white
                 }
                 .image {
                     background-size: cover
@@ -833,9 +960,9 @@ body {
     }
     .business-body {
         .business-image {
-            height: 40vh !important;
+            height: 40vh;
            img {
-            padding-top: 27% !important;
+            padding-top: 17% ;
             height: 40vh !important;
             border-radius: 4%;
             margin-bottom: 3px;
@@ -850,9 +977,35 @@ body {
         }
         }
         .row {
-            margin: auto 20% !important;
+            margin: auto 20% ;
             font-size: ($size * 2) !important;
             padding: 3% 0 !important;
         }
     }
+}
+
+@media screen and (max-width: 450px) { 
+    .nav-header {
+         position: relative;
+        
+    }
+    .business-body {
+        .business-image {
+            height: 40vh ;
+           img {
+            padding-top: 27% !important;
+           }
+        }
+    }
+    .main-business {
+        position: absolute;
+        margin-top: 10%;
+        height: 100vh;
+        padding-top: 335px;
+        .jumbotron {
+          height: 50vh;  
+        }
+       
+    }
+   
 }
