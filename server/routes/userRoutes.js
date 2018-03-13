@@ -21,6 +21,13 @@ userRouter.route('/login')
   .post(login);
 
 
+userRouter.route('/editprofile')
+  .put(
+    isLoggedIn, isSignedUpWithEmail, verifyUserIdExist,
+    isSignedUpWithUsername,
+    validateEdituser, checkUserInvalidDetails, editProfile
+  );
+
 
 
 export default userRouter;
