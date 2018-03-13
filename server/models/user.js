@@ -24,19 +24,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
     },
   });
-  User.associate = (models) => {
-    User.hasMany(models.Business, {
-      foreignKey: 'userId',
-      onDelete: 'CASCADE'
-    });
-    User.hasMany(models.Review, {
-      foreignKey: 'userId',
-      onDelete: 'CASCADE'
-    });
-    User.hasMany(models.Rate, {
-      foreignKey: 'userId',
-      onDelete: 'CASCADE'
-    });
-  };
+  // User.associate = (models) => {
+  //   User.hasMany(models.Business, {
+  //     foreignKey: 'userId',
+  //     onDelete: 'CASCADE'
+  //   });
+  //   User.hasMany(models.Review, {
+  //     foreignKey: 'userId',
+  //     onDelete: 'CASCADE'
+  //   });
+  //   User.hasMany(models.Rate, {
+  //     foreignKey: 'userId',
+  //     onDelete: 'CASCADE'
+  //   });
+  // };
   return User;
 };
