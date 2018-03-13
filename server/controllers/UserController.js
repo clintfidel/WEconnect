@@ -97,6 +97,45 @@ class UserController {
       })
       .catch(() => res.status(500).json('Internal server error'));
   }
+
+  /**
+   * @description - User edit profile
+   *
+   * @param  {object} req - request object
+   *
+   * @param  {object} res - response object
+   *
+   * @return {Object} - success message and user updated profile
+   *
+   * Route: POST: /users/edit/:userId
+   */
+  static editProfile(req, res) {
+    const { id } = req.decoded.currentUser;
+    User
+      .findOne({
+        where: { id }
+      })
+      .then((edit) => {
+        const omitValue =
+        omit(req.editUserInput, ['password', 'createddAt']);
+        edit
+          .update(omitValue);
+        const token = jwt.sign(
+          {
+            omitValue,
+            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
+          },
+          process.env.secretKey
+        );
+        return res.status(200).json({
+          message: 'profile edited successfully!!!',
+          token
+        });
+      })
+      .catch(() => res.status(500).json({
+        message: 'internal server error'
+      }));
+  }
 }
 
 export default UserController;
