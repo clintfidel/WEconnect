@@ -28,6 +28,7 @@ userRouter.route('/editprofile')
     validateEdituser, checkUserInvalidDetails, editProfile
   );
 
-
+userRouter.route('/')
+  .get(isLoggedIn, getAllUsers);
 
 export default userRouter;
