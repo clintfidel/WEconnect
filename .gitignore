@@ -4,3 +4,4 @@ node_modules
 .env
 .nyc_output
 coverage
+npm-debug.log

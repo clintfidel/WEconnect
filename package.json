@@ -4,7 +4,9 @@
   "description": "WeConnect provides a platform that brings businesses and individuals together. This platform creates awareness for businesses and gives the users the ability to write reviews about the businesses they have interacted with.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch server --exec babel-node server.js",
+    "start": "NODE_ENV=production babel-node server.js",
+    "start-server": "NODE_ENV=development nodemon --watch  server --exec babel-node server.js",
+    "start-server:dummy": "nodemon --watch dummyServer --exec babel-node server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "server-dummy:test": "nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register dummyServer/test || true",
     "lint": "eslint ./ || true"
