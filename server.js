@@ -4,7 +4,9 @@ import validator from 'express-validator';
 import bodyParser from 'body-parser';
 import UserDummyRouter from './dummyServer/routes/UserRoutes';
 import BusinessDummyRouter from './dummyServer/routes/BusinessRoutes';
-import UsersRouter from './server/routes/userRoutes';
+import UserRouter from './server/routes/userRoutes';
+import BusinessRouter from './server/routes/businessRoutes';
+
 
 const app = express();
 
@@ -13,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 
 if (process.env.NODE_ENV === 'development') {
-  app.use('/api/v1/auth', UsersRouter);
+  app.use('/api/v1/auth', UserRouter);
+  app.use('/api/v1/business', BusinessRouter);
 } else {
   app.use('/api/v1/auth', UserDummyRouter);
   app.use('/api/v1/business', BusinessDummyRouter);
