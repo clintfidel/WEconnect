@@ -125,6 +125,34 @@ class BusinessController {
           .catch(() => res.status(500).send('Internal server error'));
       });
   }
+
+  /**
+   * @description - User gets all business in the application
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Get:/api/v1/business/
+   */
+
+  static getAllBusinessess(req, res) {
+    Business
+      .findAll({})
+      .then((allBusiness) => {
+        if (allBusiness.length > 1) {
+          return res.status(200).send({
+            businesses: allBusiness
+          });
+        }
+        return res.status(404).json({
+          message: 'No business found'
+        });
+      })
+      .catch(() => res.status(500).send('Internal server error'));
+  }
 }
 
 export default BusinessController;
