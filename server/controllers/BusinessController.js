@@ -44,7 +44,7 @@ class BusinessController {
       }));
   }
   /**
-   * @description - User add a new business
+   * @description - User updtaes his/her business
    *
    * @param  {object} req - request
    *
@@ -87,6 +87,42 @@ class BusinessController {
               }
             });
           });
+      });
+  }
+
+  /**
+   * @description - User deletes his/her  business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Delete: /api/v1/business/:businessId
+   */
+
+  static deleteBusiness(req, res) {
+    Business
+      .findById(req.params.businessId)
+      .then(() => {
+        Business
+          .destroy({
+            where: {
+              id: parseInt(req.params.businessId, 10)
+            }
+          })
+          .then((business) => {
+            if (business) {
+              return res.status(200).json({
+                message: 'Business deleted successfully'
+              });
+            }
+            res.status(404).json({
+              message: 'Your business could not be found'
+            });
+          })
+          .catch(() => res.status(500).send('Internal server error'));
       });
   }
 }
