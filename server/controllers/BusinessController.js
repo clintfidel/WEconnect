@@ -13,7 +13,7 @@ class BusinessController {
    *
    * @return {Object} - Success message
    *
-   * ROUTE: POST: /
+   * ROUTE: POST: /api/v1/business/
    */
 
   static addBusiness(req, res) {
@@ -42,6 +42,52 @@ class BusinessController {
       .catch(() => res.status(500).json({
         message: 'Internal server error'
       }));
+  }
+  /**
+   * @description - User add a new business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: PUT: /api/v1/business/:businessId
+   */
+
+  static updateBusiness(req, res) {
+    const { id } = req.decoded.currentUser;
+    Business
+      .findById(req.params.businessId)
+      .then(() => {
+        const omitValue = omit(req.businessInput, ['views', 'userId']);
+        Business
+          .update(omitValue, {
+            where: {
+              id: req.params.businessId
+            },
+            returning: true,
+            plain: true
+          })
+          .then((business) => {
+            if (!business) {
+              res.status(404).json({
+                mesaage: 'No business found'
+              });
+            }
+            return res.status(200).json({
+              status: 'success',
+              message: 'Business successfully edited',
+              data: {
+                name: business[1].dataValues.name,
+                details: business[1].dataValues.details,
+                location: business[1].dataValues.location,
+                categoryId: business[1].dataValues.categoryId,
+                userId: id
+              }
+            });
+          });
+      });
   }
 }
 
