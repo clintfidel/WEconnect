@@ -3,7 +3,7 @@ import user from '../controllers/UserController';
 import isLoggedIn from '../middlewares/authorization';
 import {
   checkUserInput, isSignedUpWithEmail, verifyUserIdExist,
-  isSignedUpWithUsername, validateEdituser, checkUserInvalidDetails
+  isSignedUpWithUsername, checkUserInvalidDetails
 } from '../middlewares/validation';
 
 const {
@@ -25,7 +25,7 @@ userRouter.route('/editprofile')
   .put(
     isLoggedIn, isSignedUpWithEmail, verifyUserIdExist,
     isSignedUpWithUsername,
-    validateEdituser, checkUserInvalidDetails, editProfile
+    checkUserInvalidDetails, editProfile
   );
 
 userRouter.route('/')
