@@ -24,11 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
     },
   });
-  // User.associate = (models) => {
-  //   User.hasMany(models.Business, {
-  //     foreignKey: 'userId',
-  //     onDelete: 'CASCADE'
-  //   });
+  User.associate = (models) => {
+    User.hasMany(models.Business, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE'
+    });
   //   User.hasMany(models.Review, {
   //     foreignKey: 'userId',
   //     onDelete: 'CASCADE'
@@ -37,6 +37,6 @@ module.exports = (sequelize, DataTypes) => {
   //     foreignKey: 'userId',
   //     onDelete: 'CASCADE'
   //   });
-  // };
+  };
   return User;
 };
