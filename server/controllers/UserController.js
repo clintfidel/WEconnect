@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import omit from 'lodash/omit';
-// import checkSpace from '../helper/checkSpace';
 import database from '../models';
 
 dotenv.config();
