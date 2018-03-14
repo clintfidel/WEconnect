@@ -116,7 +116,7 @@ class UserController {
       })
       .then((edit) => {
         const omitValue =
-        omit(req.userInput, ['password', 'createddAt']);
+        omit(req.body, ['password', 'createdAt']);
         edit
           .update(omitValue);
         const token = jwt.sign(
