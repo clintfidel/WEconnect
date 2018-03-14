@@ -78,6 +78,74 @@ export const checkUserInput = (req, res, next) => {
 };
 
 /**
+   * @description - Checks that a user inputs right business details
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @param {Object} next - Call back function
+   *
+   * @return {object} - status code and error message
+   */
+export const checkBusinessInput = (req, res, next) => {
+  const businessNameError = 'Please provide a username with atleast 5 characters.';
+  req.checkBody({
+    name: {
+      notEmpty: true,
+      isLength: {
+        options: [{ min: 5, max: 50 }],
+        errorMessage: businessNameError
+      },
+      errorMessage: 'Your Business name is required'
+    },
+    details: {
+      notEmpty: true,
+      isLength: {
+        options: [{ min: 5, max: 500 }],
+        errorMessage: 'characters should be more than 5 and not greater than 500'
+      },
+      errorMessage: 'Provide give a detailed info of your business not more than 500 characters'
+    },
+    location: {
+      notEmpty: true,
+      errorMessage: 'Your Fullname is required'
+    },
+    categoryId: {
+      notEmpty: true,
+      isDecimal: {
+        errorMessage: 'category Id has to be numeric value'
+      },
+      errorMessage: 'category Id is required'
+    },
+  });
+  const errors = req.validationErrors();
+  if (errors) {
+    const allErrors = [];
+    errors.forEach((error) => {
+      allErrors.push({
+        error: error.msg
+      });
+    });
+    return res.status(409)
+      .json(allErrors);
+  }
+  const {
+    name, details, location, categoryId
+  } = req.body;
+  const { id } = req.decoded.currentUser;
+  req.businessInput = {
+    name,
+    details,
+    location,
+    categoryId,
+    userId: id
+  };
+  next();
+};
+
+
+/**
    * @description - Checks that a user can't sign in with same username
    *
    * @param  {Object} req - request
