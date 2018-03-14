@@ -4,7 +4,7 @@ import { checkBusinessInput } from '../middlewares/validation';
 import business from '../controllers/BusinessController';
 
 const {
-  addBusiness, updateBusiness, deleteBusiness, getAllBusinessess
+  addBusiness, updateBusiness, deleteBusiness, getAllBusinessess, getOneBusiness
 } = business;
 const businessRouter = express.Router();
 
@@ -13,9 +13,8 @@ businessRouter.route('/')
   .get(isLoggedIn, getAllBusinessess);
 
 businessRouter.route('/:businessId')
-  .put(isLoggedIn, checkBusinessInput, updateBusiness);
-
-businessRouter.route('/:businessId')
-  .delete(isLoggedIn, deleteBusiness);
+  .put(isLoggedIn, checkBusinessInput, updateBusiness)
+  .delete(isLoggedIn, deleteBusiness)
+  .get(isLoggedIn, getOneBusiness);
 
 export default businessRouter;
