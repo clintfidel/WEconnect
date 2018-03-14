@@ -144,7 +144,7 @@ class BusinessController {
       .then((allBusiness) => {
         if (allBusiness.length > 1) {
           return res.status(200).send({
-            businesses: allBusiness
+            Businesses: allBusiness
           });
         }
         return res.status(404).json({
@@ -152,6 +152,39 @@ class BusinessController {
         });
       })
       .catch(() => res.status(500).send('Internal server error'));
+  }
+
+  /**
+   * @description - User gets one business in the application
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Get:/api/v1/business/
+   */
+
+  static getOneBusiness(req, res) {
+    Business
+      .findOne({
+        where: {
+          id: req.params.businessId
+        }
+      })
+      .then((business) => {
+        if (!business) {
+          res.status(404).json({
+            message: 'No business found'
+          });
+        }
+        return res.status(200).json({
+          message: 'Business found!',
+          Business: business
+        });
+      })
+      .catch(() => res.status(500).send('Internal sever Error'));
   }
 }
 
