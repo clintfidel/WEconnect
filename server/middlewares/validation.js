@@ -5,7 +5,7 @@ import database from '../models/';
 dotenv.config();
 
 const {
-  User
+  User, Business
 } = database;
 
 const checkDigits = /((\d)+)/gi;
@@ -325,19 +325,19 @@ export const checkUserInvalidDetails = (req, res, next) => {
      *
      * @return {object} - status code and error message
      */
-// export const checkInvalidUser = (req, res, next) => {
-//   const { id } = req.decoded.currentUser;
-//   Business
-//     .findById(req.params.businessId)
-//     .then((business) => {
-//       if (business.userId !== parseInt(id, 10)) {
-//         return res.status(403).send({
-//           message: 'Invalid User! you can only make changes to your own Business'
-//         });
-//       }
-//       next();
-//     });
-// };
+export const checkInvalidUser = (req, res, next) => {
+  const { id } = req.decoded.currentUser;
+  Business
+    .findById(req.params.businessId)
+    .then((business) => {
+      if (business.userId !== parseInt(id, 10)) {
+        return res.status(403).send({
+          message: 'Invalid User! you can only make changes to your own Business'
+        });
+      }
+      next();
+    });
+};
 
 /**
      * @description - Checks if UserId exist in database
@@ -367,4 +367,48 @@ export const verifyUserIdExist = (req, res, next) => {
       next();
     })
     .catch(error => res.status(404).send(error.errors));
+};
+
+/**
+   * @description - User gets all  businessess based on search
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Get:/api/v1/business/:businessId/reviews
+   */
+
+export const searchBusiness = (req, res, next) => {
+  const { location, categoryId } = req.query;
+  if (location || categoryId) {
+    Business
+      .findAll({
+        where:
+            {
+              location: { $iLike: `%${location}%` }
+            },
+
+        include: [{
+          model: database.User,
+          attributes: ['username']
+        }]
+      })
+      .then((business) => {
+        if (business.length < 1) {
+          return res.status(404).json({
+            message: 'No match Business found!'
+          });
+        }
+        return res.status(200).send({
+          messaage: 'Business Found!',
+          Businesses: business
+        });
+      })
+      .catch(() => res.status(500).send('Internal sever error'));
+  } else {
+    return next();
+  }
 };
