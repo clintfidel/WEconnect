@@ -5,7 +5,7 @@ import business from '../controllers/BusinessController';
 
 const {
   addBusiness, updateBusiness, deleteBusiness,
-  getAllBusinessess, getOneBusiness, createReview
+  getAllBusinessess, getOneBusiness, createReview, getAllReviews
 } = business;
 const businessRouter = express.Router();
 
@@ -19,6 +19,7 @@ businessRouter.route('/:businessId')
   .get(isLoggedIn, getOneBusiness);
 
 businessRouter.route('/:businessId/reviews')
-  .post(isLoggedIn, checkReviewsInput, createReview);
+  .post(isLoggedIn, checkReviewsInput, createReview)
+  .get(isLoggedIn, getAllReviews);
 
 export default businessRouter;
