@@ -1,7 +1,7 @@
 import omit from 'lodash/omit';
 import database from '../models';
 
-const { Business } = database;
+const { Business, Review } = database;
 
 class BusinessController {
   /**
@@ -185,6 +185,46 @@ class BusinessController {
         });
       })
       .catch(() => res.status(500).send('Internal sever Error'));
+  }
+
+  /**
+   * @description - User adds review to business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Post:/api/v1/business/:businessId/reviews
+   */
+
+  static createReview(req, res) {
+    const { id } = req.decoded.currentUser;
+    Review
+      .findOne({
+        where: {
+          businessId: req.params.businessId,
+          userId: id
+        }
+      })
+      .then(() => {
+        Review
+          .create(req.reviewInput)
+          .then((review) => {
+            const { businessId, comments } = review;
+            res.status(201).json({
+              message: 'You have successfully reviewed this business',
+              Review: {
+                userId: id,
+                businessId,
+                comments
+              }
+            });
+          })
+          .catch(() =>
+            res.status(500).send('Internal server error'));
+      });
   }
 }
 
