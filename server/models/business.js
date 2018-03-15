@@ -45,11 +45,15 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
-    // Business.hasMany(models.Review, {
-    //   foreignKey: 'businessId',
-    //   onDelete: 'CASCADE',
-    //   hooks: true,
-    // });
+    Business.belongsTo(models.Category, {
+      foreignKey: 'categoryId',
+      onDelete: 'CASCADE'
+    });
+    Business.hasMany(models.Review, {
+      foreignKey: 'businessId',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
     // Business.hasMany(models.Rate, {
     //   foreignKey: 'businessId'
     // });
