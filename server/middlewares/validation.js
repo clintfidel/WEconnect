@@ -144,6 +144,53 @@ export const checkBusinessInput = (req, res, next) => {
   next();
 };
 
+/**
+   * @description - Checks that a user reviews with right details
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @param {Object} next - Call back function
+   *
+   * @return {object} - status code and error message
+   */
+export const checkReviewsInput = (req, res, next) => {
+  const reviewError = 'Please review with atleast 5 characters and maximum of 100 characters';
+  req.checkBody({
+    comments: {
+      notEmpty: true,
+      isLength: {
+        options: [{ min: 5, max: 250 }],
+        errorMessage: reviewError
+      },
+      errorMessage: 'Your Business name is required'
+    },
+
+  });
+  const errors = req.validationErrors();
+  if (errors) {
+    const allErrors = [];
+    errors.forEach((error) => {
+      allErrors.push({
+        error: error.msg
+      });
+    });
+
+    return res.status(409)
+      .json(allErrors);
+  }
+
+  const { id } = req.decoded.currentUser;
+  req.reviewInput = {
+    comments: req.body.comments,
+    userId: id,
+    businessId: req.params.businessId
+  };
+
+  next();
+};
+
 
 /**
    * @description - Checks that a user can't sign in with same username
