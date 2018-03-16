@@ -5,7 +5,7 @@ import database from '../models/';
 dotenv.config();
 
 const {
-  User, Business
+  User, Business, Category
 } = database;
 
 const checkDigits = /((\d)+)/gi;
@@ -204,7 +204,7 @@ export const checkReviewsInput = (req, res, next) => {
    * @return {object} - status code and error message
    */
 
-export const isSignedUpWithUsername = (req, res, next) => {
+export const usernameExist = (req, res, next) => {
   User
     .findOne({
       where: {
@@ -221,6 +221,33 @@ export const isSignedUpWithUsername = (req, res, next) => {
     });
 };
 
+/**
+     * @description - Checks that a business doesnt have a duplicate
+     *
+     * @param  {Object} req - request
+     *
+     * @param  {object} res - response
+     *
+     * @param {Object} next - Call back function
+     *
+     * @return {object} - status code and error message
+     */
+export const businessNameExist = (req, res, next) => {
+  Business
+    .findOne({
+      where: {
+        name: req.body.name
+      }
+    })
+    .then((user) => {
+      if (user) {
+        return res.status(409).json({
+          message: 'Business name already exist'
+        });
+      }
+      next();
+    });
+};
   /**
      * @description - Checks that a user can't sign in with same email
      *
@@ -232,7 +259,7 @@ export const isSignedUpWithUsername = (req, res, next) => {
      *
      * @return {object} - status code and error message
      */
-export const isSignedUpWithEmail = (req, res, next) => {
+export const emailExist = (req, res, next) => {
   User
     .findOne({
       where: {
@@ -287,6 +314,63 @@ export const checkUserInvalidDetails = (req, res, next) => {
 };
 
 /**
+     * @description - checks business invalid deails
+     *
+     * @param  {Object} req - request
+     *
+     * @param  {object} res - response
+     *
+     * @param {Object} next - Call back function
+     *
+     * @return {object} - status code and error message
+     */
+export const checkBusinessInvalidDetails = (req, res, next) => {
+  const { name, details, location } = req.body;
+  if (checkFirstChar.test(name[0])) {
+    return res.status(406).json({
+      status: false,
+      message: 'Invalid character in Business Name! Pls check details'
+    });
+  }
+  if (checkMultiSpace.test(details)
+      || checkFirstChar.test(details[0])) {
+    return res.status(406).json({
+      status: false,
+      message: 'Invalid character in Business Details! Pls check details'
+    });
+  }
+  if (checkFirstChar.test(location[0])) {
+    return res.status(406).json({
+      status: false,
+      message: 'Invalid character in Business Location! Pls check details'
+    });
+  }
+  next();
+};
+
+/**
+     * @description - checks review invalid deails
+     *
+     * @param  {Object} req - request
+     *
+     * @param  {object} res - response
+     *
+     * @param {Object} next - Call back function
+     *
+     * @return {object} - status code and error message
+     */
+export const checkReviewInvalidDetails = (req, res, next) => {
+  const { comments } = req.body;
+  if (checkSpace.test(comments) ||
+  checkFirstChar.test(comments[0])) {
+    return res.status(406).json({
+      status: false,
+      message: 'Invalid character in comments! Pls check details'
+    });
+  }
+  next();
+};
+/**
      * @description - verifies that userId can't be edited
      *
      * @param  {Object} req - request
@@ -297,22 +381,22 @@ export const checkUserInvalidDetails = (req, res, next) => {
      *
      * @return {object} - status code and error message
      */
-// export const validateEditUserId = (req, res, next) => {
-//   const { id } = req.decoded.currentUser;
-//   Business
-//     .findById(id)
-//     .then(() => {
-//       if (req.body.userId) {
-//         return res.status(403).send({
-//           mesage: 'you cannot edit userId'
-//         });
-//       } else if (req.body.userId === 'undefined') {
-//         next();
-//       }
-//       next();
-//     })
-//     .catch(() => res.status(500).send('Internal server Error'));
-// };
+export const validateEditUserId = (req, res, next) => {
+  const { id } = req.decoded.currentUser;
+  Business
+    .findById(id)
+    .then(() => {
+      if (req.body.userId) {
+        return res.status(403).send({
+          mesage: 'you cannot edit userId'
+        });
+      } else if (req.body.userId === 'undefined') {
+        next();
+      }
+      next();
+    })
+    .catch(() => res.status(500).send('Internal server Error'));
+};
 
 /**
      * @description - Checks that a user is a valid user
@@ -370,6 +454,34 @@ export const verifyUserIdExist = (req, res, next) => {
 };
 
 /**
+     * @description - Ensures user selects a category that is in the database
+     *
+     * @param  {Object} req - request
+     *
+     * @param  {object} res - response
+     *
+     * @param {Object} next - Call back function
+     *
+     * @return {object} - status code and error message
+     */
+
+export const checkCategoryId = (req, res, next) => {
+  const categoryId = Number(req.body.categoryId);
+  Category
+    .findById(categoryId)
+    .then((category) => {
+      if (!category) {
+        return res.status(404).json({
+          status: false,
+          message: 'No category with that Id found! pls select from 1-7'
+        });
+      }
+
+      return next();
+    });
+};
+
+/**
    * @description - User gets all  businessess based on search
    *
    * @param  {object} req - request
@@ -378,12 +490,12 @@ export const verifyUserIdExist = (req, res, next) => {
    *
    * @return {Object} - Success message
    *
-   * ROUTE: Get:/api/v1/business/:businessId/reviews
+   * ROUTE: Get:/api/v1/business/?location=location
    */
 
 export const searchBusiness = (req, res, next) => {
-  const { location, categoryId } = req.query;
-  if (location || categoryId) {
+  const { location } = req.query;
+  if (location) {
     Business
       .findAll({
         where:
