@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       required: true,
       unique: {
         args: true,
-        message: 'Blog title already exist '
+        message: 'Business title already exist '
       }
     },
     details: {
