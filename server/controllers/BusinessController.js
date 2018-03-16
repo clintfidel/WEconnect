@@ -17,27 +17,19 @@ class BusinessController {
    */
 
   static addBusiness(req, res) {
-    Business
-      .findOne({
-        where: {
-          id: req.params.businessId
-        }
-      })
-      .then((business) => {
-        const omitValues = omit(req.businessInput, ['views']);
-        if (!business) {
-          Business.create(omitValues)
-            .then((created) => {
-              res.status(201).json({
-                message: 'Business created successfully',
-                businessProfile: created
-              });
-            });
-        } else {
-          return res.status(409).json({
-            message: 'This business already exist'
-          });
-        }
+    const omitValues = omit(req.businessInput, ['views']);
+
+    Business.create(omitValues, {
+      include: [{
+        model: database.Category,
+        attributes: ['category']
+      }]
+    })
+      .then((createdBusiness) => {
+        res.status(201).json({
+          message: 'Business created successfully',
+          businessProfile: createdBusiness
+        });
       })
       .catch(() => res.status(500).json({
         message: 'Internal server error'
