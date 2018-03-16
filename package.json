@@ -9,7 +9,8 @@
     "start-server:dummy": "nodemon --watch dummyServer --exec babel-node server.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "server-dummy:test": "nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register dummyServer/test || true",
-    "lint": "eslint ./ || true"
+    "lint": "eslint ./ || true",
+    "seed": "sequelize db:seed --seed 20180314074050-category"
   },
   "nyc": {
     "exclude": [
