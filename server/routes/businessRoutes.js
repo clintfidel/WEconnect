@@ -1,6 +1,11 @@
 import express from 'express';
 import isLoggedIn from '../middlewares/authorization';
-import { checkBusinessInput, checkReviewsInput, searchBusiness } from '../middlewares/validation';
+import {
+  checkBusinessInput, checkReviewsInput, searchBusiness,
+  validateEditUserId, checkInvalidUser, verifyUserIdExist,
+  checkCategoryId, businessNameExist, checkBusinessInvalidDetails,
+  checkReviewInvalidDetails
+} from '../middlewares/validation';
 import business from '../controllers/BusinessController';
 
 const {
@@ -11,22 +16,28 @@ const {
 const businessRouter = express.Router();
 
 businessRouter.route('/')
-  .post(isLoggedIn, checkBusinessInput, addBusiness)
-  .get(isLoggedIn, searchBusiness, getAllBusinessess);
+  .post(
+    isLoggedIn, checkBusinessInput, verifyUserIdExist,
+    checkCategoryId, businessNameExist, checkBusinessInvalidDetails,
+    addBusiness
+  )
+  .get(isLoggedIn, verifyUserIdExist, searchBusiness, getAllBusinessess);
 
 businessRouter.route('/:businessId')
-  .put(isLoggedIn, checkBusinessInput, updateBusiness)
-  .delete(isLoggedIn, deleteBusiness)
-  .get(isLoggedIn, getOneBusiness);
+  .put(
+    isLoggedIn, checkBusinessInput, verifyUserIdExist,
+    validateEditUserId, checkInvalidUser, businessNameExist, checkBusinessInvalidDetails,
+    updateBusiness
+  )
+  .delete(isLoggedIn, verifyUserIdExist, checkInvalidUser, deleteBusiness)
+  .get(isLoggedIn, verifyUserIdExist, getOneBusiness);
 
 businessRouter.route('/:businessId/reviews')
-  .post(isLoggedIn, checkReviewsInput, createReview)
-  .get(isLoggedIn, getAllReviews);
+  .post(
+    isLoggedIn, checkReviewsInput, verifyUserIdExist, checkReviewInvalidDetails,
+    createReview
+  )
+  .get(isLoggedIn, verifyUserIdExist, getAllReviews);
 
-// businessRouter.route('/?location=location')
-//   .get(isLoggedIn, searchBusiness);
-
-// businessRouter.route('/?categoryId=categoryId')
-//   .get(isLoggedIn, searchBusiness);
 
 export default businessRouter;
