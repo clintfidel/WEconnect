@@ -89,7 +89,7 @@ class UserController {
               token
             });
         }
-        return res.status(401)
+        return res.status(403)
           .json({
             message: 'Invalid Credentials.'
           });
