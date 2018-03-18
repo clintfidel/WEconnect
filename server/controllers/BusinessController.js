@@ -19,17 +19,20 @@ class BusinessController {
   static addBusiness(req, res) {
     const omitValues = omit(req.businessInput, ['views']);
 
-    Business.create(omitValues, {
-      include: [{
-        model: database.Category,
-        attributes: ['category']
-      }]
-    })
-      .then((createdBusiness) => {
-        res.status(201).json({
-          message: 'Business created successfully',
-          businessProfile: createdBusiness
-        });
+    Business.create(omitValues)
+      .then((createbusiness) => {
+        createbusiness.reload({
+          include: [{
+            model: database.Category,
+            attributes: ['category']
+          }]
+        })
+          .then((createdBusiness) => {
+            res.status(201).json({
+              message: 'Business created successfully',
+              businessProfile: createdBusiness
+            });
+          });
       })
       .catch(() => res.status(500).json({
         message: 'Internal server error'
@@ -61,23 +64,34 @@ class BusinessController {
             returning: true,
             plain: true
           })
-          .then((business) => {
-            if (!business) {
-              res.status(404).json({
-                mesaage: 'No business found'
-              });
-            }
-            return res.status(200).json({
-              status: 'success',
-              message: 'Business successfully edited',
-              data: {
-                name: business[1].dataValues.name,
-                details: business[1].dataValues.details,
-                location: business[1].dataValues.location,
-                categoryId: business[1].dataValues.categoryId,
-                userId: id
-              }
-            });
+          .then((category) => {
+            category.reload({
+              include: [{
+                model: database.Category,
+                attributes: ['category']
+              }]
+            })
+              .then((business) => {
+                if (!business) {
+                  res.status(404).json({
+                    mesaage: 'No business found'
+                  });
+                }
+                return res.status(200).json({
+                  status: 'success',
+                  message: 'Business successfully edited',
+                  data: {
+                    name: business[1].dataValues.name,
+                    details: business[1].dataValues.details,
+                    location: business[1].dataValues.location,
+                    categoryId: business[1].dataValues.categoryId,
+                    userId: id
+                  }
+                });
+              })
+              .catch(() => res.status(500).json({
+                message: 'Internal server error'
+              }));
           });
       });
   }
@@ -203,16 +217,24 @@ class BusinessController {
       .then(() => {
         Review
           .create(req.reviewInput)
-          .then((review) => {
-            const { businessId, comments } = review;
-            res.status(201).json({
-              message: 'You have successfully reviewed this business',
-              Review: {
-                userId: id,
-                businessId,
-                comments
-              }
-            });
+          .then((createReview) => {
+            createReview.reload({
+              include: [{
+                model: database.User,
+                attributes: ['username']
+              }]
+            })
+              .then((review) => {
+                const { businessId, comments } = review;
+                res.status(201).json({
+                  message: 'You have successfully reviewed this business',
+                  Review: {
+                    userId: id,
+                    businessId,
+                    comments
+                  }
+                });
+              });
           })
           .catch(() =>
             res.status(500).send('Internal server error'));
@@ -275,6 +297,43 @@ class BusinessController {
         });
       })
       .catch(() => res.status(500).send('Internal server Error'));
+  }
+  /**
+   * @description - User view business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: POST: /view/:businessId
+   */
+  static viewBusiness(req, res) {
+    Business
+      .findOne({
+        where: {
+          id: req.params.businessId
+        }
+      })
+      .then((views) => {
+        if (!views) {
+          return res.status(404).json({
+            message: 'no blog found'
+          });
+        }
+        views.increment('views')
+          .then(() => views.reload());
+        return res.status(200).json({
+          message: 'you have successfully viewed this business',
+          views: {
+            businessName: views.name,
+            businessLocation: views.location,
+            businessCategory: views.categoryId,
+            views: views.views + 1
+          }
+        });
+      });
   }
 }
 
