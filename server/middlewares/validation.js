@@ -191,6 +191,29 @@ export const checkReviewsInput = (req, res, next) => {
   next();
 };
 
+export const checkValidIdParams = (req, res, next) => {
+  req.checkParams({
+    businessId: {
+      isDecimal: {
+        errorMessage: 'Business Id has to be numeric value'
+      }
+    }
+
+  });
+  const errors = req.validationErrors();
+  if (errors) {
+    const allErrors = [];
+    errors.forEach((error) => {
+      allErrors.push({
+        error: error.msg
+      });
+    });
+
+    return res.status(409)
+      .json(allErrors);
+  }
+  next();
+};
 
 /**
    * @description - Checks that a user can't sign in with same username
@@ -361,8 +384,7 @@ export const checkBusinessInvalidDetails = (req, res, next) => {
      */
 export const checkReviewInvalidDetails = (req, res, next) => {
   const { comments } = req.body;
-  if (checkSpace.test(comments) ||
-  checkFirstChar.test(comments[0])) {
+  if (checkFirstChar.test(comments[0])) {
     return res.status(406).json({
       status: false,
       message: 'Invalid character in comments! Pls check details'
@@ -450,7 +472,7 @@ export const verifyUserIdExist = (req, res, next) => {
       }
       next();
     })
-    .catch(error => res.status(404).send(error.errors));
+    .catch(error => res.status(500).send(error.errors));
 };
 
 /**
@@ -494,19 +516,29 @@ export const checkCategoryId = (req, res, next) => {
    */
 
 export const searchBusiness = (req, res, next) => {
-  const { location } = req.query;
-  if (location) {
+  const { location, category } = req.query;
+  const searchLocation = location;
+  const searchCategory = category;
+  if (searchLocation || searchCategory) {
     Business
       .findAll({
         where:
-            {
-              location: { $iLike: `%${location}%` }
-            },
-
+          {
+            $or: [
+              { location: { ilike: `%${searchLocation}%` } },
+              { '$Category.category$': { ilike: `%${searchCategory}%` } }
+            ]
+          },
         include: [{
           model: database.User,
           attributes: ['username']
-        }]
+        },
+        {
+          model: Category,
+          attributes: ['category']
+        }
+        ],
+
       })
       .then((business) => {
         if (business.length < 1) {
