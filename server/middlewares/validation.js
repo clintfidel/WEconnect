@@ -37,7 +37,7 @@ export const checkUserInput = (req, res, next) => {
     email: {
       notEmpty: true,
       isEmail: {
-        errorMessage: 'Provide a valid a Email Adrress'
+        errorMessage: 'Provide a valid Email Address'
       },
       errorMessage: 'Your Email Address is required'
     },
@@ -292,7 +292,7 @@ export const emailExist = (req, res, next) => {
     .then((user) => {
       if (user) {
         return res.status(409).json({
-          message: 'email already exist '
+          message: 'email already exist'
         });
       }
       next();
@@ -372,6 +372,37 @@ export const checkBusinessInvalidDetails = (req, res, next) => {
 };
 
 /**
+   * @description - Checks if params input is valid
+   *
+   * @param  {Object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @param {Object} next - Call back function
+   *
+   * @return {object} - status code and error message
+   */
+export const verifyBusinessIdExist = (req, res, next) => {
+  if (req.params.businessId.match(/^[0-9]/) === null
+    || !req.params.businessId) {
+    return res.status(400).json({
+      status: false,
+      message: 'Unidentified business! pls include a valid businessId'
+    });
+  }
+  return Business
+    .findById(req.params.businessId)
+    .then((business) => {
+      if (!business) {
+        return res.status(404).send({
+          message: 'No business with that Id found'
+        });
+      }
+      next();
+    })
+    .catch(error => res.status(404).send(error.errors));
+};
+/**
      * @description - checks review invalid deails
      *
      * @param  {Object} req - request
@@ -404,9 +435,8 @@ export const checkReviewInvalidDetails = (req, res, next) => {
      * @return {object} - status code and error message
      */
 export const validateEditUserId = (req, res, next) => {
-  const { id } = req.decoded.currentUser;
   Business
-    .findById(id)
+    .findById(req.params.businessId)
     .then(() => {
       if (req.body.userId) {
         return res.status(403).send({
@@ -434,7 +464,7 @@ export const validateEditUserId = (req, res, next) => {
 export const checkInvalidUser = (req, res, next) => {
   const { id } = req.decoded.currentUser;
   Business
-    .findById(req.params.businessId)
+    .findById(parseInt(req.params.businessId, 10))
     .then((business) => {
       if (business.userId !== parseInt(id, 10)) {
         return res.status(403).send({
@@ -547,7 +577,7 @@ export const searchBusiness = (req, res, next) => {
           });
         }
         return res.status(200).send({
-          messaage: 'Business Found!',
+          message: 'Business Found!',
           Businesses: business
         });
       })
