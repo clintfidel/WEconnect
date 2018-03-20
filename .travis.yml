@@ -1,13 +1,15 @@
 language: node_js
 cache: bundler
 node_js:
-  - 6.11.4
+  - 8.10.0
 services:
   - postgresql
 script:
-  - npm run server-dummy:test
+  - npm run test
 after_success:
+  - CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < coverage/lcov.info
   - npm run coverage
 
 env:
   global:
+	- NODE_ENV=test
