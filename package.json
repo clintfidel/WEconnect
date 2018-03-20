@@ -6,15 +6,18 @@
   "scripts": {
     "start": "NODE_ENV=production babel-node server.js",
     "start-server": "NODE_ENV=development nodemon --watch  server --exec babel-node server.js",
-    "start-server:dummy": "nodemon --watch dummyServer --exec babel-node server.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "server-dummy:test": "nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register dummyServer/test || true",
-    "lint": "eslint ./ || true",
-    "seed": "sequelize db:seed --seed 20180314074050-category"
+    "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls",
+   "migrate:test": "sequelize db:migrate --to 20180314174523-create-category",
+   "seed": "sequelize db:seed --seed 20180314074050-category",
+    "preserver:test": "NODE_ENV=localTest npm run migrate:test && npm run seed",
+    "server:test": "NODE_ENV=localTest nyc --reporter=html --reporter=text mocha --exit  --compilers js:babel-register server/test || true",
+   "preserver:test:travis": "NODE_ENV=test npm run migrate:test && npm run seed",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --compilers js:babel-register server/test || true",
+    "lint": "eslint ./ || true"
   },
   "nyc": {
     "exclude": [
-      "dummyServer/test/**.js"
+      "server/test/**.js"
     ]
   },
   "repository": {
