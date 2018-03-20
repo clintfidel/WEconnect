@@ -25,7 +25,7 @@ userRouter.route('/editprofile')
   .put(
     isLoggedIn, emailExist, verifyUserIdExist,
     usernameExist,
-    checkUserInvalidDetails, editProfile
+    checkUserInvalidDetails, checkUserInput, editProfile
   );
 
 userRouter.route('/')
