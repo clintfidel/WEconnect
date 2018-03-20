@@ -2,8 +2,8 @@ import express from 'express';
 import winston from 'winston';
 import validator from 'express-validator';
 import bodyParser from 'body-parser';
-import UserDummyRouter from './dummyServer/routes/UserRoutes';
-import BusinessDummyRouter from './dummyServer/routes/BusinessRoutes';
+// import UserDummyRouter from './dummyServer/routes/UserRoutes';
+// import BusinessDummyRouter from './dummyServer/routes/BusinessRoutes';
 import UserRouter from './server/routes/userRoutes';
 import BusinessRouter from './server/routes/businessRoutes';
 
@@ -14,12 +14,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 
-if (process.env.NODE_ENV === 'development') {
+if (!process.env.NODE_ENV) {
+  // app.use('/api/v1/auth', UserDummyRouter);
+  // app.use('/api/v1/business', BusinessDummyRouter);
+  winston.info('i am here');
+} else {
   app.use('/api/v1/auth', UserRouter);
   app.use('/api/v1/business', BusinessRouter);
-} else {
-  app.use('/api/v1/auth', UserDummyRouter);
-  app.use('/api/v1/business', BusinessDummyRouter);
 }
 
 app.get('/', (req, res) => {
@@ -33,3 +34,4 @@ app.listen(port, () => {
 });
 
 export default app;
+
