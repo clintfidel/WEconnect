@@ -1,7 +1,7 @@
 import omit from 'lodash/omit';
 import database from '../models';
 
-const { Business, Review } = database;
+const { Business, Review, Category } = database;
 
 class BusinessController {
   /**
@@ -61,38 +61,39 @@ class BusinessController {
             where: {
               id: req.params.businessId
             },
+            include: [{
+              model: database.Category,
+              attributes: ['category']
+            }],
             returning: true,
             plain: true
           })
-          .then((category) => {
-            category.reload({
-              include: [{
-                model: database.Category,
-                attributes: ['category']
-              }]
-            })
-              .then((business) => {
-                if (!business) {
-                  res.status(404).json({
-                    mesaage: 'No business found'
-                  });
-                }
-                return res.status(200).json({
-                  status: 'success',
-                  message: 'Business successfully edited',
-                  data: {
-                    name: business[1].dataValues.name,
-                    details: business[1].dataValues.details,
-                    location: business[1].dataValues.location,
-                    categoryId: business[1].dataValues.categoryId,
-                    userId: id
-                  }
-                });
-              })
-              .catch(() => res.status(500).json({
-                message: 'Internal server error'
-              }));
-          });
+          // .then((category) => {
+          //   category.reload({
+
+        // })
+          .then((business) => {
+            if (!business) {
+              res.status(404).json({
+                mesaage: 'No business found'
+              });
+            }
+            return res.status(200).json({
+              status: 'success',
+              message: 'Business successfully edited',
+              data: {
+                name: business[1].dataValues.name,
+                details: business[1].dataValues.details,
+                location: business[1].dataValues.location,
+                categoryId: business[1].dataValues.categoryId,
+                userId: id
+              }
+            });
+          })
+          .catch(() => res.status(500).json({
+            message: 'Internal server error'
+          }));
+        // });
       });
   }
 
@@ -133,6 +134,67 @@ class BusinessController {
   }
 
   /**
+   * @description - User get all business in pages
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   */
+
+  static getAllBusinessByPage(req, res, next) {
+    const { pageNum } = req.query;
+    if (pageNum) {
+      const pageNumber = Number(pageNum);
+      const message = 'Sorry no business found for this page';
+      const limit = 10;
+      let offset;
+      let page;
+      if (pageNumber === 0) {
+        offset = 0;
+      } else if (pageNumber > 0) {
+        page = pageNumber;
+        offset = limit * (page - 1);
+      } else {
+        offset = 0;
+      }
+      Business
+        .findAndCountAll({
+          order: [['views', req.query.order || 'DESC']],
+          attributes: ['id', 'name', 'location', 'details', 'views'],
+          include: [
+            {
+              model: Category,
+              attributes: ['category']
+            },
+            {
+              model: database.User,
+              attributes: ['username', 'email']
+            }
+          ],
+          limit,
+          offset,
+        })
+        .then((business) => {
+          const pages = Math.ceil(business.count / limit);
+          if (!business.count) {
+            return res.status(404).send('No Business found');
+          } else if (pageNumber > pages) {
+            return res.status(404).send(message);
+          }
+          return res.status(200).json({ business, count: business.count, pages });
+        })
+        .catch(() => {
+          res.status(500).send('Internal sever Error');
+        });
+    } else {
+      return next();
+    }
+  }
+
+  /**
    * @description - User gets all business in the application
    *
    * @param  {object} req - request
@@ -148,8 +210,9 @@ class BusinessController {
     Business
       .findAll({})
       .then((allBusiness) => {
-        if (allBusiness.length > 1) {
+        if (allBusiness.length > 0) {
           return res.status(200).send({
+            status: 'Success',
             Businesses: allBusiness
           });
         }
@@ -174,11 +237,7 @@ class BusinessController {
 
   static getOneBusiness(req, res) {
     Business
-      .findOne({
-        where: {
-          id: req.params.businessId
-        }
-      })
+      .findById(parseInt(req.params.businessId, 10))
       .then((business) => {
         if (!business) {
           res.status(404).json({
@@ -272,7 +331,7 @@ class BusinessController {
               }
             })
             .then((reviews) => {
-              if (!reviews) {
+              if (reviews.length === 0) {
                 return res.status(404).json({
                   message: 'No review found for this business'
                 });
@@ -319,7 +378,7 @@ class BusinessController {
       .then((views) => {
         if (!views) {
           return res.status(404).json({
-            message: 'no blog found'
+            message: 'no business found'
           });
         }
         views.increment('views')
