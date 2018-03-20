@@ -22,7 +22,7 @@ class UserController {
    * Route: POST: /users/signup
    */
   static signUp(req, res) {
-    return User.create(req.userInput)
+    User.create(req.userInput)
       .then((activeUser) => {
         if (activeUser) {
           const currentUser = omit(
@@ -86,7 +86,10 @@ class UserController {
           return res.status(200)
             .json({
               message: 'Logged In Successfully',
-              token
+              data: {
+                token,
+                userId: user.id
+              }
             });
         }
         return res.status(403)
@@ -94,7 +97,8 @@ class UserController {
             message: 'Invalid Credentials.'
           });
       })
-      .catch(() => res.status(500).json('Internal server error'));
+      .catch(() =>
+        res.status(500).json('Internal server error'));
   }
 
   /**
@@ -115,20 +119,23 @@ class UserController {
         where: { id }
       })
       .then((edit) => {
-        const omitValue =
-        omit(req.body, ['password', 'createdAt']);
+        const currentUser =
+        omit(req.userInput, ['password', 'createdAt']);
         edit
-          .update(omitValue);
+          .update(currentUser);
         const token = jwt.sign(
           {
-            omitValue,
+            currentUser,
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
           },
           process.env.secretKey
         );
         return res.status(200).json({
           message: 'profile edited successfully!!!',
-          token
+          newProfile: {
+            token,
+            userId: edit.id
+          }
         });
       })
       .catch(() => res.status(500).json({
