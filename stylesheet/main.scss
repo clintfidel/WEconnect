@@ -52,7 +52,6 @@ body {
         background-image: url('../stylesheet/images/business-background (1).png');
          background-repeat: no-repeat;
         background-size: cover;
-        z-index: 3;
         height: 50vh;
         .brand-logo {
             img {
@@ -68,37 +67,36 @@ body {
     
     .about-weconnect {
         width: 90%;
+        height: 100%;
         margin: auto;
-        background-color: white;
+        padding: 20px;
         background-image: url('../stylesheet/images/hand (1).png');
         background-repeat: no-repeat;
-        background-size: contain;
-        background-position: 90% 50%; 
-        position: relative;
-        height: 100%;
+        background-size: 300px;
+        background-position: 90% 70%; 
         .wrap {
-            width: auto;
+            width: 100%;
             height: 100%;
-            max-width: 55%;
+            max-width: 65%;
             min-height: 100%;
-
+            margin-right: 20%;
             h2 {
                 font-weight: bolder;
                 font-size: ($size * 3);
-                margin: 5% 20% 0;
+                margin: 0 20%;
             }
 
-            p {
-            font-size: ($size * 2 ) ;
-            padding: 0 20% 5%;
-            line-height: 1.5em;
+             p {
+                font-size: 20px;
+                padding: 10px 10%;
+                line-height: 1.5em;
             }
             
         }
         
     }
     
-    .contact {
+    .footer {
         background-image: url('../stylesheet/images/backgroung.png');
         background-repeat: no-repeat;
         background-size: cover;
@@ -106,25 +104,33 @@ body {
         min-height: auto;
         padding: 2%;
         height: auto;
-        p {
-            width: 40%;
-            margin: auto;
-            max-width: 50%;
-            text-align: center;
-            font-size: ($size * 2);
-            padding-bottom: 2%;
-            line-height: 1.4em;
-            color: white;
-           
-        }
+        display: flex;
+         width: auto;
+        justify-content: space-between;
+        color: white;
+       .footer-text {
+        font-size: ($size * 2 - 2);
+        max-width: 20%;
+       }
+       .contact-me {
+           position: relative;
+           max-width: 35%;
+           line-height: 1.4em;
+           font-size: ($size * 2);
+           text-align: center;
+           margin-top: auto;
+           margin-left: 10%;
+           margin-bottom: auto;
+
+       }
         .social {
             position: relative;
             display: flex;
-            justify-content: center;
-            
+            flex-direction: column;
             img {
-                padding: 0 $margin;
-                width: 50px;
+                margin-top: 2%;
+                padding: 10px $margin;
+                width: 40px;
                 transition: .5s;
                 &:hover {
                     transform: scale(1.2) rotate(360deg);
@@ -234,6 +240,38 @@ body {
         }
        
     }
+    .landing-page-container {
+        .footer {
+            display: flex;
+            flex-direction: column;
+            .footer-text {
+                display: inline;
+                text-align: center; 
+                font-size: ($size * 2 - 1);
+                max-width: 100%
+            }
+            .contact-me {
+                max-width: 100%;
+                border-bottom: 1px solid white;
+                margin-left: 0;
+            }
+            .social {
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                margin: auto;
+                img {
+                    padding: 5px $margin;
+                    width: 40px;
+                    transition: .5s;
+                    &:hover {
+                        transform: scale(1.2) rotate(360deg);
+                    }
+                    
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -241,14 +279,11 @@ body {
         box-sizing: border-box;
     }
     .nav-header {
-        position: absolute;
-        z-index: 5;
-        margin: auto ($margin * 3);
         .user {
             li {
-                display: inline-block;
-                margin: $margin $margin;
-    
+                margin-right: $margin;
+                margin-bottom: $margin * 3;
+                display: block;
                 button {
                     height: 40px;
                     width: 100%;
@@ -263,8 +298,7 @@ body {
       .our-brand {
         .brand-logo {
             img {
-                height: 20%;
-                width: 30%;
+                width: 100px;
                 z-index: 2;
                
             }
@@ -295,32 +329,34 @@ body {
         
     }
     
-
-    .contact {
-
-      width: 100vw;
-      max-width: 100%;
-      p {
-          width: 100vw;
-          font-size: ($size * 2 - 3);
-          margin: auto;
-          max-width: 80%;
-          text-align: center;
-          padding: 8%;
-          line-height: 1.4em;
-          color: white;
-      }
-      .social {
-          img {
-
-              width: 35px;
-              transition: .5s;
-              &:hover {
-                  transform: scale(1.2) rotate(360deg);
-              }  
-          }
-      }
-      
+    .footer {
+        display: flex;
+        flex-direction: column;
+        .footer-text {
+            display: inline;
+            text-align: center; 
+            font-size: ($size * 2 - 1);
+            max-width: 100%
+        }
+        .contact-me {
+            max-width: 100%;
+            border-bottom: 1px solid white;
+        }
+        .social {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            margin: auto;
+            img {
+                padding: 5px $margin;
+                width: 50px;
+                transition: .5s;
+                &:hover {
+                    transform: scale(1.2) rotate(360deg);
+                }
+                
+            }
+        }
     }
  }
     
@@ -346,19 +382,6 @@ body {
 
 }
 
-.index-footer {
-    position: relative;
-    background-color: rgba(235, 224, 224, 0.87); 
-    width: 100%;
-    margin: 0 auto;
-    bottom: 0;
-    p {
-        padding: 1%;
-        margin:0;
-        text-align: center;
-        font-size: ($size * 2);
-    }
-}
 
 
 // business- page
