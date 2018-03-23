@@ -1,17 +1,17 @@
 import express from 'express';
 import isLoggedIn from '../middlewares/authorization';
+import searchBusiness from '../middlewares/searchBusiness';
 import {
-  checkBusinessInput, checkReviewsInput, searchBusiness,
+  checkBusinessInput,
   validateEditUserId, checkInvalidUser, verifyUserIdExist,
   checkCategoryId, businessNameExist, checkBusinessInvalidDetails,
-  checkReviewInvalidDetails, checkValidIdParams, verifyBusinessIdExist
+  checkValidIdParams, verifyBusinessIdExist
 } from '../middlewares/validation';
 import business from '../controllers/BusinessController';
 
 const {
   addBusiness, updateBusiness, deleteBusiness,
-  getAllBusinessess, getOneBusiness, createReview,
-  getAllReviews, viewBusiness, getAllBusinessByPage
+  getAllBusinessess, getOneBusiness, viewBusiness, getAllBusinessByPage
 } = business;
 const businessRouter = express.Router();
 
@@ -37,14 +37,6 @@ businessRouter.route('/:businessId')
     isLoggedIn, verifyUserIdExist, checkValidIdParams,
     verifyBusinessIdExist, checkInvalidUser, getOneBusiness
   );
-
-businessRouter.route('/:businessId/reviews')
-  .post(
-    isLoggedIn, checkReviewsInput, verifyUserIdExist,
-    verifyBusinessIdExist, checkReviewInvalidDetails,
-    checkValidIdParams, createReview
-  )
-  .get(isLoggedIn, verifyUserIdExist, getAllReviews);
 
 businessRouter.route('/:businessId/views')
   .get(isLoggedIn, checkValidIdParams, viewBusiness);
