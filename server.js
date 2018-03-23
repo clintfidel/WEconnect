@@ -2,11 +2,9 @@ import express from 'express';
 import winston from 'winston';
 import validator from 'express-validator';
 import bodyParser from 'body-parser';
-// import UserDummyRouter from './dummyServer/routes/UserRoutes';
-// import BusinessDummyRouter from './dummyServer/routes/BusinessRoutes';
 import UserRouter from './server/routes/userRoutes';
 import BusinessRouter from './server/routes/businessRoutes';
-
+import ReviewRouter from './server/routes/reviewRoutes';
 
 const app = express();
 
@@ -14,17 +12,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 
-if (!process.env.NODE_ENV) {
-  // app.use('/api/v1/auth', UserDummyRouter);
-  // app.use('/api/v1/business', BusinessDummyRouter);
-  winston.info('i am here');
-} else {
-  app.use('/api/v1/auth', UserRouter);
-  app.use('/api/v1/business', BusinessRouter);
-}
+app.use('/api/v1/auth', UserRouter);
+app.use('/api/v1/business', BusinessRouter);
+app.use('/api/v1/business', ReviewRouter);
+
 
 app.get('/', (req, res) => {
-  res.status(200).send('testing out Mock-data');
+  res.status(200).send('Welcome to WEconnect Api');
 });
 
 const port = process.env.PORT || 5500;
