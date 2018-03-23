@@ -297,8 +297,8 @@ body {
     justify-content: space-between; }
     .full-page .content-page .register-business {
       position: relative;
-      width: 69%;
-      height: 90%;
+      width: 60%;
+      height: 62vh;
       border-radius: 20px;
       background-image: -webkit-linear-gradient(top, #136c8b, #003b4e);
       background-size: cover; }
@@ -309,7 +309,7 @@ body {
         padding-bottom: 1%; }
       .full-page .content-page .register-business .panel-body {
         width: 80%;
-        margin: auto; }
+        margin: auto auto 10%; }
         .full-page .content-page .register-business .panel-body button {
           height: 48px;
           width: 100%;
@@ -330,12 +330,32 @@ body {
           color: transparent; }
   .full-page .business-story {
     border-radius: 20px;
-    width: 29%;
-    height: 90%;
-    background-image: url("../stylesheet/images/advert.png");
+    width: 39%;
+    height: 62vh;
+    border: 2px solid #136c8b;
+    background-color: transparent;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat; }
+    background-repeat: no-repeat;
+    text-align: center; }
+    .full-page .business-story .image-wrapper {
+      width: 90%;
+      height: 320px;
+      margin: 7% auto;
+      border-radius: 20px; }
+      .full-page .business-story .image-wrapper img {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        height: 100%; }
+    .full-page .business-story .upload-button {
+      background-color: #15b78d;
+      color: #ffff;
+      width: 90%;
+      height: 10%;
+      font-size: 20px; }
+    .full-page .business-story .upload-button:hover {
+      color: #ffff; }
 
 @media screen and (max-width: 1100px) {
   .navbar {
@@ -358,11 +378,11 @@ body {
     .full-page * {
       box-sizing: border-box; }
     .full-page .content-page {
-      width: 90%;
-      height: 68vh; }
+      width: 90%; }
       .full-page .content-page .register-business {
-        width: 100%;
-        height: auto; }
+        width: 80%;
+        height: 70vh;
+        margin: auto; }
         .full-page .content-page .register-business .panel-body button {
           margin: -5px auto;
           padding-top: 2px;
@@ -398,7 +418,7 @@ body {
       border-radius: 5px;
       margin: 10px 3px; }
       .main-business #contain-form .search input {
-        width: 50%;
+        width: 40%;
         height: 5vh;
         border-radius: 5px;
         padding: 0 5px;
@@ -410,14 +430,14 @@ body {
         color: white;
         opacity: 1; }
       .main-business #contain-form .search select {
-        width: 30%;
+        width: 25%;
         height: 5vh;
         border-radius: 5px;
         padding: 0 5px;
         outline: none; }
       .main-business #contain-form .search button {
         background-color: #136c8b;
-        width: 20%;
+        width: 10%;
         color: white;
         font: 20px bolder;
         height: 5vh;
@@ -458,9 +478,17 @@ body {
         color: black;
         font-size: 20px;
         padding: 0 5%;
-        border-radius: 5%;
         background-color: white;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); }
+      .main-business .jumbotron .cataloge .text::after {
+        content: 'view more';
+        background-color: #136c8b;
+        padding: 7px;
+        border-radius: 5px;
+        color: white; }
 
 .modal-dialog {
   transition: .5s; }
@@ -478,20 +506,20 @@ body {
 
 .business-body {
   background-image: url("../stylesheet/images/app background.png");
-  padding-top: 7%;
   width: 100%;
   height: 100vh;
   overflow-y: scroll; }
   .business-body .business-image {
-    text-align: center;
+    margin: 7% auto 0;
     position: relative;
-    height: 50vh;
-    width: auto; }
+    width: 80%;
+    height: 400px; }
     .business-body .business-image img {
-      height: 50vh;
-      width: 70%;
-      border-radius: 5%;
-      min-height: auto; }
+      display: block;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px; }
     .business-body .business-image .text-center {
       position: absolute;
       top: 47%;
@@ -507,33 +535,30 @@ body {
         background-color: rgba(19, 108, 139, 0.9);
         padding: 1%;
         color: white; }
-  .business-body .row {
+  .business-body .grouped-buttons {
     font-size: 30px;
     margin: 2% 30%;
     display: flex !important;
     width: auto;
     justify-content: space-between !important; }
-    .business-body .row a {
+    .business-body .grouped-buttons a {
       text-decoration: none; }
-    .business-body .row .active {
-      background-color: rgba(19, 108, 139, 0.9);
-      color: white !important;
+    .business-body .grouped-buttons .active {
+      color: rgba(19, 108, 139, 0.9) !important;
       padding: 5px;
       border-radius: 5px; }
-    .business-body .row .bus-info {
+    .business-body .grouped-buttons .bus-info {
       color: rgba(19, 108, 139, 0.9); }
-    .business-body .row .bus-reviews {
+    .business-body .grouped-buttons .bus-reviews {
       color: rgba(19, 108, 139, 0.9); }
   .business-body .content-display {
     background-color: white;
-    width: auto;
+    width: 80%;
     height: auto;
     color: #136c8b;
     padding: 2%;
-    border-radius: 5%;
-    margin-right: 18%;
-    margin-bottom: 5%;
-    margin-left: 18%;
+    border-radius: 2%;
+    margin: auto auto 10%;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); }
     .business-body .content-display h3 {
       font-weight: bolder;
@@ -547,20 +572,10 @@ body {
       text-transform: uppercase; }
     .business-body .content-display .bus-info-details .Icon-Images {
       display: flex;
-      flex-direction: column;
-      width: auto;
-      height: 20vh;
-      padding: 1%; }
+      align-items: center; }
       .business-body .content-display .bus-info-details .Icon-Images img {
-        height: 45%;
-        width: 8%;
-        padding: 5px;
-        margin-left: auto; }
-  .business-body .post-form {
-    width: 160% !important;
-    margin-top: 10%;
-    margin-left: 10%;
-    margin-right: 150px; }
+        width: 6%;
+        margin: auto; }
   .business-body .post-form textarea {
     background: #fbfbfb;
     margin-top: 5%;
@@ -604,55 +619,29 @@ body {
     color: #ff6c6c;
     text-decoration: none; }
 
-@media screen and (max-width: 2000px) {
-  .jumbotron .cataloge .text {
-    overflow-y: scroll; } }
 @media screen and (max-width: 1700px) {
   .jumbotron .cataloge {
     height: 60%; }
-    .jumbotron .cataloge .text {
-      overflow-y: scroll; }
 
-  .business-body .business-image img {
-    margin-top: auto !important;
-    height: 50vh !important;
-    border-radius: 4%; }
-  .business-body .content-display {
-    border-radius: 20px;
-    margin-bottom: 35%;
-    margin-left: 18%;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); }
-    .business-body .content-display h3 {
-      font-weight: bolder;
-      text-decoration: underline; }
-    .business-body .content-display .bus-info-details .business-content h5 {
-      line-height: 1.4em; }
-    .business-body .content-display .bus-info-details .business-content #details {
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      border-radius: 20px; }
-    .business-body .content-display .bus-info-details .business-content span {
-      font-size: 20px; } }
+  .business-body .content-display h3 {
+    font-weight: bolder;
+    text-decoration: underline; }
+  .business-body .content-display .bus-info-details .business-content h5 {
+    line-height: 1.4em; }
+  .business-body .content-display .bus-info-details .business-content #details {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 20px; }
+  .business-body .content-display .bus-info-details .business-content span {
+    font-size: 20px; } }
 @media screen and (max-width: 800px) {
   .push {
     display: none; }
 
   .jumbotron .cataloge {
     height: 60%; }
-    .jumbotron .cataloge .text {
-      overflow-y: scroll; }
 
-  .business-body .business-image img {
-    margin-top: 12%;
-    margin-bottom: 10px;
-    height: 30vh;
-    border-radius: 4%; }
-  .business-body .content-display .bus-info-details .Icon-Images {
-    height: 20vh; }
-    .business-body .content-display .bus-info-details .Icon-Images img {
-      height: 25%;
-      width: 23%;
-      padding: 5px;
-      margin-left: auto; } }
+  .business-body .business-image {
+    margin: 20% auto 0; } }
 @media screen and (max-width: 640px) {
   .push {
     display: none; }
@@ -660,9 +649,22 @@ body {
   .main-business {
     min-width: 30px; }
     .main-business #contain-form {
-      bottom: 57%; }
+      height: 13%;
+      bottom: 50%; }
       .main-business #contain-form .search {
-        margin: 5px 1px; }
+        width: 100%;
+        height: 5vh;
+        border-radius: 5px;
+        margin: 10px 3px; }
+        .main-business #contain-form .search input {
+          width: 100%;
+          font-size: 10px; }
+        .main-business #contain-form .search select {
+          width: 40%;
+          font-size: 10px; }
+        .main-business #contain-form .search button {
+          width: 20%;
+          font: 10px bolder; }
     .main-business .jumbotron {
       max-height: 55vh; }
       .main-business .jumbotron .cataloge {
@@ -683,31 +685,18 @@ body {
         .main-business .jumbotron .cataloge .image {
           background-size: cover; }
 
-  .business-body .business-image {
-    height: 40vh; }
-    .business-body .business-image img {
-      padding-top: 17%;
-      height: 40vh !important;
-      border-radius: 4%;
-      margin-bottom: 3px; }
-    .business-body .business-image .text-center {
-      top: 60%; }
-      .business-body .business-image .text-center span {
-        font-size: 20px;
-        padding: 2%;
-        color: white; }
-  .business-body .row {
+  .full-page .content-page {
+    height: 80vh; }
+
+  .business-body .grouped-buttons {
     margin: auto 20%;
     font-size: 20px !important;
-    padding: 3% 0 !important; } }
+    padding: 3% 0 !important; }
+  .business-body .business-image {
+    margin: 40% auto 0; } }
 @media screen and (max-width: 450px) {
   .nav-header {
     position: relative; }
-
-  .business-body .business-image {
-    height: 40vh; }
-    .business-body .business-image img {
-      padding-top: 27% !important; }
 
   .main-business {
     position: absolute;
@@ -715,6 +704,13 @@ body {
     height: 100vh;
     padding-top: 335px; }
     .main-business .jumbotron {
-      height: 50vh; } }
+      height: 50vh;
+      margin-top: 48%; }
+
+  .full-page .content-page {
+    height: 75vh; } }
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .business-body .business-image {
+    margin: 15% auto 0; } }
 
 /*# sourceMappingURL=main.css.map */
