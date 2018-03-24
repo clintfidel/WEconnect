@@ -10,7 +10,7 @@
     "preserver:test": "sequelize db:migrate:undo:all --env localTest && sequelize db:migrate --env localTest && sequelize db:seed:all --env localTest",
     "server:test": "NODE_ENV=localTest nyc --reporter=html --reporter=text mocha --exit  --compilers js:babel-register server/test || true",
     "pretest": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --compilers js:babel-register server/test || true",
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --compilers js:babel-register server/test || true",
     "lint": "eslint ./ || true"
   },
   "nyc": {
@@ -60,6 +60,7 @@
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.36.0",
+    "sequelize-cli": "^4.0.0",
     "supertest": "^3.0.0",
     "winston": "^2.4.0"
   }
