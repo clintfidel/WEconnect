@@ -1,7 +1,10 @@
 import omit from 'lodash/omit';
 import database from '../models';
 
-const { Business, Review, Category } = database;
+const {
+  Business, Category
+}
+= database;
 
 class BusinessController {
   /**
@@ -68,17 +71,8 @@ class BusinessController {
             returning: true,
             plain: true
           })
-          // .then((category) => {
-          //   category.reload({
-
-        // })
           .then((business) => {
-            if (!business) {
-              res.status(404).json({
-                mesaage: 'No business found'
-              });
-            }
-            return res.status(200).json({
+            res.status(200).json({
               status: 'success',
               message: 'Business successfully edited',
               data: {
@@ -93,7 +87,6 @@ class BusinessController {
           .catch(() => res.status(500).json({
             message: 'Internal server error'
           }));
-        // });
       });
   }
 
@@ -119,14 +112,10 @@ class BusinessController {
               id: parseInt(req.params.businessId, 10)
             }
           })
-          .then((business) => {
-            if (business) {
-              return res.status(200).json({
-                message: 'Business deleted successfully'
-              });
-            }
-            res.status(404).json({
-              message: 'Your business could not be found'
+          .then(() => {
+            res.status(200).json({
+              message: 'Business deleted successfully',
+              id: Number(req.params.businessId)
             });
           })
           .catch(() => res.status(500).send('Internal server error'));
@@ -154,11 +143,9 @@ class BusinessController {
       let page;
       if (pageNumber === 0) {
         offset = 0;
-      } else if (pageNumber > 0) {
+      } else {
         page = pageNumber;
         offset = limit * (page - 1);
-      } else {
-        offset = 0;
       }
       Business
         .findAndCountAll({
@@ -180,9 +167,11 @@ class BusinessController {
         .then((business) => {
           const pages = Math.ceil(business.count / limit);
           if (!business.count) {
-            return res.status(404).send('No Business found');
+            return res.status(404).send({
+              message: 'No Business found'
+            });
           } else if (pageNumber > pages) {
-            return res.status(404).send(message);
+            return res.status(404).send({ message });
           }
           return res.status(200).json({ business, count: business.count, pages });
         })
@@ -239,12 +228,7 @@ class BusinessController {
     Business
       .findById(parseInt(req.params.businessId, 10))
       .then((business) => {
-        if (!business) {
-          res.status(404).json({
-            message: 'No business found'
-          });
-        }
-        return res.status(200).json({
+        res.status(200).json({
           message: 'Business found!',
           Business: business
         });
@@ -252,111 +236,6 @@ class BusinessController {
       .catch(() => res.status(500).send('Internal sever Error'));
   }
 
-  /**
-   * @description - User adds review to business
-   *
-   * @param  {object} req - request
-   *
-   * @param  {object} res - response
-   *
-   * @return {Object} - Success message
-   *
-   * ROUTE: Post:/api/v1/business/:businessId/reviews
-   */
-
-  static createReview(req, res) {
-    const { id } = req.decoded.currentUser;
-    Review
-      .findOne({
-        where: {
-          businessId: req.params.businessId,
-          userId: id
-        }
-      })
-      .then(() => {
-        Review
-          .create(req.reviewInput)
-          .then((createReview) => {
-            createReview.reload({
-              include: [{
-                model: database.User,
-                attributes: ['username']
-              }]
-            })
-              .then((review) => {
-                const { businessId, comments } = review;
-                res.status(201).json({
-                  message: 'You have successfully reviewed this business',
-                  Review: {
-                    userId: id,
-                    businessId,
-                    comments
-                  }
-                });
-              });
-          })
-          .catch(() =>
-            res.status(500).send('Internal server error'));
-      });
-  }
-
-  /**
-   * @description - User gets all review for a business
-   *
-   * @param  {object} req - request
-   *
-   * @param  {object} res - response
-   *
-   * @return {Object} - Success message
-   *
-   * ROUTE: Get:/api/v1/business/:businessId/reviews
-   */
-
-  static getAllReviews(req, res) {
-    Business
-      .findOne({
-        where: {
-          id: req.params.businessId
-        }
-      })
-      .then((business) => {
-        if (business) {
-          const {
-            id, name, location, categoryId
-          } = business;
-          return Review
-            .findAll({
-              where: {
-                businessId: req.params.businessId
-              }
-            })
-            .then((reviews) => {
-              if (reviews.length === 0) {
-                return res.status(404).json({
-                  message: 'No review found for this business'
-                });
-              }
-              return res.status(200).send({
-                status: 'success',
-                businessdata: {
-                  id,
-                  name,
-                  location,
-                  categoryId,
-                  AllReviews: {
-                    reviews
-                  }
-                }
-              });
-            })
-            .catch(() => res.status(500).send('Internal server Error'));
-        }
-        return res.status(404).json({
-          message: 'No business Found'
-        });
-      })
-      .catch(() => res.status(500).send('Internal server Error'));
-  }
   /**
    * @description - User view business
    *

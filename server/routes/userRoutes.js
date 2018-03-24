@@ -7,7 +7,7 @@ import {
 } from '../middlewares/validation';
 
 const {
-  signUp, login, editProfile, getAllUsers
+  signUp, login, editProfile
 } = user;
 const userRouter = express.Router();
 
@@ -27,8 +27,5 @@ userRouter.route('/editprofile')
     usernameExist,
     checkUserInvalidDetails, checkUserInput, editProfile
   );
-
-userRouter.route('/')
-  .get(isLoggedIn, getAllUsers);
 
 export default userRouter;

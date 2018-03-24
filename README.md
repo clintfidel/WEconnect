@@ -14,15 +14,10 @@ WeConnect provides a platform that brings businesses and individuals together. T
   <a href="#Technologies Used">Technologies Used</a> •
   <a href="#Installation">How to Use</a> •
   <a href="#Tests">How to test</a> •
- <a href="#Coding Style">code style</a> •
- <a href="#How to Contribute">How to Contribute</a> •
- <a href="#Author">Meet me!</a> •
- <a href="#License">License</a> •
-
-
-
-
-
+  <a href="#Coding Style">code style</a> •
+  <a href="#How to Contribute">How to Contribute</a> •
+  <a href="#Author">Meet me!</a> •
+  <a href="#License">License</a> •
 
 </p>
 

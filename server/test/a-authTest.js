@@ -1,29 +1,10 @@
 import expect from 'expect';
 import supertest from 'supertest';
 import app from '../../server';
-import models from '../models';
 
-const doBeforeAll = () => {
-  before(() => {
-    models.User.destroy({
-      cascade: true,
-      truncate: true,
-      restartIdentity: true
-    });
-  });
-};
-
-const doBeforeEach = () => {
-  beforeEach((done) => {
-    models.sequelize.sync();
-    return done();
-  });
-};
 
 let token;
 describe('WEconnect API: ', () => {
-  doBeforeAll();
-  doBeforeEach();
   describe('user Authentication: ', () => {
     it('Should return 200 for the default route', (done) => {
       supertest(app)
@@ -45,7 +26,6 @@ describe('WEconnect API: ', () => {
         .expect(201)
         .end((err, res) => {
           if (err) {
-            console.log(err)
             return done(err);
           }
           expect(res.body.message).toBe('Signed up successfully');
@@ -64,7 +44,6 @@ describe('WEconnect API: ', () => {
         .expect(201)
         .end((err, res) => {
           if (err) {
-            console.log(err)
             return done(err);
           }
           expect(res.body.message).toBe('Signed up successfully');
@@ -156,22 +135,19 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should create new Business profile', (done) => {
+    it('should not log user with empty details  ', (done) => {
       supertest(app)
-        .post('/api/v1/business/')
+        .post('/api/v1/auth/login')
         .send({
-          name: 'testing',
-          details: 'test user',
-          location: 'Lagos',
-          categoryId: 1,
-          token: `${token}`
+          username: '',
+          password: ''
         })
-        .expect(201)
+        .expect(400)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Business created successfully');
+          expect(res.body.message).toBe('Please provide your username or password to login');
           done();
         });
     });
@@ -232,23 +208,6 @@ describe('WEconnect API: ', () => {
           expect(res.body.message).toBe('profile edited successfully!!!');
           done();
         });
-    });
-    describe('Get all user sucess: ', () => {
-      it('should successfully get all registered users', (done) => {
-        supertest(app)
-          .get('/api/v1/auth/')
-          .send({
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVJbiI6eyJleHAiOjE1MjExNTgzOTR9LCJjdXJyZW50VXNlciI6eyJpZCI6MSwiZnVsbG5hbWUiOiJydWtreWNsaW50IiwidXNlcm5hbWUiOiJydWtreTRjbGludCIsImVtYWlsIjoiY2xpbnRydWtreUBnbWFpbC5jb20iLCJhY3RpdmUiOm51bGx9LCJpYXQiOjE1MjExNTQ3OTR9.uq16LrmB7Z9pqrdTOwglbC2XVfPqI74h3Rr5BrH2rhE'
-          })
-          .expect(200)
-          .end((err, res) => {
-            if (err) {
-              return done(err);
-            }
-            expect(res.status).toEqual(200);
-            done();
-          });
-      });
     });
   });
 });
