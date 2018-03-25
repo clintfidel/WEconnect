@@ -8,9 +8,9 @@
     "start-server": "NODE_ENV=development nodemon --watch  server --exec babel-node server.js",
     "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls",
     "preserver:test": "sequelize db:migrate:undo:all --env localTest && sequelize db:migrate --env localTest && sequelize db:seed:all --env localTest",
-    "server:test": "NODE_ENV=localTest nyc --reporter=html --reporter=text mocha --exit  --compilers js:babel-register server/test || true",
+    "server:test": "NODE_ENV=localTest nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register server/test || true",
     "pretest": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --compilers js:babel-register server/test || true",
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --timeout 7000 --compilers js:babel-register server/test || true",
     "heroku-postbuild": "webpack --progress --config ./webpack.prod.config.js",
     "lint": "eslint ./ || true"
   },

@@ -28,7 +28,7 @@ describe('Review: ', () => {
   });
   it('should create new Business profile', (done) => {
     supertest(app)
-      .post('/api/v1/business/')
+      .post('/api/v1/businesses/')
       .send({
         name: 'testing',
         details: 'test user',
@@ -48,7 +48,7 @@ describe('Review: ', () => {
   });
   it('should create new Business profile', (done) => {
     supertest(app)
-      .post('/api/v1/business/')
+      .post('/api/v1/businesses/')
       .send({
         name: '9mobile',
         details: 'this is a new business',
@@ -68,7 +68,7 @@ describe('Review: ', () => {
   });
   it('should not create a new review for invalid business id', (done) => {
     supertest(app)
-      .post(`/api/v1/business/${wrongId}/reviews/`)
+      .post(`/api/v1/businesses/${wrongId}/reviews/`)
       .send({
         comments: 'lovely app',
         token: `${token}`
@@ -84,7 +84,7 @@ describe('Review: ', () => {
   });
   it('should create a new review for business', (done) => {
     supertest(app)
-      .post(`/api/v1/business/${businessId}/reviews/`)
+      .post(`/api/v1/businesses/${businessId}/reviews/`)
       .send({
         comments: 'I am amazed at the idea',
         token: `${token}`
@@ -100,7 +100,7 @@ describe('Review: ', () => {
   });
   it('should not get review for invalid business id', (done) => {
     supertest(app)
-      .get(`/api/v1/business/${wrongId}/reviews`)
+      .get(`/api/v1/businesses/${wrongId}/reviews`)
       .send({
         token: `${token}`
       })
@@ -115,7 +115,7 @@ describe('Review: ', () => {
   });
   it('should no review for business with no review', (done) => {
     supertest(app)
-      .get(`/api/v1/business/${businessId2}/reviews`)
+      .get(`/api/v1/businesses/${businessId2}/reviews`)
       .send({
         token: `${token}`
       })
@@ -130,7 +130,7 @@ describe('Review: ', () => {
   });
   it('should get all reviews for a business', (done) => {
     supertest(app)
-      .get(`/api/v1/business/${businessId}/reviews`)
+      .get(`/api/v1/businesses/${businessId}/reviews`)
       .send({
         token: `${token}`
       })
