@@ -5,7 +5,7 @@ import app from '../../server';
 describe('Business: ', () => {
   it('should fail to authenticate token', (done) => {
     supertest(app)
-      .get('/api/v1/business')
+      .get('/api/v1/businesses')
       .send({
         token: '$ggggfejgfjjbvjbbvbjebf.uhvhehgvygyuf.ihfihiuhfivibviu'
       })

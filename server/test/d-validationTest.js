@@ -190,7 +190,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not create a Business with spaces as name ', (done) => {
       supertest(app)
-        .post('/api/v1/business/')
+        .post('/api/v1/businesses/')
         .send({
           name: ' Business1',
           details: 'change test Business',
@@ -211,7 +211,7 @@ describe('WEconnect API: ', () => {
   describe('search business: ', () => {
     it('should create new Business profile', (done) => {
       supertest(app)
-        .post('/api/v1/business')
+        .post('/api/v1/businesses')
         .send({
           name: 'Another testing',
           details: 'test user',
@@ -230,7 +230,7 @@ describe('WEconnect API: ', () => {
     });
     it('search for business by location', (done) => {
       supertest(app)
-        .get('/api/v1/business?location=lagos')
+        .get('/api/v1/businesses?location=lagos')
         .send({
           token: `${token}`
         })
@@ -245,7 +245,7 @@ describe('WEconnect API: ', () => {
     });
     it('search for business by category', (done) => {
       supertest(app)
-        .get('/api/v1/business?category=food')
+        .get('/api/v1/businesses?category=food')
         .send({
           token: `${token}`
         })
@@ -260,7 +260,7 @@ describe('WEconnect API: ', () => {
     });
     it('should return error message for business not seen ', (done) => {
       supertest(app)
-        .get('/api/v1/business?location=Jerico')
+        .get('/api/v1/businesses?location=Jerico')
         .send({
           token: `${token}`
         })
@@ -275,7 +275,7 @@ describe('WEconnect API: ', () => {
     });
     it('should return error message for business not seen ', (done) => {
       supertest(app)
-        .get('/api/v1/business?category=laundry')
+        .get('/api/v1/businesses?category=laundry')
         .send({
           token: `${token}`
         })

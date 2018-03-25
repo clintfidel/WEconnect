@@ -1,5 +1,5 @@
 import expect from 'expect';
-import supertest from 'supertest'
+import supertest from 'supertest';
 import app from '../../server';
 
 let userToken;
@@ -26,7 +26,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not create a new Business without a userToken', (done) => {
       supertest(app)
-        .post('/api/v1/business')
+        .post('/api/v1/businesses')
         .send({
           name: 'testing',
           details: 'test user',
@@ -44,7 +44,7 @@ describe('WEconnect API: ', () => {
     });
     it('should create new Business profile', (done) => {
       supertest(app)
-        .post('/api/v1/business')
+        .post('/api/v1/businesses')
         .send({
           name: 'Another testing',
           details: 'test user',
@@ -64,7 +64,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not get Business with wrong id ', (done) => {
       supertest(app)
-        .get(`/api/v1/business/${wrongId}`)
+        .get(`/api/v1/businesses/${wrongId}`)
         .send({
           token: `${userToken}`
         })
@@ -79,7 +79,7 @@ describe('WEconnect API: ', () => {
     });
     it('should get one Business ', (done) => {
       supertest(app)
-        .get(`/api/v1/business/${businessId}`)
+        .get(`/api/v1/businesses/${businessId}`)
         .send({
           token: `${userToken}`
         })
@@ -95,7 +95,7 @@ describe('WEconnect API: ', () => {
     });
     it('should get all Businesses ', (done) => {
       supertest(app)
-        .get('/api/v1/business/')
+        .get('/api/v1/businesses/')
         .send({
           token: `${userToken}`
         })
@@ -111,7 +111,7 @@ describe('WEconnect API: ', () => {
     });
     it('should be able to get business by page', (done) => {
       supertest(app)
-        .get('/api/v1/business?pageNum=1')
+        .get('/api/v1/businesses?pageNum=1')
         .send({
           token: `${userToken}`
         })
@@ -126,7 +126,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not be able to get business', (done) => {
       supertest(app)
-        .get('/api/v1/business?pageNum=2')
+        .get('/api/v1/businesses?pageNum=2')
         .send({
           token: `${userToken}`
         })
@@ -139,10 +139,10 @@ describe('WEconnect API: ', () => {
           expect(res.body.message).toBe('Sorry no business found for this page');
           done();
         });
-      });
+    });
     it('should not update business with invalid business id', (done) => {
       supertest(app)
-        .put(`/api/v1/business/${wrongId}`)
+        .put(`/api/v1/businesses/${wrongId}`)
         .send({
           name: 'tested again',
           details: 'change test user',
@@ -161,7 +161,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not update business with invalid user id', (done) => {
       supertest(app)
-        .put(`/api/v1/business/${businessId}`)
+        .put(`/api/v1/businesses/${businessId}`)
         .send({
           name: 'tested again',
           details: 'change test user',
@@ -180,7 +180,7 @@ describe('WEconnect API: ', () => {
     });
     it('should update user Business profile', (done) => {
       supertest(app)
-        .put(`/api/v1/business/${businessId}`)
+        .put(`/api/v1/businesses/${businessId}`)
         .send({
           name: 'MyBusiness',
           details: 'change test Business',
@@ -199,7 +199,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not delete business with invalid business id', (done) => {
       supertest(app)
-        .delete(`/api/v1/business/${wrongId}`)
+        .delete(`/api/v1/businesses/${wrongId}`)
         .send({
           token: `${userToken}`
         })
@@ -214,7 +214,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not delete business with invalid user id', (done) => {
       supertest(app)
-        .delete(`/api/v1/business/${businessId}`)
+        .delete(`/api/v1/businesses/${businessId}`)
         .send({
           token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVJbiI6eyJleHAiOjE1MjE1MDUxOTR9LCJjdXJyZW50VXNlciI6eyJpZCI6MywiZnVsbG5hbWUiOiJ0ZXN0IHVzZXIiLCJ1c2VybmFtZSI6IkZpZGVsaXMiLCJlbWFpbCI6InRlc3RpbmcyQGV4YW1wbGUuY29tIiwiYWN0aXZlIjpudWxsfSwiaWF0IjoxNTIxNTAxNTk0fQ.aXsILPoa3xHNHLPuiIxYnD-ksMHcZ55PEBDjyJRS4gE',
         })
@@ -229,7 +229,7 @@ describe('WEconnect API: ', () => {
     });
     it('should increment views for Business ', (done) => {
       supertest(app)
-        .get(`/api/v1/business/${businessId}/views`)
+        .get(`/api/v1/businesses/${businessId}/views`)
         .send({
           token: `${userToken}`
         })
@@ -244,7 +244,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not increment views for Business not seen ', (done) => {
       supertest(app)
-        .get(`/api/v1/business/${wrongId}/views`)
+        .get(`/api/v1/businesses/${wrongId}/views`)
         .send({
           token: `${userToken}`
         })
@@ -259,7 +259,7 @@ describe('WEconnect API: ', () => {
     });
     it('should delete user Business ', (done) => {
       supertest(app)
-        .delete(`/api/v1/business/${businessId}`)
+        .delete(`/api/v1/businesses/${businessId}`)
         .send({
           token: `${userToken}`
         })
@@ -274,7 +274,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not get all Businesses ', (done) => {
       supertest(app)
-        .get('/api/v1/business/')
+        .get('/api/v1/businesses/')
         .send({
           token: `${userToken}`
         })
@@ -289,7 +289,7 @@ describe('WEconnect API: ', () => {
     });
     it('should not be able to get business', (done) => {
       supertest(app)
-        .get('/api/v1/business?pageNum=1')
+        .get('/api/v1/businesses?pageNum=1')
         .send({
           token: `${userToken}`
         })

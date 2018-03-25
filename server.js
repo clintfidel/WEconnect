@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 
 app.use('/api/v1/auth', UserRouter);
-app.use('/api/v1/business', BusinessRouter);
-app.use('/api/v1/business', ReviewRouter);
+app.use('/api/v1/businesses', BusinessRouter);
+app.use('/api/v1/businesses', ReviewRouter);
 
 
 app.get('/', (req, res) => {
