@@ -4,6 +4,18 @@ import database from '../models';
 const { Business, Review } = database;
 
 class ReviewController {
+
+  /**
+   * @description - User adds review to business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Post:/api/v1/business/:businessId/reviews
+   */
   static createReview(req, res) {
     const { id } = req.decoded.currentUser;
     Review

@@ -1,30 +1,11 @@
 import expect from 'expect';
 import supertest from 'supertest';
 import app from '../../server';
-import models from '../models';
 
 
 let token;
-const doBeforeAll = () => {
-  before((done) => {
-    models.Business.destroy({
-      cascade: true,
-      truncate: true,
-      restartIdentity: true
-    });
-    return done();
-  });
-};
 
-const doBeforeEach = () => {
-  beforeEach((done) => {
-    models.sequelize.sync();
-    done();
-  });
-};
 describe('WEconnect API: ', () => {
-  doBeforeAll();
-  doBeforeEach();
   describe('User validations: ', () => {
     it('should not create a User with username less than 5 characters long', (done) => {
       supertest(app)

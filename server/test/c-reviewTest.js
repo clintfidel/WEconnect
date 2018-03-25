@@ -1,7 +1,6 @@
 import expect from 'expect';
 import supertest from 'supertest';
 import app from '../../server';
-import models from '../models';
 
 let token;
 let businessId;
@@ -9,27 +8,7 @@ let businessId2;
 
 const wrongId = Number(10);
 
-const doBeforeAll = () => {
-  before((done) => {
-    models.Review.destroy({
-      cascade: true,
-      truncate: true,
-      restartIdentity: true
-    });
-    return done();
-  });
-};
-
-
-const doBeforeEach = () => {
-  beforeEach((done) => {
-    models.sequelize.sync();
-    done();
-  });
-};
 describe('Review: ', () => {
-  doBeforeAll();
-  doBeforeEach();
   it('should log existing user in  ', (done) => {
     supertest(app)
       .post('/api/v1/auth/login')

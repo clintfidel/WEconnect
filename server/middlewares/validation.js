@@ -402,6 +402,7 @@ export const verifyBusinessIdExist = (req, res, next) => {
     })
     .catch(error => res.status(404).send(error.errors));
 };
+
 /**
      * @description - checks review invalid deails
      *

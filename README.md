@@ -1,6 +1,6 @@
 # WEconnect
 
-[![Build Status](https://travis-ci.org/clintfidel/WEconnect.svg?branch=chore%2F155682421%2Fserverside-environmental-setup)](https://travis-ci.org/clintfidel/WEconnect)
+[![Build Status](https://travis-ci.org/clintfidel/WEconnect.svg?branch=develop)](https://travis-ci.org/clintfidel/WEconnect)
 [![Maintainability](https://api.codeclimate.com/v1/badges/cf420ada97a0e205e2b4/maintainability)](https://codeclimate.com/github/clintfidel/WEconnect/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/cf420ada97a0e205e2b4/test_coverage)](https://codeclimate.com/github/clintfidel/WEconnect/test_coverage)
 [![Coverage Status](https://coveralls.io/repos/github/clintfidel/WEconnect/badge.svg?branch=develop)](https://coveralls.io/github/clintfidel/WEconnect?branch=develop)
@@ -14,15 +14,10 @@ WeConnect provides a platform that brings businesses and individuals together. T
   <a href="#Technologies Used">Technologies Used</a> •
   <a href="#Installation">How to Use</a> •
   <a href="#Tests">How to test</a> •
- <a href="#Coding Style">code style</a> •
- <a href="#How to Contribute">How to Contribute</a> •
- <a href="#Author">Meet me!</a> •
- <a href="#License">License</a> •
-
-
-
-
-
+  <a href="#Coding Style">code style</a> •
+  <a href="#How to Contribute">How to Contribute</a> •
+  <a href="#Author">Meet me!</a> •
+  <a href="#License">License</a> •
 
 </p>
 

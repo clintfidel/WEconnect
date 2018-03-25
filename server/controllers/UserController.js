@@ -142,32 +142,6 @@ class UserController {
         message: 'internal server error'
       }));
   }
-
-  /**
-   * @description - Gets all users in database
-   *
-   * @param  {object} req - request object
-   *
-   * @param  {object} res - response object
-   *
-   * @return {Object} - Object containing a list of all users
-   *
-   * Route: POST: /users/signup
-   */
-  static getAllUsers(req, res) {
-    User.findAll({})
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({
-            message: 'no user found'
-          });
-        }
-        return res.status(200).send(user);
-      })
-      .catch(() => res.status(500).json({
-        message: 'Internal server Error!'
-      }));
-  }
 }
 
 export default UserController;

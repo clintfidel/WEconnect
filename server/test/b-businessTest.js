@@ -1,33 +1,11 @@
 import expect from 'expect';
-import supertest from 'supertest';
-import models from '../models';
+import supertest from 'supertest'
 import app from '../../server';
 
-
-const doBeforeAll = () => {
-  before((done) => {
-    models.Business.destroy({
-      cascade: true,
-      truncate: true,
-      restartIdentity: true
-    });
-    return done();
-  });
-};
-
-
-const doBeforeEach = () => {
-  beforeEach((done) => {
-    models.sequelize.sync();
-    done();
-  });
-};
 let userToken;
 let businessId;
 const wrongId = parseInt('7', 10);
 describe('WEconnect API: ', () => {
-  doBeforeAll();
-  doBeforeEach();
   describe('Business: ', () => {
     it('should log existing user in  ', (done) => {
       supertest(app)
@@ -127,10 +105,41 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body.status).toBe('Success');
-          expect(res);
+          expect(res.body);
           done();
         });
     });
+    it('should be able to get business by page', (done) => {
+      supertest(app)
+        .get('/api/v1/business?pageNum=1')
+        .send({
+          token: `${userToken}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body);
+          done();
+        });
+    });
+    it('should not be able to get business', (done) => {
+      supertest(app)
+        .get('/api/v1/business?pageNum=2')
+        .send({
+          token: `${userToken}`
+        })
+        .expect(404)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+
+          expect(res.body.message).toBe('Sorry no business found for this page');
+          done();
+        });
+      });
     it('should not update business with invalid business id', (done) => {
       supertest(app)
         .put(`/api/v1/business/${wrongId}`)
@@ -263,7 +272,7 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should get all Businesses ', (done) => {
+    it('should not get all Businesses ', (done) => {
       supertest(app)
         .get('/api/v1/business/')
         .send({
@@ -278,23 +287,19 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should create new Business profile', (done) => {
+    it('should not be able to get business', (done) => {
       supertest(app)
-        .post('/api/v1/business')
+        .get('/api/v1/business?pageNum=1')
         .send({
-          name: 'Another testing',
-          details: 'test user',
-          location: 'Lagos',
-          categoryId: 2,
           token: `${userToken}`
         })
-        .expect(201)
+        .expect(404)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          businessId = Number(res.body.businessProfile.id);
-          expect(res.body.message).toBe('Business created successfully');
+
+          expect(res.body.message).toBe('No Business found');
           done();
         });
     });
