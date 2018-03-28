@@ -227,36 +227,6 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should increment views for Business ', (done) => {
-      supertest(app)
-        .get(`/api/v1/businesses/${businessId}/views`)
-        .send({
-          token: `${userToken}`
-        })
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.message).toBe('you have successfully viewed this business');
-          done();
-        });
-    });
-    it('should not increment views for Business not seen ', (done) => {
-      supertest(app)
-        .get(`/api/v1/businesses/${wrongId}/views`)
-        .send({
-          token: `${userToken}`
-        })
-        .expect(404)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.message).toBe('no business found');
-          done();
-        });
-    });
     it('should delete user Business ', (done) => {
       supertest(app)
         .delete(`/api/v1/businesses/${businessId}`)

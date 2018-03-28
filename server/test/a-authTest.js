@@ -8,7 +8,7 @@ describe('WEconnect API: ', () => {
   describe('user Authentication: ', () => {
     it('Should return 200 for the default route', (done) => {
       supertest(app)
-        .get('/')
+        .get('/api/v1')
         .end((err, res) => {
           expect(res.status).toEqual(200);
           done();

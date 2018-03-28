@@ -49,7 +49,7 @@ describe('WEconnect API: ', () => {
         .post('/api/v1/auth/signup')
         .send({
           fullname: 'test',
-          username: 'test again',
+          username: 'testagain',
           password: 'clint2018',
           email: ''
         })
@@ -67,7 +67,7 @@ describe('WEconnect API: ', () => {
         .post('/api/v1/auth/signup')
         .send({
           fullname: 'test',
-          username: ' test again',
+          username: 'testagain',
           password: 'clint2018',
           email: 'test1@'
         })
@@ -85,7 +85,7 @@ describe('WEconnect API: ', () => {
         .post('/api/v1/auth/signup')
         .send({
           fullname: 'test',
-          username: 'test me',
+          username: 'testme',
           password: '',
           email: 'test1@gmail.com'
         })
@@ -103,7 +103,7 @@ describe('WEconnect API: ', () => {
         .post('/api/v1/auth/signup')
         .send({
           fullname: 'test',
-          username: 'test me',
+          username: 'testme',
           password: 'clint',
           email: 'test1@gmail.com'
         })
@@ -149,7 +149,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Invalid Password! Pls check details');
+          expect(res.body.message).toBe('Invalid Password! Pls check that password first character is a letter or password does not contain or start with a space');
           done();
         });
     });
