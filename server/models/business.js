@@ -54,9 +54,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       hooks: true,
     });
-    // Business.hasMany(models.Rate, {
-    //   foreignKey: 'businessId'
-    // });
   };
   return Business;
 };
