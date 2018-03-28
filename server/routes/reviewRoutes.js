@@ -12,8 +12,8 @@ const { createReview, getAllReviews } = review;
 const reviewRouter = express.Router();
 reviewRouter.route('/:businessId/reviews')
   .post(
-    isLoggedIn, checkReviewsInput, verifyUserIdExist,
-    verifyBusinessIdExist, checkReviewInvalidDetails,
+    isLoggedIn, checkReviewInvalidDetails, checkReviewsInput, verifyUserIdExist,
+    verifyBusinessIdExist,
     checkValidIdParams, createReview
   )
   .get(isLoggedIn, verifyUserIdExist, getAllReviews);

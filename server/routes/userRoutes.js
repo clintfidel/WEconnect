@@ -13,8 +13,8 @@ const userRouter = express.Router();
 
 userRouter.route('/signup')
   .post(
-    checkUserInput, emailExist,
-    usernameExist, checkUserInvalidDetails, signUp
+    checkUserInvalidDetails, checkUserInput, emailExist,
+    usernameExist, signUp
   );
 
 userRouter.route('/login')
@@ -23,9 +23,9 @@ userRouter.route('/login')
 
 userRouter.route('/editprofile')
   .put(
-    isLoggedIn, emailExist, verifyUserIdExist,
+    isLoggedIn, checkUserInvalidDetails, emailExist, verifyUserIdExist,
     usernameExist,
-    checkUserInvalidDetails, checkUserInput, editProfile
+    checkUserInput, editProfile
   );
 
 export default userRouter;
