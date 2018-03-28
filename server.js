@@ -14,7 +14,7 @@ const app = express();
 if (process.env.NODE_ENV !== 'production') {
   app.use(webpackMiddleware(webpack(webpackConfig)));
 }
-// app.use(express.static('./client/public'));
+app.use(express.static(path.join(__dirname, './client/public/images')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
