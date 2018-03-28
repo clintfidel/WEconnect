@@ -44,8 +44,8 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loaders: ['file-loader?name=/assets/img/[name].[ext]', {
-          loader: 'image-webpack-loader',
+        loaders: ['file-loader?name=/public/images/[name].[ext]', {
+          loader: 'url-loader',
           query: {
             mozjpeg: {
               progressive: true,

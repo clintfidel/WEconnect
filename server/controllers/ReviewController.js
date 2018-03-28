@@ -4,7 +4,6 @@ import database from '../models';
 const { Business, Review } = database;
 
 class ReviewController {
-
   /**
    * @description - User adds review to business
    *
