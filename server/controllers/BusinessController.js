@@ -228,50 +228,25 @@ class BusinessController {
     Business
       .findById(parseInt(req.params.businessId, 10))
       .then((business) => {
-        res.status(200).json({
-          message: 'Business found!',
-          Business: business
-        });
-      })
-      .catch(() => res.status(500).send('Internal sever Error'));
-  }
-
-  /**
-   * @description - User view business
-   *
-   * @param  {object} req - request
-   *
-   * @param  {object} res - response
-   *
-   * @return {Object} - Success message
-   *
-   * ROUTE: POST: /view/:businessId
-   */
-  static viewBusiness(req, res) {
-    Business
-      .findOne({
-        where: {
-          id: req.params.businessId
-        }
-      })
-      .then((views) => {
-        if (!views) {
+        if (!business) {
           return res.status(404).json({
             message: 'no business found'
           });
         }
-        views.increment('views')
-          .then(() => views.reload());
+        business.increment('views')
+          .then(() => business.reload());
         return res.status(200).json({
-          message: 'you have successfully viewed this business',
-          views: {
-            businessName: views.name,
-            businessLocation: views.location,
-            businessCategory: views.categoryId,
-            views: views.views + 1
+          message: 'Business found!',
+          business: {
+            businessId: business.id,
+            businessName: business.name,
+            businessLocation: business.location,
+            businessCategory: business.categoryId,
+            views: business.views + 1
           }
         });
-      });
+      })
+      .catch(() => res.status(500).send('Internal sever Error'));
   }
 }
 

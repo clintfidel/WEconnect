@@ -18,33 +18,24 @@ class ReviewController {
   static createReview(req, res) {
     const { id } = req.decoded.currentUser;
     Review
-      .findOne({
-        where: {
-          businessId: req.params.businessId,
-          userId: id
-        }
-      })
-      .then(() => {
-        Review
-          .create(req.reviewInput)
-          .then((createReview) => {
-            createReview.reload({
-              include: [{
-                model: database.User,
-                attributes: ['username']
-              }]
-            })
-              .then((review) => {
-                const { businessId, comments } = review;
-                res.status(201).json({
-                  message: 'You have successfully reviewed this business',
-                  Review: {
-                    userId: id,
-                    businessId,
-                    comments
-                  }
-                });
-              });
+      .create(req.reviewInput)
+      .then((createReview) => {
+        createReview.reload({
+          include: [{
+            model: database.User,
+            attributes: ['username']
+          }]
+        })
+          .then((review) => {
+            const { businessId, comments } = review;
+            res.status(201).json({
+              message: 'You have successfully reviewed this business',
+              Review: {
+                userId: id,
+                businessId,
+                comments
+              }
+            });
           })
           .catch(() =>
             res.status(500).send('Internal server error'));

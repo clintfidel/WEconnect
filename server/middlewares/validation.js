@@ -262,8 +262,8 @@ export const businessNameExist = (req, res, next) => {
         name: req.body.name
       }
     })
-    .then((user) => {
-      if (user) {
+    .then((business) => {
+      if (business) {
         return res.status(409).json({
           message: 'Business name already exist'
         });
@@ -289,8 +289,8 @@ export const emailExist = (req, res, next) => {
         email: req.body.email
       }
     })
-    .then((user) => {
-      if (user) {
+    .then((email) => {
+      if (email) {
         return res.status(409).json({
           message: 'email already exist'
         });
@@ -314,25 +314,26 @@ export const emailExist = (req, res, next) => {
 export const checkUserInvalidDetails = (req, res, next) => {
   const { username, fullname, password } = req.body;
   if (checkDigits.test(username[0]) || checkSpace.test(username) ||
-  checkFirstChar.test(username[0])) {
+  checkFirstChar.test(username[0]) || typeof username !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid Username! Pls check details'
     });
   }
   if (checkDigits.test(fullname) || checkMultiSpace.test(fullname)
-  || checkFirstChar.test(fullname[0])) {
+  || checkFirstChar.test(fullname[0]) || typeof fullname !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid fullname! Pls check details'
     });
   }
-  if (checkSpace.test(password) || checkFirstChar.test(password[0])) {
+  if (checkDigits.test(password[0]) || checkSpace.test(password) || checkFirstChar.test(password[0]) || typeof password !== 'string') {
     return res.status(406).json({
       status: false,
-      message: 'Invalid Password! Pls check details'
+      message: 'Invalid Password! Pls check that password first character is a letter or password does not contain or start with a space'
     });
   }
+
   next();
 };
 
@@ -349,20 +350,20 @@ export const checkUserInvalidDetails = (req, res, next) => {
      */
 export const checkBusinessInvalidDetails = (req, res, next) => {
   const { name, details, location } = req.body;
-  if (checkFirstChar.test(name[0])) {
+  if (checkFirstChar.test(name[0]) || typeof name !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid character in Business Name! Pls check details'
     });
   }
   if (checkMultiSpace.test(details)
-      || checkFirstChar.test(details[0])) {
+      || checkFirstChar.test(details[0]) || typeof details !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid character in Business Details! Pls check details'
     });
   }
-  if (checkFirstChar.test(location[0])) {
+  if (checkFirstChar.test(location[0]) || typeof location !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid character in Business Location! Pls check details'
@@ -416,7 +417,7 @@ export const verifyBusinessIdExist = (req, res, next) => {
      */
 export const checkReviewInvalidDetails = (req, res, next) => {
   const { comments } = req.body;
-  if (checkFirstChar.test(comments[0])) {
+  if (checkFirstChar.test(comments[0]) || typeof comments !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid character in comments! Pls check details'
@@ -529,7 +530,6 @@ export const checkCategoryId = (req, res, next) => {
           message: 'No category with that Id found! pls select from 1-7'
         });
       }
-
       return next();
     });
 };

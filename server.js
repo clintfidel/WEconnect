@@ -24,9 +24,10 @@ app.use('/api/v1/businesses', BusinessRouter);
 app.use('/api/v1/businesses', ReviewRouter);
 
 
-app.get('/', (req, res) => {
+app.get('/api/v1', (req, res) => {
   res.status(200).send('Welcome to WEconnect Api');
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './client/index.html'));
