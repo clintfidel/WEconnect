@@ -54,40 +54,38 @@ class BusinessController {
    */
 
   static updateBusiness(req, res) {
-    const { id } = req.decoded.currentUser;
+    const {
+      name, details, location, categoryId
+    } = req.body;
     Business
-      .findById(req.params.businessId)
-      .then(() => {
-        const omitValue = omit(req.businessInput, ['views', 'userId']);
-        Business
-          .update(omitValue, {
-            where: {
-              id: req.params.businessId
-            },
-            include: [{
-              model: database.Category,
-              attributes: ['category']
-            }],
-            returning: true,
-            plain: true
-          })
-          .then((business) => {
-            res.status(200).json({
-              status: 'success',
-              message: 'Business successfully edited',
-              data: {
-                name: business[1].dataValues.name,
-                details: business[1].dataValues.details,
-                location: business[1].dataValues.location,
-                categoryId: business[1].dataValues.categoryId,
-                userId: id
-              }
-            });
-          })
-          .catch(() => res.status(500).json({
-            message: 'Internal server error'
-          }));
-      });
+      .findOne({
+        where: {
+          id: req.params.businessId
+        }
+      })
+      .then(editBusiness => editBusiness
+        .update({
+          name: name || editBusiness.name,
+          details: details || editBusiness.details,
+          location: location || editBusiness.location,
+          categoryId: categoryId || editBusiness.categoryId
+        })
+        .then((business) => {
+          res.status(200).json({
+            status: 'success',
+            message: 'Business successfully edited',
+            data: {
+              name: business.name,
+              details: business.details,
+              location: business.location,
+              categoryId: business.categoryId,
+            }
+          });
+        }))
+
+      .catch(() => res.status(500).json({
+        message: 'Internal server error'
+      }));
   }
 
   /**
