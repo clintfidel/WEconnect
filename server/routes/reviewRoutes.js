@@ -12,7 +12,7 @@ const { createReview, getAllReviews } = review;
 const reviewRouter = express.Router();
 reviewRouter.route('/:businessId/reviews')
   .post(
-    isLoggedIn, checkReviewInvalidDetails, checkReviewsInput, verifyUserIdExist,
+    isLoggedIn, checkReviewsInput, checkReviewInvalidDetails, verifyUserIdExist,
     verifyBusinessIdExist,
     checkValidIdParams, createReview
   )

@@ -17,7 +17,7 @@ const businessRouter = express.Router();
 
 businessRouter.route('/')
   .post(
-    isLoggedIn, checkBusinessInvalidDetails, checkBusinessInput, verifyUserIdExist,
+    isLoggedIn, checkBusinessInput, checkBusinessInvalidDetails, verifyUserIdExist,
     checkCategoryId, businessNameExist,
     addBusiness
   )
@@ -25,9 +25,9 @@ businessRouter.route('/')
 
 businessRouter.route('/:businessId')
   .put(
-    isLoggedIn, checkBusinessInvalidDetails, checkBusinessInput, verifyUserIdExist,
+    isLoggedIn, checkBusinessInvalidDetails, verifyUserIdExist,
     verifyBusinessIdExist,
-    validateEditUserId, checkInvalidUser, businessNameExist,
+    validateEditUserId, checkCategoryId, checkInvalidUser, businessNameExist,
     checkValidIdParams, updateBusiness
   )
   .delete(

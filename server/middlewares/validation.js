@@ -63,7 +63,7 @@ export const checkUserInput = (req, res, next) => {
       });
     });
     return res.status(409)
-      .json(allErrors);
+      .json(allErrors[0]);
   }
 
   const { username, fullname, email } = req.body;
@@ -89,7 +89,7 @@ export const checkUserInput = (req, res, next) => {
    * @return {object} - status code and error message
    */
 export const checkBusinessInput = (req, res, next) => {
-  const businessNameError = 'Please provide a username with atleast 5 characters.';
+  const businessNameError = 'Please provide a Business name with atleast 5 characters.';
   req.checkBody({
     name: {
       notEmpty: true,
@@ -109,7 +109,7 @@ export const checkBusinessInput = (req, res, next) => {
     },
     location: {
       notEmpty: true,
-      errorMessage: 'Your Fullname is required'
+      errorMessage: 'Your location is required'
     },
     categoryId: {
       notEmpty: true,
@@ -128,7 +128,7 @@ export const checkBusinessInput = (req, res, next) => {
       });
     });
     return res.status(409)
-      .json(allErrors);
+      .json(allErrors[0]);
   }
   const {
     name, details, location, categoryId
@@ -178,7 +178,7 @@ export const checkReviewsInput = (req, res, next) => {
     });
 
     return res.status(409)
-      .json(allErrors);
+      .json(allErrors[0]);
   }
 
   const { id } = req.decoded.currentUser;
@@ -301,36 +301,47 @@ export const emailExist = (req, res, next) => {
 
 
 /**
-     * @description - checks user invalid deails
-     *
-     * @param  {Object} req - request
-     *
-     * @param  {object} res - response
-     *
-     * @param {Object} next - Call back function
-     *
-     * @return {object} - status code and error message
-     */
+ * @description - checks user invalid details
+ *
+ * @param  {Object} req - request
+ *
+ * @param  {object} res - response
+ *
+ * @param {Object} next - Call back function
+ *
+ * @return {object} - status code and error message
+ */
 export const checkUserInvalidDetails = (req, res, next) => {
   const { username, fullname, password } = req.body;
+  if (!username) { return next(); }
   if (checkDigits.test(username[0]) || checkSpace.test(username) ||
   checkFirstChar.test(username[0]) || typeof username !== 'string') {
     return res.status(406).json({
       status: false,
-      message: 'Invalid Username! Pls check details'
+      message: 'Invalid Username!'
+    });
+  } else if (username.length < 5) {
+    return res.status(406).json({
+      status: false,
+      message: 'Please provide a Business name with atleast 5 characters.'
     });
   }
+  if (!fullname) { return next(); }
   if (checkDigits.test(fullname) || checkMultiSpace.test(fullname)
   || checkFirstChar.test(fullname[0]) || typeof fullname !== 'string') {
     return res.status(406).json({
       status: false,
-      message: 'Invalid fullname! Pls check details'
+      message: 'Invalid fullname!'
     });
   }
-  if (checkDigits.test(password[0]) || checkSpace.test(password) || checkFirstChar.test(password[0]) || typeof password !== 'string') {
+  if (!password) { return next(); }
+  if (checkDigits.test(password[0]) ||
+        checkSpace.test(password) ||
+        checkFirstChar.test(password[0]) ||
+        typeof password !== 'string') {
     return res.status(406).json({
       status: false,
-      message: 'Invalid Password! Pls check that password first character is a letter or password does not contain or start with a space'
+      message: 'Invalid password!'
     });
   }
 
@@ -350,23 +361,31 @@ export const checkUserInvalidDetails = (req, res, next) => {
      */
 export const checkBusinessInvalidDetails = (req, res, next) => {
   const { name, details, location } = req.body;
+  if (!name) { return next(); }
   if (checkFirstChar.test(name[0]) || typeof name !== 'string') {
     return res.status(406).json({
       status: false,
-      message: 'Invalid character in Business Name! Pls check details'
+      message: 'Invalid character in Business Name!'
+    });
+  } else if (name.length < 5) {
+    return res.status(406).json({
+      status: false,
+      message: 'Please provide a Business name with atleast 5 characters.'
     });
   }
+  if (!details) { return next(); }
   if (checkMultiSpace.test(details)
       || checkFirstChar.test(details[0]) || typeof details !== 'string') {
     return res.status(406).json({
       status: false,
-      message: 'Invalid character in Business Details! Pls check details'
+      message: 'Invalid character in Business Details!'
     });
   }
+  if (!location) { return next(); }
   if (checkFirstChar.test(location[0]) || typeof location !== 'string') {
     return res.status(406).json({
       status: false,
-      message: 'Invalid character in Business Location! Pls check details'
+      message: 'Invalid character in Business Location!'
     });
   }
   next();
@@ -384,7 +403,7 @@ export const checkBusinessInvalidDetails = (req, res, next) => {
    * @return {object} - status code and error message
    */
 export const verifyBusinessIdExist = (req, res, next) => {
-  if (req.params.businessId.match(/^[0-9]/) === null
+  if (!req.params.businessId.match(/^[0-9]/)
     || !req.params.businessId) {
     return res.status(400).json({
       status: false,
@@ -520,7 +539,14 @@ export const verifyUserIdExist = (req, res, next) => {
      */
 
 export const checkCategoryId = (req, res, next) => {
-  const categoryId = Number(req.body.categoryId);
+  const { categoryId } = req.body;
+  if (!categoryId) next();
+  if (!categoryId.match(/^[0-9]/)) {
+    return res.status(406).json({
+      status: false,
+      message: 'categoryId should be a numeric value'
+    });
+  }
   Category
     .findById(categoryId)
     .then((category) => {

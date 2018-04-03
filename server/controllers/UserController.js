@@ -114,32 +114,34 @@ class UserController {
    */
   static editProfile(req, res) {
     const { id } = req.decoded.currentUser;
+    const password = bcrypt.hashSync(req.body.password, 10);
+    const {
+      username, fullname, email
+    } = req.body;
     User
       .findOne({
         where: { id }
       })
-      .then((edit) => {
-        const currentUser =
-        omit(req.userInput, ['password', 'createdAt']);
-        edit
-          .update(currentUser);
-        const token = jwt.sign(
-          {
-            currentUser,
-            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
-          },
-          process.env.secretKey
-        );
-        return res.status(200).json({
-          message: 'profile edited successfully!!!',
-          newProfile: {
-            token,
-            userId: edit.id
-          }
-        });
-      })
+      .then(editProfile =>
+        editProfile
+          .update({
+            username: username || editProfile.username,
+            password: password || editProfile.password,
+            fullname: fullname || editProfile.fullname,
+            email: email || editProfile.email
+          }))
+      .then(result => res.status(200).json({
+        status: 'success',
+        message: 'Profile updated successfully',
+        updatedProfile: {
+          userId: result.id,
+          fullname: result.fullname,
+          username: result.username,
+          email: result.email
+        }
+      }))
       .catch(() => res.status(500).json({
-        message: 'internal server error'
+        message: 'Internal server error'
       }));
   }
 }
