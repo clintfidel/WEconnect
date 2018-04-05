@@ -205,7 +205,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('profile edited successfully!!!');
+          expect(res.body.message).toBe('Profile updated successfully');
           done();
         });
     });
