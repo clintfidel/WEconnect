@@ -9,8 +9,8 @@ import Routes from './routes/index';
 const store = configureStore();
 
 render(
-    <Provider store={store}>
+  <Provider store={store}>
     <Routes/>
-    </Provider>,
-    document.getElementById('app')
-  );
+  </Provider>,
+  document.getElementById('app')
+);
