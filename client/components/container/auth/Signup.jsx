@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import checkUserInput from '../../../utils/validation';
@@ -34,6 +34,7 @@ class Signup extends Component {
       fullnameError: '',
       passwordError: '',
       passwordConfirmError: '',
+      redirectUser: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -141,7 +142,6 @@ class Signup extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    console.log('=====> I got here');
     const { username, fullname, password } = this.state;
     if (checkUserInput(username, fullname, password)) {
       toastrOption();
@@ -151,6 +151,9 @@ class Signup extends Component {
       .then((message) => {
         toastrOption();
         toastr.success('You have signed up successfully');
+        setTimeout(() => {
+          this.setState({ redirectUser: true });
+        }, 3000);
       })
       .catch(message => {
         toastrOption();
@@ -165,94 +168,101 @@ class Signup extends Component {
    *
    */
   render() {
+    if (localStorage.token) {
+      this.props.history.push('/all-business');
+    }
     return (
-      <div>
-        <div className="login-body">
-          <main className="login-container">
-            <div className="my-logo">
-              <Link to="/">
-                <img src="/logo.png" alt=" WEconnect" />
-              </Link>
-            </div>
-            <div className="input-box">
-              <form
-                action="#"
-                method="post"
-                role="form"
-                onSubmit={this.onSubmit}>
+      this.state.redirectUser ?
+        <Redirect to= "/all-business"/> :
+        <div>
+          <div className="login-body">
+            <main className="login-container">
+              <div className="my-logo">
+                <Link to="/">
+                  <img src="/logo.png" alt=" WEconnect" />
+                </Link>
+              </div>
+              <div className="input-box">
+                <form
+                  action="#"
+                  method="post"
+                  role="form"
+                  onSubmit={this.onSubmit}>
 
-                <input type="text"
-                  onChange={this.onChange}
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  name="fullname"
-                  placeholder="Fullname"
-                  required />
-                <div style={{ color: 'red' }}>
-                  {this.state.fullnameError}
-                </div>
-                <input type="text"
-                  onChange={this.onChange}
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  name="username"
-                  placeholder="username"
-                  required />
-                <div style={{ color: 'red' }}>
-                  {this.state.usernameError}
-                </div>
-                <input type="email"
-                  onChange={this.onChange}
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  name="email"
-                  placeholder="email"
-                  required />
-                <input type="password"
-                  onChange={this.onChange}
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  name="password"
-                  placeholder="password"
-                  required />
-                <div style={{ color: 'red' }}>
-                  {this.state.passwordError}
-                </div>
-                <input type="password"
-                  onChange={this.onChange}
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  name="passwordConfirm"
-                  placeholder="connfirm-password"
-                  required />
-                <div style={{ color: 'red' }}>
-                  {this.state.passwordConfirmError}
-                </div>
-                <button
-                  type="submit"
-                  name="submit"
-                >
+                  <input type="text"
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    name="fullname"
+                    placeholder="Fullname"
+                    required />
+                  <div style={{ color: 'red' }}>
+                    {this.state.fullnameError}
+                  </div>
+                  <input type="text"
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    name="username"
+                    placeholder="username"
+                    required />
+                  <div style={{ color: 'red' }}>
+                    {this.state.usernameError}
+                  </div>
+                  <input type="email"
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    name="email"
+                    placeholder="email"
+                    required />
+                  <input type="password"
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    name="password"
+                    placeholder="password"
+                    required />
+                  <div style={{ color: 'red' }}>
+                    {this.state.passwordError}
+                  </div>
+                  <input type="password"
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    name="passwordConfirm"
+                    placeholder="connfirm-password"
+                    required />
+                  <div style={{ color: 'red' }}>
+                    {this.state.passwordConfirmError}
+                  </div>
+                  <button
+                    type="submit"
+                    name="submit"
+                  >
                   Sign Up
 
-                </button>
-              </form>
-              <div className="create-account">
-                <p>
-                  <Link to="/login"> Registered Already? Log In
-                  <span>Here</span>
-                  </Link>
-                </p>
+                  </button>
+                </form>
+                <div className="create-account">
+                  <p>
+                    <Link to="/login"> Registered Already? Log In
+                    <span>Here</span>
+                    </Link>
+                  </p>
+                </div>
               </div>
-            </div>
-          </main>
+            </main>
+          </div>
         </div>
-      </div>
     );
   }
 }
 
 Signup.propTypes = {
-  registerAction: PropTypes.func.isRequired
+  registerAction: PropTypes.func.isRequired,
+  history: PropTypes.object
+
 };
 
 export default connect(null, { registerAction })(Signup);
