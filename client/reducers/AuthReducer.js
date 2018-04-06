@@ -15,7 +15,7 @@ const initialState = {
  *
  * @returns {Object} - Object containing new state
  */
-function AuthReducer(state = initialState, action) {
+const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
   case SET_CURRENT_USER:
     return { ...state, user: action.user, authenticated: action.authenticated };
@@ -23,5 +23,5 @@ function AuthReducer(state = initialState, action) {
   default:
     return state;
   }
-}
+};
 export default AuthReducer;
