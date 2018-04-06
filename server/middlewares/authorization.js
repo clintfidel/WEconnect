@@ -16,13 +16,10 @@ const key = process.env.secretKey;
    * @return {null} - null
    */
 const isLoggedIn = (req, res, next) => {
-  let token;
-  const tokenAvailable = req.headers.authorization ||
+  let token = req.headers.authorization ||
   req.body.token || req.query.token || req.headers['x-access-token'];
   if (req.headers.authorization) {
-    [token] = req.headers.authorization.split(' ');
-  } else {
-    token = tokenAvailable;
+    [, token] = req.headers.authorization.split(' ');
   }
   if (token) {
     jwt.verify(token, key, (error, decoded) => {
