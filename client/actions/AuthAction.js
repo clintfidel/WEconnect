@@ -26,19 +26,18 @@ export const registerAction = userDetails => dispatch => axios
     localStorage.setItem('token', token);
     const currentUser = jwtDecode(token);
     dispatch(setCurrentUser(currentUser));
-    console.log(currentUser);
+    return response.data.message;
   })
   .catch(error => Promise.reject(error.response.data.message));
 
 export const loginAction = userDetails => dispatch => axios
   .post('/api/v1/auth/login', userDetails)
   .then((response) => {
-    console.log(response);
     const { token } = response.data.data;
     setAuthorization(token);
     localStorage.setItem('token', token);
     const currentUser = jwtDecode(token);
     dispatch(setCurrentUser(currentUser));
-    console.log(currentUser);
+    return response.data.message;
   })
   .catch(error => Promise.reject(error.response.data.message));

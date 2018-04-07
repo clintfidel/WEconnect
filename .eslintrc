@@ -15,6 +15,10 @@
       }
     }
   },
+  "globals" : {
+    "toastr": true,
+    "localStorage": true
+  },
   "rules": {
     "indent": ["error", 2],
     "max-len": [2, {"code": 80}],

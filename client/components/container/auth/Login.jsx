@@ -40,10 +40,8 @@ class Login extends Component {
    * @return {void}
    */
   onChange(event) {
-    const { name } = event.target;
-    const { value } = event.target;
     this.setState({
-      [name]: value
+      [event.target.name]: event.target.value
     });
   }
 
@@ -57,7 +55,7 @@ class Login extends Component {
   onSubmit(event) {
     event.preventDefault();
     this.props.loginAction(this.state)
-      .then((message) => {
+      .then(() => {
         toastrOption();
         toastr.success('Welcome Back!');
         setTimeout(() => {

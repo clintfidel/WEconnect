@@ -1,8 +1,13 @@
-import { GET_ALL_BUSINESSES } from '../actions/types';
+import {
+  GET_ALL_BUSINESSES,
+  ADD_BUSINESS,
+  GET_ALL_CATEGORY
+} from '../actions/types';
 
 const initialState = {
   message: '',
-  businesses: []
+  business: [],
+  categories: []
 };
 
 /**
@@ -17,8 +22,11 @@ const initialState = {
 const BuisnessReducer = (state = initialState, action) => {
   switch (action.type) {
   case GET_ALL_BUSINESSES:
-    return { ...state, businesses: action.business };
-
+    return { ...state, business: action.businesses };
+  case GET_ALL_CATEGORY:
+    return { ...state, categories: action.categories };
+  case ADD_BUSINESS:
+    return { ...state, business: [...state.business, action.userBusiness] };
   default:
     return state;
   }

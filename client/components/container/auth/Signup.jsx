@@ -50,10 +50,8 @@ class Signup extends Component {
    * @return {void}
    */
   onChange(event) {
-    const { name } = event.target;
-    const { value } = event.target;
     this.setState({
-      [name]: value
+      [event.target.name]: event.target.value
     });
   }
 
@@ -150,7 +148,7 @@ class Signup extends Component {
     this.props.registerAction(this.state)
       .then((message) => {
         toastrOption();
-        toastr.success('You have signed up successfully');
+        toastr.success(message);
         setTimeout(() => {
           this.setState({ redirectUser: true });
         }, 3000);

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ALL_BUSINESSES } from './types';
+import { GET_ALL_BUSINESSES, ADD_BUSINESS, GET_ALL_CATEGORY } from './types';
 
 /**
  * @description Request to the API to get user recipes
@@ -7,14 +7,34 @@ import { GET_ALL_BUSINESSES } from './types';
  *
  * @return {object} dispatch object
  */
-const getAllBusiness = () => (dispatch) =>
+export const getAllBusinessAction = () => (dispatch) =>
   axios.get('api/v1/businesses')
     .then((response) => {
       dispatch({
         type: GET_ALL_BUSINESSES,
-        business: response.data.Businesses
+        businesses: response.data.Businesses
       });
     })
-    .catch((error) => Promise.reject(error.response.data.message));
+    .catch(error => Promise.reject(error.response.data.message));
 
-export default getAllBusiness;
+export const getAllCategoryAction = () => (dispatch) =>
+  axios.get('api/v1/businesses/category')
+    .then((response) => {
+      dispatch({
+        type: GET_ALL_CATEGORY,
+        categories: response.data.Categories
+      });
+    })
+    .catch(error => Promise.reject(error.response.data.message));
+
+export const addBusinessAction = (addBusiness) => (dispatch) =>
+  axios.post('api/v1/businesses', addBusiness)
+    .then((response) => {
+      dispatch({
+        type: ADD_BUSINESS,
+        userBusiness: response.data.businessProfile
+      });
+      return response.data.message;
+    })
+    .catch(error => Promise.reject(error.response.data.message));
+
