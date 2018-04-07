@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginAction } from '../../../actions/AuthAction';
@@ -24,7 +24,8 @@ class Login extends Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      redirectUser: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -59,6 +60,9 @@ class Login extends Component {
       .then((message) => {
         toastrOption();
         toastr.success('Welcome Back!');
+        setTimeout(() => {
+          this.setState({ redirectUser: true });
+        }, 3000);
       })
       .catch(message => {
         toastrOption();
@@ -72,57 +76,63 @@ class Login extends Component {
    *
    */
   render() {
+    if (localStorage.token) {
+      this.props.history.push('/all-business');
+    }
     return (
-      <div>
-        <div className="login-body">
-          <main className="login-container">
-            <div className="my-logo">
-              <Link to="/">
-                <img src="/logo.png" alt=" WEconnect"/>
-              </Link>
-            </div>
-            <div className="input-box">
-              <form
-                action="#"
-                method="post"
-                role="form"
-                onSubmit={this.onSubmit}>
-                <input type="text"
-                  onChange={this.onChange}
-                  name= "username"
-                  placeholder="username/email"
-                  required/>
-                <input type="password"
-                  onChange={this.onChange}
-                  name= "password"
-                  placeholder="password"
-                  required/>
-                <button
-                  type="submit"
-                  name="submit"
-                >
-                Login
-                </button>
-              </form>
-              <div className="create-account">
-                <p>
-                  <Link to="/signup">Don't have an account? create one
-                  <span>Here</span>
-                  </Link>
-
-                </p>
+      this.state.redirectUser ?
+        <Redirect to= "/all-business" /> :
+        <div>
+          <div className="login-body">
+            <main className="login-container">
+              <div className="my-logo">
+                <Link to="/">
+                  <img src="/logo.png" alt=" WEconnect"/>
+                </Link>
               </div>
-            </div>
-          </main>
+              <div className="input-box">
+                <form
+                  action="#"
+                  method="post"
+                  role="form"
+                  onSubmit={this.onSubmit}>
+                  <input type="text"
+                    onChange={this.onChange}
+                    name= "username"
+                    placeholder="username/email"
+                    required/>
+                  <input type="password"
+                    onChange={this.onChange}
+                    name= "password"
+                    placeholder="password"
+                    required/>
+                  <button
+                    type="submit"
+                    name="submit"
+                  >
+                Login
+                  </button>
+                </form>
+                <div className="create-account">
+                  <p>
+                    <Link to="/signup">Don't have an account? create one
+                    <span>Here</span>
+                    </Link>
 
+                  </p>
+                </div>
+              </div>
+            </main>
+
+          </div>
         </div>
-      </div>
     );
   }
 }
 
 Login.propTypes = {
-  loginAction: PropTypes.func.isRequired
+  loginAction: PropTypes.func.isRequired,
+  history: PropTypes.object
 };
 
 export default connect(null, { loginAction })(Login);

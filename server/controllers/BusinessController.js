@@ -3,9 +3,14 @@ import database from '../models';
 
 const {
   Business, Category
-}
-= database;
-
+} =
+database;
+/**
+ * @class BusinessController
+ *
+ * @classdesc Logs user in
+ *
+ */
 class BusinessController {
   /**
    * @description - User add a new business
@@ -18,7 +23,6 @@ class BusinessController {
    *
    * ROUTE: POST: /api/v1/business/
    */
-
   static addBusiness(req, res) {
     const omitValues = omit(req.businessInput, ['views']);
 
@@ -41,6 +45,7 @@ class BusinessController {
         message: 'Internal server error'
       }));
   }
+
   /**
    * @description - User updtaes his/her business
    *
@@ -52,7 +57,6 @@ class BusinessController {
    *
    * ROUTE: PUT: /api/v1/business/:businessId
    */
-
   static updateBusiness(req, res) {
     const {
       name, details, location, categoryId
@@ -99,7 +103,6 @@ class BusinessController {
    *
    * ROUTE: Delete: /api/v1/business/:businessId
    */
-
   static deleteBusiness(req, res) {
     Business
       .findById(req.params.businessId)
@@ -127,10 +130,11 @@ class BusinessController {
    *
    * @param  {object} res - response
    *
+   * @param  {function} next - calls next function
+   *
    * @return {Object} - Success message
    *
    */
-
   static getAllBusinessByPage(req, res, next) {
     const { pageNum } = req.query;
     if (pageNum) {
@@ -171,7 +175,9 @@ class BusinessController {
           } else if (pageNumber > pages) {
             return res.status(404).send({ message });
           }
-          return res.status(200).json({ business, count: business.count, pages });
+          return res.status(200).json({
+            business, count: business.count, pages
+          });
         })
         .catch(() => {
           res.status(500).send('Internal sever Error');
@@ -192,7 +198,6 @@ class BusinessController {
    *
    * ROUTE: Get:/api/v1/business/
    */
-
   static getAllBusinessess(req, res) {
     Business
       .findAll({})
@@ -221,7 +226,6 @@ class BusinessController {
    *
    * ROUTE: Get:/api/v1/business/
    */
-
   static getOneBusiness(req, res) {
     Business
       .findById(parseInt(req.params.businessId, 10))
