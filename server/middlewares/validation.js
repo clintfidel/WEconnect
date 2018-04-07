@@ -59,7 +59,7 @@ export const checkUserInput = (req, res, next) => {
     const allErrors = [];
     errors.forEach((error) => {
       allErrors.push({
-        error: error.msg
+        message: error.msg
       });
     });
     return res.status(409)
@@ -89,7 +89,8 @@ export const checkUserInput = (req, res, next) => {
    * @return {object} - status code and error message
    */
 export const checkBusinessInput = (req, res, next) => {
-  const businessNameError = 'Please provide a Business name with atleast 5 characters.';
+  const businessNameError =
+  'Please provide a Business name with atleast 5 characters.';
   req.checkBody({
     name: {
       notEmpty: true,
@@ -103,9 +104,11 @@ export const checkBusinessInput = (req, res, next) => {
       notEmpty: true,
       isLength: {
         options: [{ min: 5, max: 500 }],
-        errorMessage: 'characters should be more than 5 and not greater than 500'
+        errorMessage:
+         'characters should be more than 5 and not greater than 500'
       },
-      errorMessage: 'Provide give a detailed info of your business not more than 500 characters'
+      errorMessage:
+       'Provide a detailed info of your business not more than 500 characters'
     },
     location: {
       notEmpty: true,
@@ -116,7 +119,7 @@ export const checkBusinessInput = (req, res, next) => {
       isDecimal: {
         errorMessage: 'category Id has to be numeric value'
       },
-      errorMessage: 'category Id is required'
+      errorMessage: 'category is required'
     },
   });
   const errors = req.validationErrors();
@@ -124,7 +127,7 @@ export const checkBusinessInput = (req, res, next) => {
     const allErrors = [];
     errors.forEach((error) => {
       allErrors.push({
-        error: error.msg
+        message: error.msg
       });
     });
     return res.status(409)
@@ -156,7 +159,8 @@ export const checkBusinessInput = (req, res, next) => {
    * @return {object} - status code and error message
    */
 export const checkReviewsInput = (req, res, next) => {
-  const reviewError = 'Please review with atleast 5 characters and maximum of 100 characters';
+  const reviewError =
+   'Please review with atleast 5 characters and maximum of 100 characters';
   req.checkBody({
     comments: {
       notEmpty: true,
@@ -205,7 +209,7 @@ export const checkValidIdParams = (req, res, next) => {
     const allErrors = [];
     errors.forEach((error) => {
       allErrors.push({
-        error: error.msg
+        message: error.msg
       });
     });
 
@@ -327,8 +331,8 @@ export const checkUserInvalidDetails = (req, res, next) => {
     });
   }
   if (!fullname) { return next(); }
-  if (checkDigits.test(fullname) || checkMultiSpace.test(fullname)
-  || checkFirstChar.test(fullname[0]) || typeof fullname !== 'string') {
+  if (checkDigits.test(fullname) || checkMultiSpace.test(fullname) ||
+  checkFirstChar.test(fullname[0]) || typeof fullname !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid fullname!'
@@ -374,8 +378,8 @@ export const checkBusinessInvalidDetails = (req, res, next) => {
     });
   }
   if (!details) { return next(); }
-  if (checkMultiSpace.test(details)
-      || checkFirstChar.test(details[0]) || typeof details !== 'string') {
+  if (checkMultiSpace.test(details) ||
+      checkFirstChar.test(details[0]) || typeof details !== 'string') {
     return res.status(406).json({
       status: false,
       message: 'Invalid character in Business Details!'
@@ -403,8 +407,8 @@ export const checkBusinessInvalidDetails = (req, res, next) => {
    * @return {object} - status code and error message
    */
 export const verifyBusinessIdExist = (req, res, next) => {
-  if (!req.params.businessId.match(/^[0-9]/)
-    || !req.params.businessId) {
+  if (!req.params.businessId.match(/^[0-9]/) ||
+    !req.params.businessId) {
     return res.status(400).json({
       status: false,
       message: 'Unidentified business! pls include a valid businessId'
@@ -489,7 +493,8 @@ export const checkInvalidUser = (req, res, next) => {
     .then((business) => {
       if (business.userId !== parseInt(id, 10)) {
         return res.status(403).send({
-          message: 'Invalid User! you can only make changes to your own Business'
+          message:
+           'Invalid User! you can only make changes to your own Business'
         });
       }
       next();

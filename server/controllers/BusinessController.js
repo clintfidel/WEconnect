@@ -250,6 +250,34 @@ class BusinessController {
       })
       .catch(() => res.status(500).send('Internal sever Error'));
   }
+
+  /**
+   * @description - User gets all categories in the application
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Get:/api/v1/business/categories
+   */
+  static getAllCategories(req, res) {
+    Category
+      .findAll({})
+      .then((allCategory) => {
+        if (allCategory.length > 0) {
+          return res.status(200).send({
+            status: 'Success',
+            Categories: allCategory
+          });
+        }
+        return res.status(404).json({
+          message: 'No business found'
+        });
+      })
+      .catch(() => res.status(500).send('Internal server error'));
+  }
 }
 
 export default BusinessController;
