@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import NavBar from '../presentational/common/NavBar';
 import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
-import getAllBusiness from '../../actions/BusinessAction';
+import { getAllBusinessAction } from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
 
 /**
@@ -34,7 +34,7 @@ class AllBusiness extends Component {
    * @return {void} no return or void
    */
   componentDidMount() {
-    this.props.getAllBusiness();
+    this.props.getAllBusinessAction();
   }
 
   /**
@@ -95,13 +95,10 @@ class AllBusiness extends Component {
 }
 
 AllBusiness.propTypes = {
-  getAllBusiness: PropTypes.func.isRequired,
+  getAllBusinessAction: PropTypes.func.isRequired,
   businesses: PropTypes.array
 };
-const mapStateToProps = (state) => {
-  console.log(state, '===>');
-  return {
-    businesses: state.BusinessReducer.businesses
-  };
-};
-export default connect(mapStateToProps, { getAllBusiness })(AllBusiness);
+const mapStateToProps = (state) => ({
+  businesses: state.BusinessReducer.business
+});
+export default connect(mapStateToProps, { getAllBusinessAction })(AllBusiness);

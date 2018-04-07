@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpackCommon = require('./webpack.config.common');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const GLOBALS = {
@@ -9,16 +9,27 @@ const GLOBALS = {
 };
 
 module.exports = merge(webpackCommon, {
+  mode: 'production',
+  devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
-    new cleanWebpackPlugin(['client/dist']),
-    new webpack.optimize.UglifyJsPlugin(),
+    new UglifyJSPlugin({
+      sourceMap: true
+    }),
     new ExtractTextPlugin('./style.css', {
-      allChunks: true
+      allCunks: true
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
     })
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test: /(\.s?css)$/,
+        loader: ExtractTextPlugin.extract('css-loader!sass-loader')
+      }
+    ]
+  }
 });

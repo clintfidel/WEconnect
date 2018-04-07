@@ -11,17 +11,23 @@ import business from '../controllers/BusinessController';
 
 const {
   addBusiness, updateBusiness, deleteBusiness,
-  getAllBusinessess, getOneBusiness, getAllBusinessByPage
+  getAllBusinessess, getOneBusiness, getAllBusinessByPage, getAllCategories
 } = business;
 const businessRouter = express.Router();
 
 businessRouter.route('/')
   .post(
-    isLoggedIn, checkBusinessInput, checkBusinessInvalidDetails, verifyUserIdExist,
+    isLoggedIn, checkBusinessInput, checkBusinessInvalidDetails,
+    verifyUserIdExist,
     checkCategoryId, businessNameExist,
     addBusiness
   )
-  .get(isLoggedIn, verifyUserIdExist, getAllBusinessByPage, searchBusiness, getAllBusinessess);
+  .get(
+    isLoggedIn, verifyUserIdExist, getAllBusinessByPage,
+    searchBusiness, getAllBusinessess
+  );
+businessRouter.route('/category')
+  .get(isLoggedIn, verifyUserIdExist, getAllCategories);
 
 businessRouter.route('/:businessId')
   .put(
