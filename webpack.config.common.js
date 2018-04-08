@@ -6,8 +6,8 @@ module.exports = {
     './client/index.js'],
   output: {
     path: path.join(__dirname, 'client/dist/'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -21,10 +21,6 @@ module.exports = {
         ],
         include: path.join(__dirname, '/client'),
         exclude: /node_modules/,
-      },
-      {
-        test: /(\.s?css)$/,
-        loader: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
@@ -72,9 +68,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.EnvironmentPlugin([
-      'NODE_ENV'
-    ]),
+    new webpack.EnvironmentPlugin([]),
     new webpack.ProvidePlugin({
       "$": 'jquery',
       "jQuery": 'jquery',

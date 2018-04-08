@@ -12,4 +12,12 @@ module.exports = merge(webpackCommon, {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
   ],
+  module: {
+    rules: [
+      {
+        test: /(\.s?css)$/,
+        loader: ['style-loader', 'css-loader', 'sass-loader']
+      }
+    ]
+  }
 });
