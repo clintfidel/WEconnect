@@ -34,7 +34,8 @@ class Signup extends Component {
       fullnameError: '',
       passwordError: '',
       passwordConfirmError: '',
-      redirectUser: false
+      redirectUser: false,
+      disableBtn: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -42,6 +43,18 @@ class Signup extends Component {
     this.onFocus = this.onFocus.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  /**
+   * @description - redirect registered user to all-budiness page
+   *
+   * @return {void} no return or void
+   */
+  componentWillMount() {
+    if (localStorage.token) {
+      this.props.history.push('/all-business');
+    }
+  }
+
   /**
    * @description - handles the onchange event
    *
@@ -50,9 +63,23 @@ class Signup extends Component {
    * @return {void}
    */
   onChange(event) {
+    const passKey = $('#signup-password').val();
     this.setState({
       [event.target.name]: event.target.value
     });
+    switch (event.target.name) {
+    case 'passwordConfirm':
+      if (event.target.value !== passKey) {
+        this.setState({
+          disableBtn: true
+        });
+        return false;
+      } else {
+        this.setState({
+          disableBtn: false
+        });
+      }
+    }
   }
 
   /**
@@ -93,41 +120,64 @@ class Signup extends Component {
   onBlur(event) {
     const { name } = event.target,
       { value } = event.target;
+    const passKey = $('#signup-password').val();
     switch (name) {
     case 'fullname':
       if (value.length < 5 || !value) {
         this.setState({
-          fullnameError: 'Username should be more than 5 characters'
+          fullnameError: 'Username should be more than 5 characters',
+          disableBtn: true
         });
         return false;
+      } else {
+        this.setState({
+          fullnameError: '',
+          disableBtn: false
+        });
+        return true;
       }
-      return true;
       break;
     case 'username':
       if (value.length < 5 || !value) {
         this.setState({
-          usernameError: 'Username should be more than 5 characters long'
+          usernameError: 'Username should be more than 5 characters long',
+          disableBtn: true
         });
         return false;
+      } else {
+        this.setState({
+          usernameError: '',
+          disableBtn: false
+        });
+        return true;
       }
-      return true;
       break;
     case 'password':
-      if (value.length < 5 || !value) {
+      if (value.length < 8 || !value) {
         this.setState({
-          passwordError: 'Password should be more than 8 characters long'
+          passwordError: 'Password should be more than 8 characters long',
+          disableBtn: true
         });
         return false;
+      } else {
+        this.setState({
+          passwordError: '',
+          disableBtn: false
+        });
+        return true;
       }
-      return true;
       break;
     case 'passwordConfirm':
-      if (value !== this.state.password) {
-        this.setState({ passwordConfirmError: 'password do not match!' });
+      if (value !== passKey) {
+        this.setState({
+          passwordConfirmError: 'password do not match!'
+        });
         return false;
+      } else {
+        this.setState({
+          passwordConfirmError: ''
+        });
       }
-      return true;
-      break;
     }
   }
 
@@ -145,6 +195,7 @@ class Signup extends Component {
       toastrOption();
       return toastr.error('Invalid Input');
     }
+    this.setState({ disableBtn: true });
     this.props.registerAction(this.state)
       .then((message) => {
         toastrOption();
@@ -166,9 +217,6 @@ class Signup extends Component {
    *
    */
   render() {
-    if (localStorage.token) {
-      this.props.history.push('/all-business');
-    }
     return (
       this.state.redirectUser ?
         <Redirect to= "/all-business"/> :
@@ -220,6 +268,7 @@ class Signup extends Component {
                     onBlur={this.onBlur}
                     name="password"
                     placeholder="password"
+                    id="signup-password"
                     required />
                   <div style={{ color: 'red' }}>
                     {this.state.passwordError}
@@ -235,8 +284,10 @@ class Signup extends Component {
                     {this.state.passwordConfirmError}
                   </div>
                   <button
+                    className="btn"
                     type="submit"
                     name="submit"
+                    disabled={this.state.disableBtn}
                   >
                   Sign Up
 
