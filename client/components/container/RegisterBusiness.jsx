@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import NavBar from '../presentational/common/NavBar';
 import Footer from '../presentational/common/Footer';
@@ -32,7 +33,8 @@ class RegisterBusiness extends Component {
       name: '',
       details: '',
       location: '',
-      categoryId: ''
+      categoryId: '',
+      redirectUser: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -72,8 +74,17 @@ class RegisterBusiness extends Component {
     event.preventDefault();
     this.props.addBusinessAction(this.state)
       .then((message) => {
+        this.setState({
+          name: '',
+          details: '',
+          location: '',
+          categoryId: ''
+        });
         toastrOption();
         toastr.success(message);
+        setTimeout(() => {
+          this.setState({ redirectUser: true });
+        }, 3000);
       })
       .catch((message) => {
         toastrOption();
@@ -90,93 +101,95 @@ class RegisterBusiness extends Component {
   render() {
     const allcategories = this.props.categories;
     return (
-      <div>
-        <NavBar />
-        <div className="full-page">
-          <div className="content-page">
-            <main className="register-business">
-              <h2>Register Your Business</h2>
-              <div className="panel-body">
-                <form
-                  action="#"
-                  method="post"
-                  role="form"
-                  onSubmit= {this.onSubmit}>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <span className="input-group-addon" />
-                      <input
-                        type="text"
-                        onChange={this.onChange}
-                        name="name"
-                        placeholder="Business Name"
-                        className="form-control"
-                        autoFocus="autofocus"
-                        required />
+      this.state.redirectUser ?
+        <Redirect to="/all-business" /> :
+        <div>
+          <NavBar />
+          <div className="full-page">
+            <div className="content-page">
+              <main className="register-business">
+                <h2>Register Your Business</h2>
+                <div className="panel-body">
+                  <form
+                    action="#"
+                    method="post"
+                    role="form"
+                    onSubmit= {this.onSubmit}>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <span className="input-group-addon" />
+                        <input
+                          type="text"
+                          onChange={this.onChange}
+                          name="name"
+                          placeholder="Business Name"
+                          className="form-control"
+                          autoFocus="autofocus"
+                          required />
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <span className="input-group-addon" />
-                      <input
-                        type="text"
-                        onChange={this.onChange}
-                        name="location"
-                        placeholder="Business Location"
-                        className="form-control"
-                        required />
+                    <div className="form-group">
+                      <div className="input-group">
+                        <span className="input-group-addon" />
+                        <input
+                          type="text"
+                          onChange={this.onChange}
+                          name="location"
+                          placeholder="Business Location"
+                          className="form-control"
+                          required />
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <span className="input-group-addon" />
-                      <select
-                        type="select"
-                        className="custom-select
+                    <div className="form-group">
+                      <div className="input-group">
+                        <span className="input-group-addon" />
+                        <select
+                          type="select"
+                          className="custom-select
                             form-control"
-                        name="categoryId"
-                        onChange= {this.onChange}
-                        required>
-                        <option>Choose category</option>
-                        {allcategories.map((category) =>
-                          (<option key={category.id}
-                            value= {category.id}
-                            id={`${category.category}`}>
-                            {category.category}
-                          </option>))
-                        }
-                      </select>
+                          name="categoryId"
+                          onChange= {this.onChange}
+                          required>
+                          <option>Choose category</option>
+                          {allcategories.map((category) =>
+                            (<option key={category.id}
+                              value= {category.id}
+                              id={`${category.category}`}>
+                              {category.category}
+                            </option>))
+                          }
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <div className="input-group">
-                      <span className="input-group-addon" />
-                      <textarea
-                        name="details"
-                        onChange={this.onChange}
-                        placeholder="Business-Details"
-                        rows="4"
-                        className="form-control"
-                        type="text"
-                        required />
+                    <div className="form-group">
+                      <div className="input-group">
+                        <span className="input-group-addon" />
+                        <textarea
+                          name="details"
+                          onChange={this.onChange}
+                          placeholder="Business-Details"
+                          rows="4"
+                          className="form-control"
+                          type="text"
+                          required />
+                      </div>
                     </div>
-                  </div>
-                  <button type="submit" className="register-button">
+                    <button type="submit" className="register-button">
                     Send
-                  </button>
-                </form>
-              </div>
-            </main>
-            <aside className="business-story">
-              <div className="image-wrapper">
-                <img src="/placeholder.png" alt="image-placeholder" />
-              </div>
-              <a href="#" className="btn upload-button">Upload Image</a>
-            </aside>
+                    </button>
+                  </form>
+                </div>
+              </main>
+              <aside className="business-story">
+                <div className="image-wrapper">
+                  <img src="/placeholder.png" alt="image-placeholder" />
+                </div>
+                <a href="#" className="btn upload-button">Upload Image</a>
+              </aside>
+            </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
     );
   }
 }
