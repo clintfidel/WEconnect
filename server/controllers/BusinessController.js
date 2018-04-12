@@ -200,7 +200,14 @@ class BusinessController {
    */
   static getAllBusinessess(req, res) {
     Business
-      .findAll({})
+      .findAll({
+        include: [
+          {
+            model: Category,
+            attributes: ['category']
+          }
+        ]
+      })
       .then((allBusiness) => {
         if (allBusiness.length > 0) {
           return res.status(200).send({
@@ -227,8 +234,19 @@ class BusinessController {
    * ROUTE: Get:/api/v1/business/
    */
   static getOneBusiness(req, res) {
+    console.log(req.params);
     Business
-      .findById(parseInt(req.params.businessId, 10))
+      .findOne({
+        where: {
+          id: +req.params.businessId
+        },
+        include: [
+          {
+            model: Category,
+            attributes: ['category']
+          }
+        ]
+      })
       .then((business) => {
         if (!business) {
           return res.status(404).json({
@@ -239,13 +257,7 @@ class BusinessController {
           .then(() => business.reload());
         return res.status(200).json({
           message: 'Business found!',
-          business: {
-            businessId: business.id,
-            businessName: business.name,
-            businessLocation: business.location,
-            businessCategory: business.categoryId,
-            views: business.views + 1
-          }
+          business: business
         });
       })
       .catch(() => res.status(500).send('Internal sever Error'));

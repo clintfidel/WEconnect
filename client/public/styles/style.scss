@@ -462,6 +462,9 @@ body {
                         font-size: ($size * 2);
                         font-weight: bolder;
                     }
+                    input,textarea,select{
+                        color: black;
+                    }
 
                      input:focus::-webkit-input-placeholder { color:transparent; }
                      input:focus:-moz-placeholder { color:transparent; } 
@@ -567,7 +570,7 @@ body {
 
 .main-business {
     position: relative;
-    background-image: url('/app-ackground.png');  
+    background-image: url('/app-background.png');  
     width: 100%;
     height: 100vh;
     padding-top: 2%; 
@@ -669,8 +672,8 @@ body {
             .text::after {
                 content: 'view more';
                 background-color: $backgroundcolor1;
-                margin-top: 8px;
-                padding: 2%;
+                margin-top: 5px;
+                padding: 1%;
                 border-radius: $radius;
                 color: white
             }

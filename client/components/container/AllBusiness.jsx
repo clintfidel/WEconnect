@@ -29,7 +29,7 @@ class AllBusiness extends Component {
     };
   }
   /**
-   * @description - gets all recipes
+   * @description - gets all businesses
    *
    * @return {void} no return or void
    */
@@ -38,7 +38,7 @@ class AllBusiness extends Component {
   }
 
   /**
-   * @description render - renders recipe details
+   * @description render - renders business details
    *
    * @return {object} returns an object
    *
@@ -64,6 +64,7 @@ class AllBusiness extends Component {
               categoryId={business.categoryId}
               views={business.views}
               userId={business.userId}
+              id={business.id}
               key={business.id}/>
           ))
           }
@@ -99,6 +100,6 @@ AllBusiness.propTypes = {
   businesses: PropTypes.array
 };
 const mapStateToProps = (state) => ({
-  businesses: state.BusinessReducer.business
+  businesses: state.BusinessReducer.businesses
 });
 export default connect(mapStateToProps, { getAllBusinessAction })(AllBusiness);
