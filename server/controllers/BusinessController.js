@@ -116,7 +116,7 @@ class BusinessController {
           .then(() => {
             res.status(200).json({
               message: 'Business deleted successfully',
-              id: Number(req.params.businessId)
+              businessId: Number(req.params.businessId)
             });
           })
           .catch(() => res.status(500).send('Internal server error'));

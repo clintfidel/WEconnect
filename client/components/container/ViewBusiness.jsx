@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom';
 import NavBar from '../presentational/common/NavBar';
 import BusinessInfo from '../presentational/BusinessInfo';
 import Footer from '../presentational/common/Footer';
-import { viewBusinessAction } from '../../actions/BusinessAction';
+import {
+  viewBusinessAction,
+  deleteBusinessAction
+} from '../../actions/BusinessAction';
 
 /**
  * @class ViewBusiness
@@ -29,6 +33,7 @@ class ViewBusiness extends Component {
       comments: '',
       redirectUser: false
     };
+    this.deleteBusiness = this.deleteBusiness.bind(this);
   }
 
   /**
@@ -36,7 +41,7 @@ class ViewBusiness extends Component {
    *
    * @return {void} no return or void
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.viewBusinessAction(this.props.match.params.id)
       .catch((error) => {
         if (error) {
@@ -47,6 +52,40 @@ class ViewBusiness extends Component {
       });
   }
 
+  /**
+   * @description deleteBusiness - renders business details
+   *
+   * @return {object} returns an object
+   *
+   */
+  deleteBusiness() {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this business!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then(willDelete => {
+        if (willDelete) {
+          this.props
+            .deleteBusinessAction(this.props.business.id)
+            .then(() => {
+              swal("oh! great! Your business has been deleted!", {
+                icon: "success",
+              });
+            })
+            .then(() => {
+              this.props.history.push('/all-business/');
+            });
+        } else {
+          swal('Your Business Is still intact!!');
+        }
+      })
+      .catch(err => {
+        swal("Oops!", "Seems like we couldn't perform the action", "error");
+      });
+  }
   /**
    * @description displayBusiness - renders business details
    *
@@ -67,7 +106,9 @@ class ViewBusiness extends Component {
           location={location}
           views={views}
           id={this.props.match.params.id}
+          deleteHandler={this.deleteBusiness}
           key={Math.random() * 10}
+          userAuth={Number(this.props.auth.id)}
         />
       );
     }
@@ -97,13 +138,17 @@ class ViewBusiness extends Component {
 
 ViewBusiness.propTypes = {
   viewBusinessAction: PropTypes.func.isRequired,
+  deleteBusinessAction: PropTypes.func.isRequired,
   business: PropTypes.object,
+  history: PropTypes.object,
+  auth: PropTypes.object
 };
-const mapStateToProps = (state) =>
-  ({
-    business: state.BusinessReducer.business,
-  });
+const mapStateToProps = (state) => ({
+  business: state.BusinessReducer.business,
+  auth: state.AuthReducer.user.currentUser,
+  isAuthenticated: state.AuthReducer.authenticated
+});
 export default connect(
   mapStateToProps,
-  { viewBusinessAction }
+  { viewBusinessAction, deleteBusinessAction }
 )(ViewBusiness);
