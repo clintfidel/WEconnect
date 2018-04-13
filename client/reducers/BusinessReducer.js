@@ -2,7 +2,8 @@ import {
   GET_ALL_BUSINESSES,
   ADD_BUSINESS,
   GET_ALL_CATEGORY,
-  VIEW_BUSINESS
+  VIEW_BUSINESS,
+  DELETE_BUSINESS
 } from '../actions/types';
 
 const initialState = {
@@ -21,7 +22,11 @@ const initialState = {
  *
  * @returns {Object} - Object containing new state
  */
+
 const BuisnessReducer = (state = initialState, action) => {
+  const deletedBusiness = state.businesses
+    .filter(business => business.id !== action.businessId);
+
   switch (action.type) {
   case GET_ALL_BUSINESSES:
     return { ...state, businesses: action.businesses };
@@ -31,6 +36,8 @@ const BuisnessReducer = (state = initialState, action) => {
     return { ...state, businesses: [...state.businesses, action.userBusiness] };
   case VIEW_BUSINESS:
     return { ...state, business: action.business };
+  case DELETE_BUSINESS:
+    return { ...state, businesses: deletedBusiness };
   default:
     return state;
   }
