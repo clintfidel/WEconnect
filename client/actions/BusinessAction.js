@@ -4,7 +4,8 @@ import {
   ADD_BUSINESS,
   GET_ALL_CATEGORY,
   VIEW_BUSINESS,
-  DELETE_BUSINESS
+  DELETE_BUSINESS,
+  EDIT_BUSINESS
 } from './types';
 
 /**
@@ -57,9 +58,20 @@ export const viewBusinessAction = (businessId) => (dispatch) =>
 export const deleteBusinessAction = (businessId) => (dispatch) =>
   axios.delete(`/api/v1/businesses/${businessId}`)
     .then((response) => {
-      console.log(response);
       dispatch({
         type: DELETE_BUSINESS,
         businessId: parseInt(response.data.businessId, 10)
       });
     });
+
+export const editBusinessAction = (businessId, businessDetails) => (dispatch) =>
+  axios.put(`/api/v1/businesses/${businessId}`, businessDetails)
+    .then((response) => {
+      dispatch({
+        type: EDIT_BUSINESS,
+        business: response.data.business
+      });
+      return response.data.message;
+    })
+    .catch(error => Promise.reject(error.response.data.message));
+

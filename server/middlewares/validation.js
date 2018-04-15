@@ -497,7 +497,7 @@ export const checkInvalidUser = (req, res, next) => {
            'Invalid User! you can only make changes to your own Business'
         });
       }
-      next();
+      return next();
     });
 };
 
@@ -545,11 +545,11 @@ export const verifyUserIdExist = (req, res, next) => {
 
 export const checkCategoryId = (req, res, next) => {
   const { categoryId } = req.body;
-  if (!categoryId) next();
-  if (!categoryId.match(/^[0-9]/)) {
+  if (!categoryId) { return next(); }
+  if (categoryId === 'string') {
     return res.status(406).json({
       status: false,
-      message: 'categoryId should be a numeric value'
+      message: 'Invalid category Input'
     });
   }
   Category

@@ -8,7 +8,8 @@ import BusinessInfo from '../presentational/BusinessInfo';
 import Footer from '../presentational/common/Footer';
 import {
   viewBusinessAction,
-  deleteBusinessAction
+  deleteBusinessAction,
+  getAllCategoryAction
 } from '../../actions/BusinessAction';
 
 /**
@@ -30,8 +31,7 @@ class ViewBusiness extends Component {
     super(props);
     this.state = {
       loader: false,
-      comments: '',
-      redirectUser: false
+      redirectUser: false,
     };
     this.deleteBusiness = this.deleteBusiness.bind(this);
   }
@@ -42,6 +42,7 @@ class ViewBusiness extends Component {
    * @return {void} no return or void
    */
   componentDidMount() {
+    this.props.getAllCategoryAction();
     this.props.viewBusinessAction(this.props.match.params.id)
       .catch((error) => {
         if (error) {
@@ -53,7 +54,7 @@ class ViewBusiness extends Component {
   }
 
   /**
-   * @description deleteBusiness - renders business details
+   * @description deleteBusiness - details user's business
    *
    * @return {object} returns an object
    *
@@ -86,6 +87,7 @@ class ViewBusiness extends Component {
         swal("Oops!", "Seems like we couldn't perform the action", "error");
       });
   }
+
   /**
    * @description displayBusiness - renders business details
    *
@@ -109,6 +111,7 @@ class ViewBusiness extends Component {
           deleteHandler={this.deleteBusiness}
           key={Math.random() * 10}
           userAuth={Number(this.props.auth.id)}
+          allCategories={this.props.categories}
         />
       );
     }
@@ -137,18 +140,27 @@ class ViewBusiness extends Component {
 }
 
 ViewBusiness.propTypes = {
+  getAllCategoryAction: PropTypes.func.isRequired,
   viewBusinessAction: PropTypes.func.isRequired,
   deleteBusinessAction: PropTypes.func.isRequired,
+  categories: PropTypes.array,
   business: PropTypes.object,
   history: PropTypes.object,
-  auth: PropTypes.object
+  auth: PropTypes.object,
+  match: PropTypes.object
 };
 const mapStateToProps = (state) => ({
   business: state.BusinessReducer.business,
   auth: state.AuthReducer.user.currentUser,
-  isAuthenticated: state.AuthReducer.authenticated
+  isAuthenticated: state.AuthReducer.authenticated,
+  categories: state.BusinessReducer.categories
+
 });
 export default connect(
   mapStateToProps,
-  { viewBusinessAction, deleteBusinessAction }
+  {
+    viewBusinessAction,
+    getAllCategoryAction,
+    deleteBusinessAction
+  }
 )(ViewBusiness);
