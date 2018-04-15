@@ -3,7 +3,8 @@ import {
   ADD_BUSINESS,
   GET_ALL_CATEGORY,
   VIEW_BUSINESS,
-  DELETE_BUSINESS
+  DELETE_BUSINESS,
+  EDIT_BUSINESS
 } from '../actions/types';
 
 const initialState = {
@@ -24,9 +25,6 @@ const initialState = {
  */
 
 const BuisnessReducer = (state = initialState, action) => {
-  const deletedBusiness = state.businesses
-    .filter(business => business.id !== action.businessId);
-
   switch (action.type) {
   case GET_ALL_BUSINESSES:
     return { ...state, businesses: action.businesses };
@@ -36,8 +34,18 @@ const BuisnessReducer = (state = initialState, action) => {
     return { ...state, businesses: [...state.businesses, action.userBusiness] };
   case VIEW_BUSINESS:
     return { ...state, business: action.business };
-  case DELETE_BUSINESS:
+  case DELETE_BUSINESS: {
+    const deletedBusiness = state.businesses
+      .filter(business => business.id !== action.businessId);
     return { ...state, businesses: deletedBusiness };
+  }
+  case EDIT_BUSINESS: {
+    let newBusiness = [];
+    state.businesses.map(business =>
+      (business.id === action.business.id ?
+        newBusiness.push(action.business) : newBusiness.push(business)));
+    return { ...state, businesses: newBusiness };
+  }
   default:
     return state;
   }

@@ -33,7 +33,7 @@ businessRouter.route('/:businessId')
   .put(
     isLoggedIn, checkBusinessInvalidDetails, verifyUserIdExist,
     verifyBusinessIdExist,
-    validateEditUserId, checkCategoryId, checkInvalidUser, businessNameExist,
+    validateEditUserId, checkCategoryId, checkInvalidUser,
     checkValidIdParams, updateBusiness
   )
   .delete(

@@ -74,22 +74,26 @@ class BusinessController {
           location: location || editBusiness.location,
           categoryId: categoryId || editBusiness.categoryId
         })
-        .then((business) => {
-          res.status(200).json({
-            status: 'success',
-            message: 'Business successfully edited',
-            data: {
-              name: business.name,
-              details: business.details,
-              location: business.location,
-              categoryId: business.categoryId,
-            }
-          });
+        .then((editbusiness) => {
+          editbusiness.reload({
+            include: [{
+              model: database.Category,
+              attributes: ['category']
+            }]
+          })
+            .then((business) => {
+              res.status(200).json({
+                status: 'success',
+                message: 'Business successfully edited',
+                business: business
+              });
+            });
         }))
-
-      .catch(() => res.status(500).json({
-        message: 'Internal server error'
-      }));
+      .catch((error) => {
+        res.status(500).json({
+          message: 'Internal server error'
+        });
+      });
   }
 
   /**
@@ -119,7 +123,9 @@ class BusinessController {
               businessId: Number(req.params.businessId)
             });
           })
-          .catch(() => res.status(500).send('Internal server error'));
+          .catch(() => res.status(500).send({
+            message: 'Internal server error'
+          }));
       });
   }
 
@@ -179,9 +185,9 @@ class BusinessController {
             business, count: business.count, pages
           });
         })
-        .catch(() => {
-          res.status(500).send('Internal sever Error');
-        });
+        .catch(() => res.status(500).send({
+          message: 'Internal server error'
+        }));
     } else {
       return next();
     }
@@ -209,6 +215,7 @@ class BusinessController {
         ]
       })
       .then((allBusiness) => {
+        console.log(allBusiness);
         if (allBusiness.length > 0) {
           return res.status(200).send({
             status: 'Success',
@@ -219,7 +226,9 @@ class BusinessController {
           message: 'No business found'
         });
       })
-      .catch(() => res.status(500).send('Internal server error'));
+      .catch(() => res.status(500).send({
+        message: 'Internal server error'
+      }));
   }
 
   /**
@@ -260,7 +269,9 @@ class BusinessController {
           business: business
         });
       })
-      .catch(() => res.status(500).send('Internal sever Error'));
+      .catch(() => res.status(500).send({
+        message: 'Internal server error'
+      }));
   }
 
   /**
@@ -288,7 +299,9 @@ class BusinessController {
           message: 'No business found'
         });
       })
-      .catch(() => res.status(500).send('Internal server error'));
+      .catch(() => res.status(500).send({
+        message: 'Internal server error'
+      }));
   }
 }
 

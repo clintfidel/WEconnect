@@ -2,6 +2,7 @@ import React from 'react';
 import jwtDecode from 'jwt-decode';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import 'jquery/dist/jquery';
 import './public/styles/style.scss';
 import setAuthorizationToken from './utils/authorization';
 import { SET_CURRENT_USER } from './actions/types';
