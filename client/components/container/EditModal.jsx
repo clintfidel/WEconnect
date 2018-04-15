@@ -195,6 +195,7 @@ EditModal.propTypes = {
   editBusinessAction: PropTypes.func.isRequired,
   business: PropTypes.object,
   categoryList: PropTypes.array,
+  id: PropTypes.number
 };
 const mapStateToProps = (state) => ({
   business: state.BusinessReducer.business

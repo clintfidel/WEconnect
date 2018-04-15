@@ -80,6 +80,7 @@
     "jsonwebtoken": "^8.2.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.5",
+    "moment": "^2.22.1",
     "node-sass": "^4.8.3",
     "nyc": "^11.4.1",
     "pg": "^7.4.1",

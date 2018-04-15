@@ -1,8 +1,13 @@
 
 import database from '../models';
 
-const { Business, Review } = database;
-
+const { Review, User } = database;
+/**
+ * @class ReviewController
+ *
+ * @classdesc contains all review methods (post,get)
+ *
+ */
 class ReviewController {
   /**
    * @description - User adds review to business
@@ -53,51 +58,33 @@ class ReviewController {
    *
    * ROUTE: Get:/api/v1/business/:businessId/reviews
    */
-
   static getAllReviews(req, res) {
-    Business
-      .findOne({
+    Review
+      .findAll({
         where: {
-          id: req.params.businessId
-        }
+          businessId: req.params.businessId
+        },
+        include: [
+          {
+            model: User,
+            attributes: ['username']
+          }
+        ]
       })
-      .then((business) => {
-        if (business) {
-          const {
-            id, name, location, categoryId
-          } = business;
-          return Review
-            .findAll({
-              where: {
-                businessId: req.params.businessId
-              }
-            })
-            .then((reviews) => {
-              if (reviews.length === 0) {
-                return res.status(404).json({
-                  message: 'No review found for this business'
-                });
-              }
-              return res.status(200).send({
-                status: 'success',
-                businessdata: {
-                  id,
-                  name,
-                  location,
-                  categoryId,
-                  AllReviews: {
-                    reviews
-                  }
-                }
-              });
-            })
-            .catch(() => res.status(500).send('Internal server Error'));
+      .then((reviews) => {
+        if (reviews.length === 0) {
+          return res.status(404).json({
+            message: 'No review found for this business'
+          });
         }
-        return res.status(404).json({
-          message: 'No business Found'
+        return res.status(200).send({
+          status: 'success',
+          allReviews: reviews
         });
       })
-      .catch(() => res.status(500).send('Internal server Error'));
+      .catch(() => res.status(500).send({
+        message: 'Internal server Error'
+      }));
   }
 }
 

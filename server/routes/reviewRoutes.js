@@ -16,6 +16,6 @@ reviewRouter.route('/:businessId/reviews')
     verifyBusinessIdExist,
     checkValidIdParams, createReview
   )
-  .get(isLoggedIn, verifyUserIdExist, getAllReviews);
+  .get(isLoggedIn, verifyUserIdExist, verifyBusinessIdExist, getAllReviews);
 
 export default reviewRouter;
