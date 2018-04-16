@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { allReviewAction } from '../../actions/ReviewsAction';
+import toastrOption from '../../utils/toastrOption';
+import { allReviewAction, addReviewAction } from '../../actions/ReviewsAction';
 
 /**
  * @class Signup
@@ -24,10 +25,10 @@ class Review extends Component {
     this.state = {
       loader: false,
       redirectUser: false,
-      comment: ''
+      comments: ''
     };
-    // this.onChange = this.onChange.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.displayReviews = this.displayReviews.bind(this);
   }
 
@@ -47,11 +48,34 @@ class Review extends Component {
    *
    * @return {void}
    */
-  // onChange(event) {
-  //   this.setState({
-  //     [event.target.name]: event.target.value
-  //   });
-  // }
+  onChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  /**
+   * @description - handles the onSubmit event
+   *
+   * @param  {object} event the event for the content field
+   *
+   * @return {void}
+   */
+  onSubmit(event) {
+    event.preventDefault();
+    this.props.addReviewAction(this.props.id, this.state)
+      .then((message) => {
+        toastrOption();
+        toastr.success(message);
+      })
+      .catch(message => {
+        toastrOption();
+        toastr.error(message);
+      });
+    this.setState({
+      comments: ''
+    });
+  }
 
   /**
    * @description displayReviews - renders business reviews
@@ -61,7 +85,6 @@ class Review extends Component {
    */
   displayReviews() {
     const allReviews = this.props.reviews;
-    console.log(allReviews);
     if (allReviews.length === 0) {
       return (<div className="comment-contents">No reviews found!</div>);
     }
@@ -103,8 +126,22 @@ class Review extends Component {
                   {
                     this.displayReviews()
                   }
-                  <textarea />
-                  <a href="#" className="btn send-button">Add review</a>
+                  <form
+                    action="#"
+                    method="post"
+                    role="form"
+                    onSubmit={this.onSubmit}>
+                    <textarea
+                      name="comments"
+                      value={this.state.comments}
+                      onChange= {this.onChange} />
+
+                    <button
+                      type="submit"
+                      className="btn send-button">
+                  Add review
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -118,14 +155,15 @@ class Review extends Component {
 Review.propTypes = {
   id: PropTypes.number,
   allReviewAction: PropTypes.func.isRequired,
+  addReviewAction: PropTypes.func.isRequired,
   reviews: PropTypes.array
 };
 
-const mapStateToProps = (state) => {
-  console.log(state.ReviewReducer, '=-=-=->');
-  return {
-    reviews: state.ReviewsReducer.reviews
-  };
-};
+const mapStateToProps = (state) => ({
+  reviews: state.ReviewsReducer.reviews
+});
 
-export default connect(mapStateToProps, { allReviewAction })(Review);
+export default connect(
+  mapStateToProps,
+  { allReviewAction, addReviewAction }
+)(Review);
