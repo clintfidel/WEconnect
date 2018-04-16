@@ -215,7 +215,6 @@ class BusinessController {
         ]
       })
       .then((allBusiness) => {
-        console.log(allBusiness);
         if (allBusiness.length > 0) {
           return res.status(200).send({
             status: 'Success',
@@ -243,7 +242,6 @@ class BusinessController {
    * ROUTE: Get:/api/v1/business/
    */
   static getOneBusiness(req, res) {
-    console.log(req.params);
     Business
       .findOne({
         where: {

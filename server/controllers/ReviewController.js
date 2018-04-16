@@ -21,7 +21,6 @@ class ReviewController {
    * ROUTE: Post:/api/v1/business/:businessId/reviews
    */
   static createReview(req, res) {
-    const { id } = req.decoded.currentUser;
     Review
       .create(req.reviewInput)
       .then((createReview) => {
@@ -31,17 +30,10 @@ class ReviewController {
             attributes: ['username']
           }]
         })
-          .then((review) => {
-            const { businessId, comments } = review;
-            res.status(201).json({
-              message: 'You have successfully reviewed this business',
-              Review: {
-                userId: id,
-                businessId,
-                comments
-              }
-            });
-          })
+          .then((review) => res.status(201).json({
+            message: 'You have successfully reviewed this business',
+            Review: review
+          }))
           .catch(() =>
             res.status(500).send('Internal server error'));
       });
