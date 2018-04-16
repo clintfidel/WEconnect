@@ -165,7 +165,7 @@ export const checkReviewsInput = (req, res, next) => {
     comments: {
       notEmpty: true,
       isLength: {
-        options: [{ min: 5, max: 250 }],
+        options: [{ min: 5, max: 500 }],
         errorMessage: reviewError
       },
       errorMessage: 'Your Business name is required'
@@ -214,7 +214,7 @@ export const checkValidIdParams = (req, res, next) => {
     });
 
     return res.status(409)
-      .json(allErrors);
+      .json(allErrors[0]);
   }
   next();
 };
