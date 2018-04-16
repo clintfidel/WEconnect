@@ -25,7 +25,8 @@ class Review extends Component {
     this.state = {
       loader: false,
       redirectUser: false,
-      comments: ''
+      comments: '',
+      disableBtn: true
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -52,6 +53,17 @@ class Review extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
+    if (event.target.name === 'comments' && event.target.value.trim() === '') {
+      this.setState({
+        disableBtn: true
+      });
+      return false;
+    } else {
+      this.setState({
+        disableBtn: false
+      });
+    }
+    return true;
   }
 
   /**
@@ -103,8 +115,6 @@ class Review extends Component {
           </div>
         </div>
       ))
-
-
     );
   }
 
@@ -138,6 +148,7 @@ class Review extends Component {
 
                     <button
                       type="submit"
+                      disabled={this.state.disableBtn}
                       className="btn send-button">
                   Add review
                     </button>
