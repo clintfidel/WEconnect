@@ -8,7 +8,12 @@ dotenv.config();
 const secret = process.env.secretKey;
 
 const { User } = database;
-
+/**
+ * @class BusinessController
+ *
+ * @classdesc contains all user methods (post,put)
+ *
+ */
 class UserController {
   /**
    * @description - Adds a new user to the database

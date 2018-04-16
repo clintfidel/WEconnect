@@ -37,7 +37,7 @@ class ViewBusiness extends Component {
   }
 
   /**
-   * @description - gets a particular business
+   * @description - gets business data
    *
    * @return {void} no return or void
    */
@@ -107,7 +107,7 @@ class ViewBusiness extends Component {
           category={Category.category}
           location={location}
           views={views}
-          id={this.props.match.params.id}
+          id={+this.props.match.params.id}
           deleteHandler={this.deleteBusiness}
           key={Math.random() * 10}
           userAuth={Number(this.props.auth.id)}

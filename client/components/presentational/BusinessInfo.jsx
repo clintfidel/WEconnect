@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Review from '../presentational/Review';
+import Review from '../container/Review';
 import EditModal from '../container/EditModal';
 
 const BusinessInfo = ({
@@ -61,10 +61,11 @@ const BusinessInfo = ({
           }
           <EditModal
             categoryList={allCategories}
-            id={id}/>
+            id={+id}/>
           <hr/>
         </div>
-        <Review />
+        <Review
+          id={+id}/>
       </div>
     </div>
   );
@@ -78,7 +79,8 @@ BusinessInfo.propTypes = {
   deleteHandler: PropTypes.func,
   userAuth: PropTypes.number,
   userId: PropTypes.number,
-  allCategories: PropTypes.array
+  allCategories: PropTypes.array,
+  id: PropTypes.number
 };
 
 export default BusinessInfo;

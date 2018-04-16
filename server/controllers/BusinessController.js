@@ -8,7 +8,7 @@ database;
 /**
  * @class BusinessController
  *
- * @classdesc Logs user in
+ * @classdesc contains all business methods (post,get,delete,put)
  *
  */
 class BusinessController {
