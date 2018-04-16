@@ -115,8 +115,6 @@ class Review extends Component {
           </div>
         </div>
       ))
-
-
     );
   }
 
