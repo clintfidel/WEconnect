@@ -5,11 +5,26 @@ import {
   GET_ALL_CATEGORY,
   VIEW_BUSINESS,
   DELETE_BUSINESS,
-  EDIT_BUSINESS
+  EDIT_BUSINESS,
+  SEARCH_BUSINESS
 } from './types';
 
 /**
- * @description Request to the API to get user recipes
+ * @description - Search business
+ *
+ * @param {Object} result - search result
+ *
+ * @returns {Object} - redux action to be dispatched
+ */
+export function searchBusiness(result) {
+  return {
+    type: SEARCH_BUSINESS,
+    result,
+    // authenticated: true
+  };
+}
+/**
+ * @description Request to the API to get users businessess
  *
  *
  * @return {object} dispatch object
@@ -62,7 +77,8 @@ export const deleteBusinessAction = (businessId) => (dispatch) =>
         type: DELETE_BUSINESS,
         businessId: parseInt(response.data.businessId, 10)
       });
-    });
+    })
+    .catch(error => Promise.reject(error.response.data.message));
 
 export const editBusinessAction = (businessId, businessDetails) => (dispatch) =>
   axios.put(`/api/v1/businesses/${businessId}`, businessDetails)
@@ -74,4 +90,37 @@ export const editBusinessAction = (businessId, businessDetails) => (dispatch) =>
       return response.data.message;
     })
     .catch(error => Promise.reject(error.response.data.message));
+
+export const searchBusinessAction =
+ (location, category) => (dispatch) => {
+   console.log(location, category);
+   if (location && category === '') {
+     axios.get(`api/v1/businesses?location=${location}`)
+       .then((response) => {
+         console.log(response.data.Businesses);
+         dispatch(searchBusiness(response.data.Businesses));
+       })
+       .catch(error =>
+         Promise.reject(error.response.data.message));
+   }
+
+   if (category && location === '') {
+     axios.get(`api/v1/businesses?category=${category}`)
+       .then((response) => {
+         console.log(response.data.Businesses);
+         dispatch(searchBusiness(response.data.Businesses));
+       })
+       .catch(error =>
+         Promise.reject(error.response.data.message));
+   }
+   if (location && category) {
+     axios.get(`api/v1/businesses?location=${location}&category=${category}`)
+       .then((response) => {
+         console.log(response.data.Businesses);
+         dispatch(searchBusiness(response.data.Businesses));
+       })
+       .catch(error =>
+         Promise.reject(error.response.data.message));
+   }
+ };
 

@@ -144,7 +144,8 @@ class Review extends Component {
                     <textarea
                       name="comments"
                       value={this.state.comments}
-                      onChange= {this.onChange} />
+                      onChange= {this.onChange}
+                      required/>
 
                     <button
                       type="submit"

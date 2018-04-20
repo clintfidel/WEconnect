@@ -215,7 +215,7 @@ class BusinessController {
         ]
       })
       .then((allBusiness) => {
-        if (allBusiness.length > 0) {
+        if (allBusiness.length !== 0) {
           return res.status(200).send({
             status: 'Success',
             Businesses: allBusiness

@@ -4,7 +4,8 @@ import {
   GET_ALL_CATEGORY,
   VIEW_BUSINESS,
   DELETE_BUSINESS,
-  EDIT_BUSINESS
+  EDIT_BUSINESS,
+  SEARCH_BUSINESS
 } from '../actions/types';
 
 const initialState = {
@@ -46,6 +47,8 @@ const BuisnessReducer = (state = initialState, action) => {
         newBusiness.push(action.business) : newBusiness.push(business)));
     return { ...state, businesses: newBusiness };
   }
+  case SEARCH_BUSINESS:
+    return { ...state, businesses: action.result };
   default:
     return state;
   }

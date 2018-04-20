@@ -1,4 +1,5 @@
 import database from '../models/';
+import checkBusinessResponse from '../helper/checkBusinessResponse';
 
 const {
   Business, Category
@@ -20,12 +21,15 @@ const searchBusiness = (req, res, next) => {
   const { location, category } = req.query;
   const searchLocation = location;
   const searchCategory = category;
-  if (searchLocation || searchCategory) {
+  const serverMessage = {
+    message: 'Internal sever error'
+  };
+  if (searchLocation && searchCategory) {
     Business
       .findAll({
         where:
             {
-              $or: [
+              $and: [
                 { location: { ilike: `%${searchLocation}%` } },
                 { '$Category.category$': { ilike: `%${searchCategory}%` } }
               ]
@@ -42,17 +46,53 @@ const searchBusiness = (req, res, next) => {
 
       })
       .then((business) => {
-        if (business.length < 1) {
-          return res.status(404).json({
-            message: 'No match Business found!'
-          });
-        }
-        return res.status(200).send({
-          message: 'Business Found!',
-          Businesses: business
-        });
+        checkBusinessResponse(business, res);
       })
-      .catch(() => res.status(500).send('Internal sever error'));
+      .catch(() => res.status(500).send(serverMessage));
+  } else if (searchCategory) {
+    Business
+      .findAll({
+        where:
+
+          { '$Category.category$': { ilike: `%${searchCategory}%` } },
+
+        include: [{
+          model: database.User,
+          attributes: ['username']
+        },
+        {
+          model: Category,
+          attributes: ['category']
+        }
+        ],
+
+      })
+      .then((business) => {
+        checkBusinessResponse(business, res);
+      })
+      .catch(() => res.status(500).send(serverMessage));
+  } else if (searchLocation) {
+    Business
+      .findAll({
+        where:
+
+          { location: { ilike: `%${searchLocation}%` } },
+
+        include: [{
+          model: database.User,
+          attributes: ['username']
+        },
+        {
+          model: Category,
+          attributes: ['category']
+        }
+        ],
+
+      })
+      .then((business) => {
+        checkBusinessResponse(business, res);
+      })
+      .catch(() => res.status(500).send(serverMessage));
   } else {
     return next();
   }
