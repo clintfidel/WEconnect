@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { editBusinessAction } from '../../actions/BusinessAction';
 import toastrOption from '../../utils/toastrOption';
@@ -12,15 +11,28 @@ import toastrOption from '../../utils/toastrOption';
  *
  */
 class EditModal extends Component {
+  static defaultProps = {
+    locations: [
+      'ABIA', 'ADAMAWA', 'AKWA IBOM', 'ANAMBRA',
+      'BAUCHI', 'BAYELSA', 'BENUE', 'BORNO',
+      'CROSS RIVER', 'DELTA', 'EBONYI',
+      'EDO', 'EKITI', 'ENUGU', 'FCT-ABUJA', 'GOMBE',
+      'IMO', 'JIGAWA', 'KADUNA', 'KANO', 'KATSINA',
+      'KEBBI', 'KOGI', 'KWARA', 'LAGOS', 'NASSARAWA', 'NIGER', 'OGUN', 'ONDO',
+      'OSUN', 'OYO', 'PLATEAU', 'RIVERS', 'SOKOTO', 'TARABA', 'YOBE', 'ZAMFARA'
+    ]
+  }
   /**
    * constructor - contains the constructor
    *
    * @param  {object} props the properties of the class component
    *
+   * @param  {object} defaultProps the properties of the class component
+   *
    * @return {void} no return or void
    *
    */
-  constructor(props) {
+  constructor(props, defaultProps) {
     super(props);
     this.state = {
       loader: false,
@@ -61,11 +73,6 @@ class EditModal extends Component {
       .then((message) => {
         toastrOption();
         toastr.success(message);
-        // setTimeout(() => {
-        //   this.setState({
-        //     redirectUser: true
-        //   });
-        // }, 2000);
       })
       .catch((message) => {
         toastrOption();
@@ -121,13 +128,23 @@ class EditModal extends Component {
                     <div className="form-group">
                       <div className="input-group">
                         <span className="input-group-addon" />
-                        <input type="text"
+                        <select type="select"
                           name="location"
                           onChange={this.onChange}
                           defaultValue={this.state.location}
-                          placeholder="Business Location"
+                          placeholder="category"
                           className="form-control"
-                          required/>
+                          required>
+                          <option>Choose location</option>
+                          {this.props.locations.map((location, index) => (
+                            <option
+                              key={index}
+                              value={location}
+                              id={`${location}`}>
+                              {location}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                     <div className="form-group">
@@ -195,6 +212,7 @@ EditModal.propTypes = {
   editBusinessAction: PropTypes.func.isRequired,
   business: PropTypes.object,
   categoryList: PropTypes.array,
+  locations: PropTypes.array,
   id: PropTypes.number
 };
 const mapStateToProps = (state) => ({

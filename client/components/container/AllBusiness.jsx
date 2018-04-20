@@ -28,6 +28,7 @@ class AllBusiness extends Component {
       loader: false
     };
   }
+
   /**
    * @description - gets all businesses
    *
@@ -45,33 +46,27 @@ class AllBusiness extends Component {
    */
   renderAllBusiness() {
     const allBusiness = this.props.businesses;
-    if (allBusiness < 1) {
-      return (<div className="not-found">
-        <h1>No article found</h1>
+    if (allBusiness.length < 1) {
+      console.log('I got here');
+      return (<div className="not-found"
+        style={{ textAlign: 'center', paddingTop: 50 }}>
+        <h2>No Business found!!</h2>
       </div>);
+    } else {
+      return (
+        allBusiness.map((business) => (
+          <Businesses
+            name={business.name}
+            details={business.details}
+            location={business.location}
+            categoryId={business.categoryId}
+            views={business.views}
+            userId={business.userId}
+            id={business.id}
+            key={business.id}/>
+        ))
+      );
     }
-
-    return (<div>
-      <div className="main-business">
-        <SearchBusiness />
-        <div className="jumbotron">
-          <h1>All Businesses</h1>
-          {allBusiness.map((business) => (
-            <Businesses
-              name={business.name}
-              details={business.details}
-              location={business.location}
-              categoryId={business.categoryId}
-              views={business.views}
-              userId={business.userId}
-              id={business.id}
-              key={business.id}/>
-          ))
-          }
-        </div>
-      </div>
-    </div>
-    );
   }
 
 
@@ -86,7 +81,14 @@ class AllBusiness extends Component {
       <div>
         <NavBar />
         <div>
-          {this.renderAllBusiness()}
+          <div className="main-business">
+            <SearchBusiness
+              renderAllBusiness={this.renderAllBusiness()}/>
+            <div className="jumbotron">
+              <h1>All Businesses</h1>
+              {this.renderAllBusiness()}
+            </div>
+          </div>
         </div>
         <Footer />
       </div>

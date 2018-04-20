@@ -19,16 +19,29 @@ import
  *
  */
 class RegisterBusiness extends Component {
+  static defaultProps = {
+    locations: [
+      'ABIA', 'ADAMAWA', 'AKWA IBOM', 'ANAMBRA',
+      'BAUCHI', 'BAYELSA', 'BENUE', 'BORNO',
+      'CROSS RIVER', 'DELTA', 'EBONYI',
+      'EDO', 'EKITI', 'ENUGU', 'FCT-ABUJA', 'GOMBE',
+      'IMO', 'JIGAWA', 'KADUNA', 'KANO', 'KATSINA',
+      'KEBBI', 'KOGI', 'KWARA', 'LAGOS', 'NASSARAWA', 'NIGER', 'OGUN', 'ONDO',
+      'OSUN', 'OYO', 'PLATEAU', 'RIVERS', 'SOKOTO', 'TARABA', 'YOBE', 'ZAMFARA'
+    ]
+  }
   /**
    * constructor - contains the constructor
    *
    * @param  {object} props the properties of the class component
    *
+   * @param  {object} defaultProps the properties of the class component
+   *
    * @return {void} no return or void
    *
    */
-  constructor(props) {
-    super(props);
+  constructor(props, defaultProps) {
+    super(props, defaultProps);
     this.state = {
       name: '',
       details: '',
@@ -131,13 +144,23 @@ class RegisterBusiness extends Component {
                     <div className="form-group">
                       <div className="input-group">
                         <span className="input-group-addon" />
-                        <input
-                          type="text"
-                          onChange={this.onChange}
+                        <select
+                          type="select"
+                          className="custom-select
+                          form-control"
                           name="location"
-                          placeholder="Business Location"
-                          className="form-control"
-                          required />
+                          onChange= {this.onChange}
+                          required>
+                          <option>Choose location</option>
+                          {this.props.locations.map((location, index) => (
+                            <option
+                              key={index}
+                              value={location}
+                              id={`${location}`}>
+                              {location}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                     <div className="form-group">
@@ -197,9 +220,8 @@ class RegisterBusiness extends Component {
 RegisterBusiness.propTypes = {
   getAllCategoryAction: PropTypes.func.isRequired,
   addBusinessAction: PropTypes.func.isRequired,
-  categories: PropTypes.array
-
-
+  categories: PropTypes.array,
+  locations: PropTypes.array
 };
 const mapStateToProps = (state) => ({
   categories: state.BusinessReducer.categories

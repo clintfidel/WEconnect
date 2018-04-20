@@ -160,7 +160,7 @@ export const checkBusinessInput = (req, res, next) => {
    */
 export const checkReviewsInput = (req, res, next) => {
   const reviewError =
-   'Please review with atleast 5 characters and maximum of 100 characters';
+   'Please review with atleast 5 characters and maximum of 500 characters';
   req.checkBody({
     comments: {
       notEmpty: true,
@@ -168,7 +168,7 @@ export const checkReviewsInput = (req, res, next) => {
         options: [{ min: 5, max: 500 }],
         errorMessage: reviewError
       },
-      errorMessage: 'Your Business name is required'
+      errorMessage: 'Your comment is required'
     },
 
   });
