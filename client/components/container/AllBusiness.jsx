@@ -5,6 +5,7 @@ import NavBar from '../presentational/common/NavBar';
 import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
 import { getAllBusinessAction } from '../../actions/BusinessAction';
+import { logoutAction } from '../../actions/AuthAction';
 import SearchBusiness from '../container/SearchBuiness';
 
 /**
@@ -77,7 +78,8 @@ class AllBusiness extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar
+          logout={this.props.logoutAction} />
         <div>
           <div className="main-business">
             <SearchBusiness
@@ -97,9 +99,13 @@ class AllBusiness extends Component {
 
 AllBusiness.propTypes = {
   getAllBusinessAction: PropTypes.func.isRequired,
+  logoutAction: PropTypes.func.isRequired,
   businesses: PropTypes.array
 };
 const mapStateToProps = (state) => ({
-  businesses: state.BusinessReducer.businesses
+  businesses: state.BusinessReducer.businesses,
 });
-export default connect(mapStateToProps, { getAllBusinessAction })(AllBusiness);
+export default connect(
+  mapStateToProps,
+  { logoutAction, getAllBusinessAction }
+)(AllBusiness);

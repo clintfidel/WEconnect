@@ -92,8 +92,6 @@ class SearchBuiness extends Component {
         [event.target.name]: ''
       }, () =>
         this.props.getAllBusinessAction());
-    } else {
-      this.props.getAllBusinessAction();
     }
   }
   /**
