@@ -1,7 +1,9 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import setAuthorization from '../utils/authorization';
-import { SET_CURRENT_USER } from './types';
+import { SET_CURRENT_USER, USER_LOGOUT } from './types';
+import toastrOption from '../utils/toastrOption';
+
 
 /**
  * @description - Set current user
@@ -41,3 +43,14 @@ export const loginAction = userDetails => dispatch => axios
     return response.data.message;
   })
   .catch(error => Promise.reject(error.response.data.message));
+
+export const logoutAction = () => (dispatch) => {
+  localStorage.removeItem('token');
+  setAuthorization(false);
+  dispatch({
+    type: USER_LOGOUT,
+    user: {}
+  });
+  toastrOption();
+  toastr.success('You have logged out successfully');
+};

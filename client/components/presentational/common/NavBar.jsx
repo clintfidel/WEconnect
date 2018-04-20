@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 /**
@@ -7,7 +8,7 @@ import { Link } from 'react-router-dom';
  * @classdesc registers user
  *
  */
-const NavBar = () =>
+const NavBar = ({ logout }) =>
 
   (
     <div>
@@ -36,7 +37,7 @@ const NavBar = () =>
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="../Html/index.html">Logout</a>
+                <Link onClick={logout} className="nav-link" to="/">Logout</Link>
               </li>
             </ul>
           </div>
@@ -44,4 +45,8 @@ const NavBar = () =>
       </nav>
     </div>
   );
+NavBar.propTypes = {
+  logout: PropTypes.func.isRequired
+
+};
 export default NavBar;
