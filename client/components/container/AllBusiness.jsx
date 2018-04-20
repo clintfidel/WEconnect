@@ -47,26 +47,24 @@ class AllBusiness extends Component {
   renderAllBusiness() {
     const allBusiness = this.props.businesses;
     if (allBusiness.length < 1) {
-      console.log('I got here');
       return (<div className="not-found"
         style={{ textAlign: 'center', paddingTop: 50 }}>
         <h2>No Business found!!</h2>
       </div>);
-    } else {
-      return (
-        allBusiness.map((business) => (
-          <Businesses
-            name={business.name}
-            details={business.details}
-            location={business.location}
-            categoryId={business.categoryId}
-            views={business.views}
-            userId={business.userId}
-            id={business.id}
-            key={business.id}/>
-        ))
-      );
     }
+    return (
+      allBusiness.map((business) => (
+        <Businesses
+          name={business.name}
+          details={business.details}
+          location={business.location}
+          categoryId={business.categoryId}
+          views={business.views}
+          userId={business.userId}
+          id={business.id}
+          key={business.id}/>
+      ))
+    );
   }
 
 

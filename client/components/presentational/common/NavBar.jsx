@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * @class Signup
@@ -13,21 +14,26 @@ const NavBar = () =>
       <nav className="navbar navbar-expand-md ">
         <div className="link-container">
           <div className="nav navbar-brand">
-            <a href="http://">
+            <Link to="/">
               <img src="/wc-logo.png" alt="" />
-            </a>
+            </Link>
           </div>
           <div className="nav-list" id="navbarNavDropdown">
             <ul className="nav navbar-pull-right">
               <li className="nav-item active">
-                <a className="nav-link" href="../Html/index.html">Home
+                <Link className="nav-link" to="/">Home
                 <span className="sr-only">(current)</span>
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="../Html/business-page.html">
+                <Link className="nav-link" to="/register-business">
                   Register-business
-                </a>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/all-business">
+                Calogue
+                </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="../Html/index.html">Logout</a>

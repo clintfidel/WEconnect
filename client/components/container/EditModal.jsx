@@ -77,7 +77,6 @@ class EditModal extends Component {
       .catch((message) => {
         toastrOption();
         toastr.error(message);
-        console.log(message);
       });
   }
 

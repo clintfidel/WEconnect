@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import toastrOption from '../../utils/toastrOption';
 import {
   searchBusinessAction,
   getAllCategoryAction,
@@ -39,14 +38,13 @@ class SearchBuiness extends Component {
   constructor(props, defaultProps) {
     super(props, defaultProps);
     this.state = {
-      searchErrorStatus: false,
-      searchError: false,
       name: '',
       location: '',
       category: ''
     };
-    // this.onChange = this.onChange.bind(this);
+    this.baseState = this.state;
     this.handleSearch = this.handleSearch.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   /**
@@ -62,14 +60,24 @@ class SearchBuiness extends Component {
   }
 
   /**
+   * @description - handles the onclick event
+   *
+   * @param  {object} event -the event for the content field
+   *
+   * @return {void}
+   */
+  onClick() {
+    this.setState(this.baseState, () =>
+      this.props.getAllBusinessAction());
+  }
+  /**
    * @description - handles the business search
    *
-   * @param  {object} event the event for the content field
+   * @param  {object} event -the event for the content field
    *
    * @return {void}
    */
   handleSearch(event) {
-    console.log(event.target.value);
     event.preventDefault();
     if (event.target.value !== '') {
       this.setState({
@@ -97,58 +105,55 @@ class SearchBuiness extends Component {
   render() {
     return (
       <div>
-        <form
-          action="#"
-          method="get"
-          role="form"
-          onSubmit= {this.handleSearch} >
-          <div className="container" id="contain-form">
-            <div className="row search">
-              <input type="text"
-                name="name"
-                onChange={this.handleSearch}
-                placeholder="search business by name...." />
-              <select
-                className="custom-select"
-                name="location"
-                onChange={this.handleSearch}
-                id="">
-                <option value="Select From...">
-                  Search by location
+        <div className="container" id="contain-form">
+          <div className="row search">
+            <input type="text"
+              name="name"
+              onChange={this.handleSearch}
+              placeholder="search business by name...." />
+            <select
+              type="select"
+              className="custom-select"
+              name="location"
+              value={this.state.location}
+              onChange={this.handleSearch}
+              required>
+              <option value="Select From...">
+              Choose location
+              </option>
+              {this.props.locations.map((location, index) => (
+                <option
+                  key={index}
+                  value={location}
+                  id={`${location}`}>
+                  {location}
                 </option>
-                {this.props.locations.map((location, index) => (
-                  <option
-                    key={index}
-                    value={location}
-                    id={`${location}`}>
-                    {location}
-                  </option>
-                ))}
-              </select>
-              <select
-                type="select"
-                className="custom-select"
-                name="category"
-                value={this.state.category}
-                onChange= {this.handleSearch}
-                required>
-                <option value="Select From...">
+              ))}
+            </select>
+            <select
+              type="select"
+              className="custom-select"
+              name="category"
+              value={this.state.category}
+              onChange= {this.handleSearch}
+              required>
+              <option value="Select From...">
                   Choose category
-                </option>
-                {this.props.allCategories.map((category) =>
-                  (<option key={category.id}
-                    value={category.category}
-                    id={`${category.category}`}>
-                    {category.category}
-                  </option>))
-                }
-              </select>
-              <button type="submit">
-                submit
-              </button>
-            </div>
+              </option>
+              {this.props.allCategories.map((category) =>
+                (<option key={category.id}
+                  value={category.category}
+                  id={`${category.category}`}>
+                  {category.category}
+                </option>))
+              }
+            </select>
+            <button
+              onClick={this.onClick}>
+                Reset
+            </button>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
@@ -163,13 +168,10 @@ SearchBuiness.propTypes = {
   searchBusinessAction: PropTypes.func
 };
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    allCategories: state.BusinessReducer.categories,
-    allBusiness: state.BusinessReducer.businesses
-  };
-};
+const mapStateToProps = (state) => ({
+  allCategories: state.BusinessReducer.categories,
+  allBusiness: state.BusinessReducer.businesses
+});
 export default connect(
   mapStateToProps,
   {
