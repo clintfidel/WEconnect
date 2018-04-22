@@ -33,6 +33,17 @@ class Login extends Component {
   }
 
   /**
+   * @description - redirect registered user to all-budiness page
+   *
+   * @return {void} no return or void
+   */
+  componentWillMount() {
+    if (localStorage.token) {
+      this.props.history.push('/all-business');
+    }
+  }
+
+  /**
    * @description - handles the onChange event
    *
    * @param  {object} event the event for the content field
@@ -44,7 +55,6 @@ class Login extends Component {
       [event.target.name]: event.target.value
     });
   }
-
   /**
    * @description - handles the onSubmit event
    *
@@ -74,9 +84,6 @@ class Login extends Component {
    *
    */
   render() {
-    if (localStorage.token) {
-      this.props.history.push('/all-business');
-    }
     return (
       this.state.redirectUser ?
         <Redirect to= "/all-business" /> :

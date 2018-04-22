@@ -1,12 +1,13 @@
-const checkBusinessResponse = (business, res) => {
-  if (business.length === 0) {
+const checkBusinessResponse = (businesses, res) => {
+  if (!businesses.count) {
     return res.status(200).send({
-      Businesses: business
+      businesses
     });
   }
   return res.status(200).send({
     message: 'Business Found!',
-    Businesses: business
+    businesses,
+    count: businesses.count
   });
 };
 export default checkBusinessResponse;

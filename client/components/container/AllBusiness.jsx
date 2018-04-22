@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 import { connect } from 'react-redux';
 import NavBar from '../presentational/common/NavBar';
 import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
 import { getAllBusinessAction } from '../../actions/BusinessAction';
-import { logoutAction } from '../../actions/AuthAction';
 import SearchBusiness from '../container/SearchBuiness';
 
 /**
@@ -28,6 +28,7 @@ class AllBusiness extends Component {
     this.state = {
       loader: false
     };
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   /**
@@ -36,7 +37,7 @@ class AllBusiness extends Component {
    * @return {void} no return or void
    */
   componentDidMount() {
-    this.props.getAllBusinessAction();
+    this.props.getAllBusinessAction(1);
   }
 
   /**
@@ -68,6 +69,51 @@ class AllBusiness extends Component {
     );
   }
 
+  /**
+   * @description - get all busineses in pages
+   *
+   * @param  {object} page the event for the content field
+   *
+   * @return {void} no return or void
+   *
+   */
+  handlePageChange(page) {
+    this.props.getAllBusinessAction(page.selected + 1);
+  }
+
+  /**
+   * @description - handle pagination
+   *
+   * @param  {object} count the event for the content field
+   *
+   * @return {void} no return or void
+   *
+   */
+  renderPagination(count) {
+    if (this.props.count > 10 || this.props.businesses.length > 10) {
+      return (
+        <ReactPaginate
+          previousLabel={
+            <i className="page-link">Previous</i>
+          }
+          nextLabel={
+            <i className="page-link">Next</i>
+          }
+          breakLabel={<a href="">...</a>}
+          breakClassName={'break-me'}
+          pageCount={this.props.count / 10}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          initialPage={count}
+          onPageChange={this.handlePageChange}
+          containerClassName={'pagination justify-content-center'}
+          subContainerClassName={"pages pagination"}
+          activeClassName={'active'}
+        />
+      );
+    }
+  }
+
 
   /**
    * @description render - renders the class component
@@ -78,8 +124,7 @@ class AllBusiness extends Component {
   render() {
     return (
       <div>
-        <NavBar
-          logout={this.props.logoutAction} />
+        <NavBar/>
         <div>
           <div className="main-business">
             <SearchBusiness
@@ -87,6 +132,7 @@ class AllBusiness extends Component {
             <div className="jumbotron">
               <h1>All Businesses</h1>
               {this.renderAllBusiness()}
+              {this.renderPagination(0)}
             </div>
           </div>
         </div>
@@ -99,13 +145,14 @@ class AllBusiness extends Component {
 
 AllBusiness.propTypes = {
   getAllBusinessAction: PropTypes.func.isRequired,
-  logoutAction: PropTypes.func.isRequired,
-  businesses: PropTypes.array
+  businesses: PropTypes.array,
+  count: PropTypes.number
 };
 const mapStateToProps = (state) => ({
   businesses: state.BusinessReducer.businesses,
+  count: state.BusinessReducer.count
 });
 export default connect(
   mapStateToProps,
-  { logoutAction, getAllBusinessAction }
+  { getAllBusinessAction }
 )(AllBusiness);

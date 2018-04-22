@@ -26,7 +26,7 @@ const searchBusiness = (req, res, next) => {
   };
   if (searchLocation && searchCategory) {
     Business
-      .findAll({
+      .findAndCountAll({
         where:
             {
               $and: [
@@ -45,13 +45,13 @@ const searchBusiness = (req, res, next) => {
         ],
 
       })
-      .then((business) => {
-        checkBusinessResponse(business, res);
+      .then((businesses) => {
+        checkBusinessResponse(businesses, res);
       })
       .catch(() => res.status(500).send(serverMessage));
   } else if (searchCategory) {
     Business
-      .findAll({
+      .findAndCountAll({
         where:
 
           { '$Category.category$': { ilike: `%${searchCategory}%` } },
@@ -67,13 +67,13 @@ const searchBusiness = (req, res, next) => {
         ],
 
       })
-      .then((business) => {
-        checkBusinessResponse(business, res);
+      .then((businesses) => {
+        checkBusinessResponse(businesses, res);
       })
       .catch(() => res.status(500).send(serverMessage));
   } else if (searchLocation) {
     Business
-      .findAll({
+      .findAndCountAll({
         where:
 
           { location: { ilike: `%${searchLocation}%` } },
@@ -89,8 +89,8 @@ const searchBusiness = (req, res, next) => {
         ],
 
       })
-      .then((business) => {
-        checkBusinessResponse(business, res);
+      .then((businesses) => {
+        checkBusinessResponse(businesses, res);
       })
       .catch(() => res.status(500).send(serverMessage));
   } else {

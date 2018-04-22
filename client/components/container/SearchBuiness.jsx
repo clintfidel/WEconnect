@@ -55,7 +55,7 @@ class SearchBuiness extends Component {
   componentDidMount() {
     this.props.getAllCategoryAction()
       .then(() => {
-        this.props.getAllBusinessAction();
+        this.props.getAllBusinessAction(1);
       });
   }
 
@@ -68,7 +68,7 @@ class SearchBuiness extends Component {
    */
   onClick() {
     this.setState(this.baseState, () =>
-      this.props.getAllBusinessAction());
+      this.props.getAllBusinessAction(1));
   }
   /**
    * @description - handles the business search
@@ -79,6 +79,7 @@ class SearchBuiness extends Component {
    */
   handleSearch(event) {
     event.preventDefault();
+    const { value } = event.target;
     if (event.target.value !== '') {
       this.setState({
         [event.target.name]: event.target.value
@@ -87,13 +88,19 @@ class SearchBuiness extends Component {
           this.state.location,
           this.state.category
         ));
-    } if (event.target.value === "Select From...") {
+    }
+    if (value === "Select From...") {
       this.setState({
         [event.target.name]: ''
-      }, () =>
-        this.props.getAllBusinessAction());
+      }, () => {
+        if (this.state.location === "" &&
+       this.state.category === "") {
+          this.props.getAllBusinessAction(1);
+        }
+      });
     }
   }
+
   /**
    * @description render - renders the class component
    *
