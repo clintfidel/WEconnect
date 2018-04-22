@@ -28,7 +28,11 @@ const initialState = {
 const BuisnessReducer = (state = initialState, action) => {
   switch (action.type) {
   case GET_ALL_BUSINESSES:
-    return { ...state, businesses: action.businesses };
+    return {
+      ...state,
+      businesses: action.businesses.rows,
+      count: action.businesses.count
+    };
   case GET_ALL_CATEGORY:
     return { ...state, categories: action.categories };
   case ADD_BUSINESS:
@@ -48,7 +52,11 @@ const BuisnessReducer = (state = initialState, action) => {
     return { ...state, businesses: newBusiness };
   }
   case SEARCH_BUSINESS:
-    return { ...state, businesses: action.result };
+    return {
+      ...state,
+      businesses: action.result.rows,
+      count: action.result.count
+    };
   default:
     return state;
   }

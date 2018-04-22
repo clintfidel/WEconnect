@@ -45,17 +45,6 @@ class Signup extends Component {
   }
 
   /**
-   * @description - redirect registered user to all-budiness page
-   *
-   * @return {void} no return or void
-   */
-  componentWillMount() {
-    if (localStorage.token) {
-      this.props.history.push('/all-business');
-    }
-  }
-
-  /**
    * @description - handles the onchange event
    *
    * @param  {object} event the event for the content field

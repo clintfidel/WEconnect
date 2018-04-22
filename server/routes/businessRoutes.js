@@ -11,7 +11,8 @@ import business from '../controllers/BusinessController';
 
 const {
   addBusiness, updateBusiness, deleteBusiness,
-  getAllBusinessess, getOneBusiness, getAllBusinessByPage, getAllCategories
+  getAllBusinessess, getOneBusiness, getAllBusinessByPage,
+  getAllCategories, getAllUserBusinessess
 } = business;
 const businessRouter = express.Router();
 
@@ -26,6 +27,9 @@ businessRouter.route('/')
     isLoggedIn, verifyUserIdExist, getAllBusinessByPage,
     searchBusiness, getAllBusinessess
   );
+businessRouter.route('/user')
+  .get(isLoggedIn, verifyUserIdExist, getAllUserBusinessess);
+
 businessRouter.route('/category')
   .get(isLoggedIn, verifyUserIdExist, getAllCategories);
 

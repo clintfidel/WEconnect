@@ -1015,3 +1015,40 @@ body {
         }
     }
 }
+
+//pagination
+.page-link {
+    background-color: $backgroundcolor1;
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+.page-link:hover, .page-link:focus {
+    background-color: none !important;
+    color:  $backgroundcolor1;
+}
+.pagination {
+    border: 1px solid $backgroundcolor1;
+    font-size: 20px;
+    list-style: none;
+
+    li {
+        margin: $margin * 2;
+        cursor: pointer;
+        position: relative;
+        line-height: 1.25rem;
+        display: block;
+        list-style: none;
+        padding: 0 5px;
+        outline: none;
+        text-decoration: none;
+    }
+    .active {
+        background-color: $backgroundcolor1 !important;
+        outline: none !important;
+        line-height: 1.25rem !important;
+        list-style-type: none !important;
+        color:white !important;
+    }
+}
+

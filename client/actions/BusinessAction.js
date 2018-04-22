@@ -26,15 +26,17 @@ export function searchBusiness(result) {
 /**
  * @description Request to the API to get users businessess
  *
+ * @param {number} page
  *
  * @return {object} dispatch object
  */
-export const getAllBusinessAction = () => (dispatch) =>
-  axios.get('/api/v1/businesses')
+export const getAllBusinessAction = (page) => (dispatch) =>
+  axios.get(`/api/v1/businesses?pageNum=${page}`)
     .then((response) => {
+      console.log(response);
       dispatch({
         type: GET_ALL_BUSINESSES,
-        businesses: response.data.Businesses
+        businesses: response.data.businesses
       });
     })
     .catch(error => Promise.reject(error.response.data.message));
@@ -93,12 +95,10 @@ export const editBusinessAction = (businessId, businessDetails) => (dispatch) =>
 
 export const searchBusinessAction =
  (location, category) => (dispatch) => {
-   console.log(location, category);
    if (location && category === '') {
      axios.get(`api/v1/businesses?location=${location}`)
        .then((response) => {
-         console.log(response.data.Businesses);
-         dispatch(searchBusiness(response.data.Businesses));
+         dispatch(searchBusiness(response.data.businesses));
        })
        .catch(error =>
          Promise.reject(error.response.data.message));
@@ -107,8 +107,7 @@ export const searchBusinessAction =
    if (category && location === '') {
      axios.get(`api/v1/businesses?category=${category}`)
        .then((response) => {
-         console.log(response.data.Businesses);
-         dispatch(searchBusiness(response.data.Businesses));
+         dispatch(searchBusiness(response.data.businesses));
        })
        .catch(error =>
          Promise.reject(error.response.data.message));
@@ -116,8 +115,7 @@ export const searchBusinessAction =
    if (location && category) {
      axios.get(`api/v1/businesses?location=${location}&category=${category}`)
        .then((response) => {
-         console.log(response.data.Businesses);
-         dispatch(searchBusiness(response.data.Businesses));
+         dispatch(searchBusiness(response.data.businesses));
        })
        .catch(error =>
          Promise.reject(error.response.data.message));

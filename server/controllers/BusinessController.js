@@ -172,17 +172,17 @@ class BusinessController {
           limit,
           offset,
         })
-        .then((business) => {
-          const pages = Math.ceil(business.count / limit);
-          if (!business.count) {
+        .then((businesses) => {
+          const pages = Math.ceil(businesses.count / limit);
+          if (!businesses.count) {
             return res.status(404).send({
               message: 'No Business found'
             });
           } else if (pageNumber > pages) {
-            return res.status(404).send({ message });
+            return res.status(404).send({ message: message });
           }
-          return res.status(200).json({
-            business, count: business.count, pages
+          return res.status(200).send({
+            businesses, count: businesses.count, pages
           });
         })
         .catch(() => res.status(500).send({
@@ -223,6 +223,41 @@ class BusinessController {
         }
         return res.status(404).json({
           message: 'No business found'
+        });
+      })
+      .catch(() => res.status(500).send({
+        message: 'Internal server error'
+      }));
+  }
+
+  /**
+   * @description - gets all user businesses in the application
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Get:/api/v1/business/user
+   */
+  static getAllUserBusinessess(req, res) {
+    const { id } = req.decoded.currentUser;
+    Business
+      .findAll({
+        where: {
+          userId: id
+        }
+      })
+      .then((business) => {
+        if (business.length === 0) {
+          return res.status(401).json({
+            message: 'No Business Found'
+          });
+        }
+        return res.status(200).send({
+          message: 'Business Found!',
+          Businesses: business
         });
       })
       .catch(() => res.status(500).send({
