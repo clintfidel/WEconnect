@@ -115,7 +115,7 @@ class RegisterBusiness extends Component {
     const allcategories = this.props.categories;
     return (
       this.state.redirectUser ?
-        <Redirect to="/all-business" /> :
+        <Redirect to="/userbusiness" /> :
         <div>
           <NavBar />
           <div className="full-page">

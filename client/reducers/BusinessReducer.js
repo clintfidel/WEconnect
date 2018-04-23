@@ -1,5 +1,6 @@
 import {
   GET_ALL_BUSINESSES,
+  GET_ALL_USER_BUSINESS,
   ADD_BUSINESS,
   GET_ALL_CATEGORY,
   VIEW_BUSINESS,
@@ -11,8 +12,10 @@ import {
 const initialState = {
   message: '',
   businesses: [],
+  userBusiness: [],
   categories: [],
-  business: {}
+  business: {},
+  count: 0
 };
 
 /**
@@ -32,6 +35,12 @@ const BuisnessReducer = (state = initialState, action) => {
       ...state,
       businesses: action.businesses.rows,
       count: action.businesses.count
+    };
+  case GET_ALL_USER_BUSINESS:
+    return {
+      ...state,
+      userBusiness: action.userBusiness.rows,
+      count: action.userBusiness.count
     };
   case GET_ALL_CATEGORY:
     return { ...state, categories: action.categories };

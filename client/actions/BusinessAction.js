@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   GET_ALL_BUSINESSES,
+  GET_ALL_USER_BUSINESS,
   ADD_BUSINESS,
   GET_ALL_CATEGORY,
   VIEW_BUSINESS,
@@ -20,7 +21,6 @@ export function searchBusiness(result) {
   return {
     type: SEARCH_BUSINESS,
     result,
-    // authenticated: true
   };
 }
 /**
@@ -37,6 +37,17 @@ export const getAllBusinessAction = (page) => (dispatch) =>
       dispatch({
         type: GET_ALL_BUSINESSES,
         businesses: response.data.businesses
+      });
+    })
+    .catch(error => Promise.reject(error.response.data.message));
+
+export const getAllUserBusinessAction = (page) => (dispatch) =>
+  axios.get(`/api/v1/businesses/user?pageNum=${page}`)
+    .then((response) => {
+      console.log(response);
+      dispatch({
+        type: GET_ALL_USER_BUSINESS,
+        userBusiness: response.data.businesses
       });
     })
     .catch(error => Promise.reject(error.response.data.message));

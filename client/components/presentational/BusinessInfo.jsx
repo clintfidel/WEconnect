@@ -60,7 +60,6 @@ const BusinessInfo = ({
 
           }
           <EditModal
-            categoryList={allCategories}
             id={+id}/>
           <hr/>
         </div>

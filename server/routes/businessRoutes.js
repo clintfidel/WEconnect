@@ -12,7 +12,7 @@ import business from '../controllers/BusinessController';
 const {
   addBusiness, updateBusiness, deleteBusiness,
   getAllBusinessess, getOneBusiness, getAllBusinessByPage,
-  getAllCategories, getAllUserBusinessess
+  getAllCategories, getAllUserBusinesses
 } = business;
 const businessRouter = express.Router();
 
@@ -28,7 +28,7 @@ businessRouter.route('/')
     searchBusiness, getAllBusinessess
   );
 businessRouter.route('/user')
-  .get(isLoggedIn, verifyUserIdExist, getAllUserBusinessess);
+  .get(isLoggedIn, verifyUserIdExist, getAllUserBusinesses);
 
 businessRouter.route('/category')
   .get(isLoggedIn, verifyUserIdExist, getAllCategories);
