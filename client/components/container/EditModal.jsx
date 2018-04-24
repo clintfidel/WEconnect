@@ -55,6 +55,11 @@ class EditModal extends Component {
    * @return {void}
    */
   onChange(event) {
+    if (event.target.value === "Select From...") {
+      toastrOption();
+      toastr.error('Please make a valid selection');
+      return false;
+    }
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -134,7 +139,6 @@ class EditModal extends Component {
                           placeholder="category"
                           className="form-control"
                           required>
-                          <option>Choose location</option>
                           {this.props.locations.map((location, index) => (
                             <option
                               key={index}
@@ -156,8 +160,7 @@ class EditModal extends Component {
                           placeholder="category"
                           className="form-control"
                           required>
-                          <option>Choose category</option>
-                          {this.props.categoryList.map((editCategory) =>
+                          {this.props.categories.map((editCategory) =>
                             (<option key={editCategory.id}
                               value={editCategory.id}
                               id={`${editCategory.category}`}>
@@ -210,12 +213,14 @@ class EditModal extends Component {
 EditModal.propTypes = {
   editBusinessAction: PropTypes.func.isRequired,
   business: PropTypes.object,
-  categoryList: PropTypes.array,
+  categories: PropTypes.array,
   locations: PropTypes.array,
   id: PropTypes.number
 };
 const mapStateToProps = (state) => ({
-  business: state.BusinessReducer.business
+  business: state.BusinessReducer.business,
+  categories: state.BusinessReducer.categories
+
 });
 
 export default connect(

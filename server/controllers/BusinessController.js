@@ -241,28 +241,58 @@ class BusinessController {
    *
    * ROUTE: Get:/api/v1/business/user
    */
-  static getAllUserBusinessess(req, res) {
+  static getAllUserBusinesses(req, res) {
     const { id } = req.decoded.currentUser;
-    Business
-      .findAll({
-        where: {
-          userId: id
-        }
-      })
-      .then((business) => {
-        if (business.length === 0) {
-          return res.status(401).json({
-            message: 'No Business Found'
+    const { pageNum } = req.query;
+    if (pageNum) {
+      const pageNumber = Number(pageNum);
+      const message = 'Sorry no business found for this page';
+      const limit = 10;
+      let offset;
+      let page;
+      if (pageNumber === 0) {
+        offset = 0;
+      } else {
+        page = pageNumber;
+        offset = limit * (page - 1);
+      }
+      Business
+        .findAndCountAll({
+          where: {
+            userId: id
+          },
+          order: [['views', req.query.order || 'DESC']],
+          attributes: ['id', 'name', 'location', 'details', 'views'],
+          include: [
+            {
+              model: Category,
+              attributes: ['category']
+            },
+            {
+              model: database.User,
+              attributes: ['username', 'email']
+            }
+          ],
+          limit,
+          offset,
+        })
+        .then((businesses) => {
+          const pages = Math.ceil(businesses.count / limit);
+          if (!businesses.count) {
+            return res.status(404).send({
+              message: 'No Business found'
+            });
+          } else if (pageNumber > pages) {
+            return res.status(404).send({ message: message });
+          }
+          return res.status(200).send({
+            businesses, count: businesses.count, pages
           });
-        }
-        return res.status(200).send({
-          message: 'Business Found!',
-          Businesses: business
-        });
-      })
-      .catch(() => res.status(500).send({
-        message: 'Internal server error'
-      }));
+        })
+        .catch(() => res.status(500).send({
+          message: 'Internal server error'
+        }));
+    }
   }
 
   /**

@@ -111,7 +111,6 @@ class ViewBusiness extends Component {
           deleteHandler={this.deleteBusiness}
           key={Math.random() * 10}
           userAuth={Number(this.props.auth.id)}
-          allCategories={this.props.categories}
         />
       );
     }

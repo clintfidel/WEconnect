@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import NavBar from '../presentational/common/NavBar';
 import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
-import { getAllBusinessAction } from '../../actions/BusinessAction';
+import { getAllUserBusinessAction } from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
 
 /**
@@ -37,7 +37,7 @@ class AllBusiness extends Component {
    * @return {void} no return or void
    */
   componentDidMount() {
-    this.props.getAllBusinessAction(1);
+    this.props.getAllUserBusinessAction(1);
   }
 
   /**
@@ -78,7 +78,7 @@ class AllBusiness extends Component {
    *
    */
   handlePageChange(page) {
-    this.props.getAllBusinessAction(page.selected + 1);
+    this.props.getAllUserBusinessAction(page.selected + 1);
   }
 
   /**
@@ -130,7 +130,7 @@ class AllBusiness extends Component {
             <SearchBusiness
               renderAllBusiness={this.renderAllBusiness()}/>
             <div className="jumbotron">
-              <h1>All Businesses</h1>
+              <h1>My Businesses</h1>
               {this.renderAllBusiness()}
               {this.renderPagination(0)}
             </div>
@@ -144,15 +144,15 @@ class AllBusiness extends Component {
 }
 
 AllBusiness.propTypes = {
-  getAllBusinessAction: PropTypes.func.isRequired,
+  getAllUserBusinessAction: PropTypes.func.isRequired,
   businesses: PropTypes.array,
   count: PropTypes.number
 };
 const mapStateToProps = (state) => ({
-  businesses: state.BusinessReducer.businesses,
+  businesses: state.BusinessReducer.userBusiness,
   count: state.BusinessReducer.count
 });
 export default connect(
   mapStateToProps,
-  { getAllBusinessAction }
+  { getAllUserBusinessAction }
 )(AllBusiness);
