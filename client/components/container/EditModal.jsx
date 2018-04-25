@@ -35,7 +35,7 @@ class EditModal extends Component {
   constructor(props, defaultProps) {
     super(props);
     this.state = {
-      loader: false,
+      isOpen: false,
       redirectUser: false,
       name: this.props.business.name,
       details: this.props.business.details,

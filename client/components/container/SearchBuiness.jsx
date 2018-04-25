@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import {
   searchBusinessAction,
+  searchUserBusinessAction,
   getAllCategoryAction,
-  getAllBusinessAction
+  getAllBusinessAction,
+  getAllUserBusinessAction
 } from '../../actions/BusinessAction';
-
 /**
  * @class Signup
  *
@@ -53,10 +55,11 @@ class SearchBuiness extends Component {
    * @return {void} no return or void
    */
   componentDidMount() {
-    this.props.getAllCategoryAction()
-      .then(() => {
-        this.props.getAllBusinessAction(1);
-      });
+    this.props.getAllCategoryAction();
+    if (this.props.location.pathname === '/userbusiness') {
+      this.props.getAllUserBusinessAction(1);
+    }
+    this.props.getAllBusinessAction(1);
   }
 
   /**
@@ -69,6 +72,7 @@ class SearchBuiness extends Component {
   onClick() {
     this.setState(this.baseState, () =>
       this.props.getAllBusinessAction(1));
+    this.props.getAllUserBusinessAction(1);
   }
   /**
    * @description - handles the business search
@@ -78,13 +82,25 @@ class SearchBuiness extends Component {
    * @return {void}
    */
   handleSearch(event) {
+    const locationPath = this.props.location.pathname;
     event.preventDefault();
     const { value } = event.target;
-    if (event.target.value !== '') {
+    if (event.target.value !== '' &&
+    locationPath === "/all-business") {
       this.setState({
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchBusinessAction(
+          this.state.location,
+          this.state.category
+        ));
+    }
+    if (event.target.value !== '' &&
+    locationPath === "/userbusiness") {
+      this.setState({
+        [event.target.name]: event.target.value
+      }, () =>
+        this.props.searchUserBusinessAction(
           this.state.location,
           this.state.category
         ));
@@ -94,8 +110,14 @@ class SearchBuiness extends Component {
         [event.target.name]: ''
       }, () => {
         if (this.state.location === "" &&
-       this.state.category === "") {
+       this.state.category === "" &&
+       locationPath === "/all-business") {
           this.props.getAllBusinessAction(1);
+        }
+        if (this.state.location === "" &&
+       this.state.category === "" &&
+       locationPath === "/userbusiness") {
+          this.props.getAllUserBusinessAction(1);
         }
       });
     }
@@ -167,22 +189,27 @@ class SearchBuiness extends Component {
 SearchBuiness.propTypes = {
   getAllCategoryAction: PropTypes.func,
   getAllBusinessAction: PropTypes.func,
+  getAllUserBusinessAction: PropTypes.func,
   allCategories: PropTypes.array,
+  location: PropTypes.object,
   locations: PropTypes.array,
   allBusiness: PropTypes.array,
-  searchBusinessAction: PropTypes.func
+  searchBusinessAction: PropTypes.func,
+  searchUserBusinessAction: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
   allCategories: state.BusinessReducer.categories,
-  allBusiness: state.BusinessReducer.businesses
+  allBusiness: state.BusinessReducer.businesses,
 });
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   {
     searchBusinessAction,
+    searchUserBusinessAction,
     getAllCategoryAction,
-    getAllBusinessAction
+    getAllBusinessAction,
+    getAllUserBusinessAction
   }
-)(SearchBuiness);
+)(SearchBuiness));
 

@@ -1,6 +1,9 @@
 import express from 'express';
 import isLoggedIn from '../middlewares/authorization';
-import searchBusiness from '../middlewares/searchBusiness';
+import {
+  searchBusiness,
+  searchUserBusiness
+} from '../middlewares/searchBusiness';
 import {
   checkBusinessInput,
   validateEditUserId, checkInvalidUser, verifyUserIdExist,
@@ -28,7 +31,7 @@ businessRouter.route('/')
     searchBusiness, getAllBusinessess
   );
 businessRouter.route('/user')
-  .get(isLoggedIn, verifyUserIdExist, getAllUserBusinesses);
+  .get(isLoggedIn, verifyUserIdExist, searchUserBusiness, getAllUserBusinesses);
 
 businessRouter.route('/category')
   .get(isLoggedIn, verifyUserIdExist, getAllCategories);
