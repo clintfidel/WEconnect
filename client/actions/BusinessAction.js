@@ -7,7 +7,8 @@ import {
   VIEW_BUSINESS,
   DELETE_BUSINESS,
   EDIT_BUSINESS,
-  SEARCH_BUSINESS
+  SEARCH_BUSINESS,
+  SEARCH_USER_BUSINESS
 } from './types';
 
 /**
@@ -23,6 +24,40 @@ export function searchBusiness(result) {
     result,
   };
 }
+
+/**
+ * @description - Search business
+ *
+ * @param {Object} result - search result
+ *
+ * @returns {Object} - redux action to be dispatched
+ */
+export function searchUserBusiness(result) {
+  return {
+    type: SEARCH_USER_BUSINESS,
+    result,
+  };
+}
+/**
+ * @description - Search Query
+ *
+ * @param {string} location - business location
+ *
+ * @param {string} category - business category
+ *
+ * @param {string} url - endpoint
+ *
+ * @returns {Object} - redux action to be dispatched
+ */
+export function searchQuery(location, category, url) {
+  let queryParams = '?';
+  queryParams =
+    !location ? queryParams : `${queryParams}location=${location}&`;
+  queryParams =
+    !category ? queryParams : `${queryParams}category=${category}`;
+  url = `${url}${queryParams}`;
+  return url;
+}
 /**
  * @description Request to the API to get users businessess
  *
@@ -33,7 +68,6 @@ export function searchBusiness(result) {
 export const getAllBusinessAction = (page) => (dispatch) =>
   axios.get(`/api/v1/businesses?pageNum=${page}`)
     .then((response) => {
-      console.log(response);
       dispatch({
         type: GET_ALL_BUSINESSES,
         businesses: response.data.businesses
@@ -44,7 +78,6 @@ export const getAllBusinessAction = (page) => (dispatch) =>
 export const getAllUserBusinessAction = (page) => (dispatch) =>
   axios.get(`/api/v1/businesses/user?pageNum=${page}`)
     .then((response) => {
-      console.log(response);
       dispatch({
         type: GET_ALL_USER_BUSINESS,
         userBusiness: response.data.businesses
@@ -106,30 +139,15 @@ export const editBusinessAction = (businessId, businessDetails) => (dispatch) =>
 
 export const searchBusinessAction =
  (location, category) => (dispatch) => {
-   if (location && category === '') {
-     axios.get(`api/v1/businesses?location=${location}`)
-       .then((response) => {
-         dispatch(searchBusiness(response.data.businesses));
-       })
-       .catch(error =>
-         Promise.reject(error.response.data.message));
-   }
-
-   if (category && location === '') {
-     axios.get(`api/v1/businesses?category=${category}`)
-       .then((response) => {
-         dispatch(searchBusiness(response.data.businesses));
-       })
-       .catch(error =>
-         Promise.reject(error.response.data.message));
-   }
-   if (location && category) {
-     axios.get(`api/v1/businesses?location=${location}&category=${category}`)
-       .then((response) => {
-         dispatch(searchBusiness(response.data.businesses));
-       })
-       .catch(error =>
-         Promise.reject(error.response.data.message));
-   }
+   const url = searchQuery(location, category, '/api/v1/businesses');
+   axios.get(url)
+     .then((response) => dispatch(searchBusiness(response.data.businesses)));
  };
 
+export const searchUserBusinessAction =
+ (location, category) => (dispatch) => {
+   const url = searchQuery(location, category, '/api/v1/businesses/user');
+   axios.get(url)
+     .then((response) =>
+       dispatch(searchUserBusiness(response.data.businesses)));
+ };

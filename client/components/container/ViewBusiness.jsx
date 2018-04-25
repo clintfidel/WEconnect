@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import NavBar from '../presentational/common/NavBar';
 import BusinessInfo from '../presentational/BusinessInfo';
 import Footer from '../presentational/common/Footer';
+import Loader from '../presentational/common/Loader';
 import {
   viewBusinessAction,
   deleteBusinessAction,
@@ -42,8 +43,16 @@ class ViewBusiness extends Component {
    * @return {void} no return or void
    */
   componentDidMount() {
+    this.setState({
+      loader: true
+    });
     this.props.getAllCategoryAction();
     this.props.viewBusinessAction(this.props.match.params.id)
+      .then(() => {
+        this.setState({
+          loader: false
+        });
+      })
       .catch((error) => {
         if (error) {
           this.setState({
@@ -130,7 +139,12 @@ class ViewBusiness extends Component {
         <div>
           <NavBar />
           <div className="business-body">
-            {this.displayBusiness()}
+            { this.state.loader ?
+              <Loader size={'500px'} /> :
+              <div>
+                {this.displayBusiness()}
+              </div>
+            }
           </div>
           <Footer />
         </div>

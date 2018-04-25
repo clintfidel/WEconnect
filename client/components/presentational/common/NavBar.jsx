@@ -45,6 +45,11 @@ class NavBar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/userbusiness">
+                My-business
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link
                     onClick={this.props.logoutAction}
                     className="nav-link" to="/">Logout</Link>

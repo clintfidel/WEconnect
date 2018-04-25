@@ -7,6 +7,7 @@ import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
 import { getAllUserBusinessAction } from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
+import Loader from '../presentational/common/Loader';
 
 /**
  * @class Signup
@@ -37,7 +38,15 @@ class AllBusiness extends Component {
    * @return {void} no return or void
    */
   componentDidMount() {
-    this.props.getAllUserBusinessAction(1);
+    this.setState({
+      loader: true
+    });
+    this.props.getAllUserBusinessAction(1)
+      .then(() => {
+        this.setState({
+          loader: false
+        });
+      });
   }
 
   /**
@@ -130,9 +139,14 @@ class AllBusiness extends Component {
             <SearchBusiness
               renderAllBusiness={this.renderAllBusiness()}/>
             <div className="jumbotron">
-              <h1>My Businesses</h1>
-              {this.renderAllBusiness()}
-              {this.renderPagination(0)}
+              { this.state.loader ?
+                <Loader size={'250px'} /> :
+                <div>
+                  <h1>My Businesses</h1>
+                  {this.renderAllBusiness()}
+                  {this.renderPagination(0)}
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -150,7 +164,7 @@ AllBusiness.propTypes = {
 };
 const mapStateToProps = (state) => ({
   businesses: state.BusinessReducer.userBusiness,
-  count: state.BusinessReducer.count
+  count: state.BusinessReducer.count,
 });
 export default connect(
   mapStateToProps,

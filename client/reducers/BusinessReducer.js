@@ -6,7 +6,8 @@ import {
   VIEW_BUSINESS,
   DELETE_BUSINESS,
   EDIT_BUSINESS,
-  SEARCH_BUSINESS
+  SEARCH_BUSINESS,
+  SEARCH_USER_BUSINESS
 } from '../actions/types';
 
 const initialState = {
@@ -64,6 +65,12 @@ const BuisnessReducer = (state = initialState, action) => {
     return {
       ...state,
       businesses: action.result.rows,
+      count: action.result.count
+    };
+  case SEARCH_USER_BUSINESS:
+    return {
+      ...state,
+      userBusiness: action.result.rows,
       count: action.result.count
     };
   default:
