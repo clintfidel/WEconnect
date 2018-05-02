@@ -136,8 +136,7 @@ class AllBusiness extends Component {
         <NavBar/>
         <div>
           <div className="main-business">
-            <SearchBusiness
-              renderAllBusiness={this.renderAllBusiness()}/>
+            <SearchBusiness/>
             <div className="jumbotron">
               { this.state.loader ?
                 <Loader size={'250px'} /> :

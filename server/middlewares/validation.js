@@ -316,7 +316,9 @@ export const emailExist = (req, res, next) => {
  * @return {object} - status code and error message
  */
 export const checkUserInvalidDetails = (req, res, next) => {
-  const { username, fullname, password } = req.body;
+  const {
+    username, fullname, password, email
+  } = req.body;
   if (!username) { return next(); }
   if (checkDigits.test(username[0]) || checkSpace.test(username) ||
   checkFirstChar.test(username[0]) || typeof username !== 'string') {
@@ -338,6 +340,7 @@ export const checkUserInvalidDetails = (req, res, next) => {
       message: 'Invalid fullname!'
     });
   }
+  if (!email) { return next(); }
   if (!password) { return next(); }
   if (checkDigits.test(password[0]) ||
         checkSpace.test(password) ||

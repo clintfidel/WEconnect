@@ -7,7 +7,7 @@ import {
 } from '../middlewares/validation';
 
 const {
-  signUp, login, editProfile
+  signUp, login, editProfile, getUser
 } = user;
 const userRouter = express.Router();
 
@@ -16,15 +16,15 @@ userRouter.route('/signup')
     checkUserInput, checkUserInvalidDetails, emailExist,
     usernameExist, signUp
   );
+userRouter.route('/')
+  .get(isLoggedIn, getUser);
 
 userRouter.route('/login')
   .post(login);
 
-
 userRouter.route('/editprofile')
   .put(
-    isLoggedIn, checkUserInvalidDetails, emailExist, verifyUserIdExist,
-    usernameExist,
+    isLoggedIn, checkUserInvalidDetails, verifyUserIdExist,
     editProfile
   );
 

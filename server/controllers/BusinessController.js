@@ -321,7 +321,7 @@ class BusinessController {
       })
       .then((business) => {
         if (!business) {
-          return res.status(404).json({
+          return res.status(400).json({
             message: 'no business found'
           });
         }

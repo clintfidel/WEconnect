@@ -115,11 +115,11 @@ class UserController {
    *
    * @return {Object} - success message and user updated profile
    *
-   * Route: POST: /users/edit/:userId
+   * Route: POST: /auth/editprofile
    */
   static editProfile(req, res) {
     const { id } = req.decoded.currentUser;
-    const password = bcrypt.hashSync(req.body.password, 10);
+    // const password = bcrypt.hashSync(req.body.password, 10);
     const {
       username, fullname, email
     } = req.body;
@@ -131,22 +131,61 @@ class UserController {
         editProfile
           .update({
             username: username || editProfile.username,
-            password: password || editProfile.password,
             fullname: fullname || editProfile.fullname,
             email: email || editProfile.email
+          })
+          .then((result) => {
+            res.status(200).json({
+              status: 'success',
+              message: 'Profile updated successfully',
+              updatedProfile: {
+                userId: result.id,
+                fullname: result.fullname,
+                username: result.username,
+                email: result.email
+              }
+            });
           }))
-      .then(result => res.status(200).json({
-        status: 'success',
-        message: 'Profile updated successfully',
-        updatedProfile: {
-          userId: result.id,
-          fullname: result.fullname,
-          username: result.username,
-          email: result.email
-        }
-      }))
       .catch(() => res.status(500).json({
         message: 'Internal server error'
+      }));
+  }
+
+  /**
+   * @description - get user profile
+   *
+   * @param  {object} req - request object
+   *
+   * @param  {object} res - response object
+   *
+   * @return {Object} - success message and user updated profile
+   *
+   * Route: GET: api/v1/auth/
+   */
+  static getUser(req, res) {
+    const { id } = req.decoded.currentUser;
+    return User
+      .findOne({
+        where: { id: id }
+      })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({
+            message: 'user does not exist'
+          });
+        }
+        return res.status(200).json({
+          status: "success",
+          data: {
+            id: user.id,
+            username: user.username,
+            fullname: user.fullname,
+            email: user.email,
+          }
+        });
+      })
+      .catch(() => res.status(500).json({
+        message: 'Internal sever Error'
       }));
   }
 }

@@ -1,7 +1,12 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import setAuthorization from '../utils/authorization';
-import { SET_CURRENT_USER, USER_LOGOUT } from './types';
+import {
+  SET_CURRENT_USER,
+  USER_LOGOUT,
+  USER_PROFILE,
+  EDIT_USER_PROFILE
+} from './types';
 import toastrOption from '../utils/toastrOption';
 
 
@@ -43,6 +48,27 @@ export const loginAction = userDetails => dispatch => axios
     return response.data.message;
   })
   .catch(error => Promise.reject(error.response.data.message));
+
+export const editUserProfileAction = (userDetails) => (dispatch) =>
+  axios.put('/api/v1/auth/editprofile', userDetails)
+    .then((response) => {
+      dispatch({
+        type: EDIT_USER_PROFILE,
+        newProfile: response.data.updatedProfile
+      });
+      return response.data.message;
+    })
+    .catch(error => Promise.reject(error.response.data.message));
+
+export const userProfileAction = () => (dispatch) =>
+  axios.get('api/v1/auth/')
+    .then((response) => {
+      dispatch({
+        type: USER_PROFILE,
+        profile: response.data.data
+      });
+    })
+    .catch(error => Promise.reject(error.response.data.message));
 
 export const logoutAction = () => (dispatch) => {
   localStorage.removeItem('token');

@@ -1,51 +1,50 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editBusinessAction } from '../../actions/BusinessAction';
+import PropTypes from 'prop-types';
 import toastrOption from '../../utils/toastrOption';
+import { editUserProfileAction } from '../../actions/AuthAction';
 
 /**
- * @class Signup
+ * @class ViewBusiness
  *
- * @classdesc registers user
+ * @classdesc User Profile
  *
  */
-class EditModal extends Component {
-  static defaultProps = {
-    locations: [
-      'ABIA', 'ADAMAWA', 'AKWA IBOM', 'ANAMBRA',
-      'BAUCHI', 'BAYELSA', 'BENUE', 'BORNO',
-      'CROSS RIVER', 'DELTA', 'EBONYI',
-      'EDO', 'EKITI', 'ENUGU', 'FCT-ABUJA', 'GOMBE',
-      'IMO', 'JIGAWA', 'KADUNA', 'KANO', 'KATSINA',
-      'KEBBI', 'KOGI', 'KWARA', 'LAGOS', 'NASSARAWA', 'NIGER', 'OGUN', 'ONDO',
-      'OSUN', 'OYO', 'PLATEAU', 'RIVERS', 'SOKOTO', 'TARABA', 'YOBE', 'ZAMFARA'
-    ]
-  }
+class EditUserProfile extends Component {
   /**
    * constructor - contains the constructor
    *
    * @param  {object} props the properties of the class component
    *
-   * @param  {object} defaultProps the properties of the class component
-   *
    * @return {void} no return or void
    *
    */
-  constructor(props, defaultProps) {
+  constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
-      redirectUser: false,
-      name: this.props.business.name,
-      details: this.props.business.details,
-      categoryId: this.props.business.categoryId,
-      location: this.props.business.location
+      loader: false,
+      userTemplate: this.props.userDetailStorage
+
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * @description - Update user details in state with props
+   *
+   * @param {object} nextProps
+   *
+   * @return {void} no return or void
+   *
+   */
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.id) {
+      this.setState({
+        userTemplate: nextProps.user
+      });
+    }
+  }
 
   /**
    * @description - handles the onchange event
@@ -55,13 +54,10 @@ class EditModal extends Component {
    * @return {void}
    */
   onChange(event) {
-    if (event.target.value === "Select From...") {
-      toastrOption();
-      toastr.error('Please make a valid selection');
-      return false;
-    }
+    const { userTemplate } = this.state;
+    userTemplate[event.target.name] = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value
+      userTemplate: userTemplate
     });
   }
 
@@ -74,7 +70,7 @@ class EditModal extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.editBusinessAction(this.props.id, this.state)
+    this.props.editUserProfileAction(this.state.userTemplate)
       .then((message) => {
         $(".modal-backdrop").remove();
         $('.modal').hide();
@@ -87,9 +83,8 @@ class EditModal extends Component {
       });
   }
 
-
   /**
-   * @description render - renders the class component
+   * @description displayUserProfile - display user profile
    *
    * @return {object} returns an object
    *
@@ -106,31 +101,31 @@ class EditModal extends Component {
             <div className="modal-content">
               <div className="modal-header">
                 <h3 className="modal-title"
-                  id="exampleModalVerticalLabel">Edit Business Profile</h3>
+                  id="exampleModalVerticalLabel">Edit User Profile</h3>
                 <button type="button" className="close"
-                  data-dismiss="modal" aria-label="Close">
+                  data-dismiss="modal" aria-label="Closen">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div className="modal-body">
                 <div className="panel-body">
                   <form
-                    action=""
-                    method=""
+                    action="#"
+                    method="post"
                     role="form"
                     onSubmit={this.onSubmit}>
                     <div className="form-group">
                       <label
                         className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Name:</strong>
+                        <strong>Full Name:</strong>
                       </label>
                       <div className="input-group">
                         <span className="input-group-addon" />
                         <input type="text"
-                          name="name"
+                          name="fullname"
                           onChange={this.onChange}
-                          defaultValue={this.state.name}
-                          placeholder="Business Name"
+                          value={this.state.userTemplate.fullname}
+                          placeholder="fullname"
                           className="form-control"
                           autoFocus="autofocus"
                           required/>
@@ -139,50 +134,35 @@ class EditModal extends Component {
                     <div className="form-group">
                       <label
                         className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Location:</strong>
+                        <strong>Username:</strong>
                       </label>
                       <div className="input-group">
                         <span className="input-group-addon" />
-                        <select type="select"
-                          name="location"
+                        <input type="text"
+                          name="username"
                           onChange={this.onChange}
-                          defaultValue={this.state.location}
-                          placeholder="category"
+                          value={this.state.userTemplate.username}
+                          placeholder="userame"
                           className="form-control"
-                          required>
-                          {this.props.locations.map((location, index) => (
-                            <option
-                              key={index}
-                              value={location}
-                              id={`${location}`}>
-                              {location}
-                            </option>
-                          ))}
-                        </select>
+                          autoFocus="autofocus"
+                          required/>
                       </div>
                     </div>
                     <div className="form-group">
                       <label
                         className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Category:</strong>
+                        <strong>Email:</strong>
                       </label>
                       <div className="input-group">
                         <span className="input-group-addon" />
-                        <select type="select"
-                          name="categoryId"
+                        <input type="email"
+                          name="email"
                           onChange={this.onChange}
-                          defaultValue={this.state.categoryId}
-                          placeholder="category"
+                          value={this.state.userTemplate.email}
+                          placeholder="email"
                           className="form-control"
-                          required>
-                          {this.props.categories.map((editCategory) =>
-                            (<option key={editCategory.id}
-                              value={editCategory.id}
-                              id={`${editCategory.category}`}>
-                              {editCategory.category}
-                            </option>))
-                          }
-                        </select>
+                          autoFocus="autofocus"
+                          required/>
                       </div>
                     </div>
                     <div className="form-group">
@@ -195,23 +175,6 @@ class EditModal extends Component {
                         <input type="file"
                           className="form-control-file"
                           id="exampleFormControlFile1"/>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Details:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <textarea
-                          name="details"
-                          onChange={this.onChange}
-                          defaultValue={this.state.details}
-                          placeholder="Business-Details"
-                          rows="10" className="form-control"
-                          type="text"
-                          required />
                       </div>
                     </div>
                     <div className="modal-footer">
@@ -233,21 +196,26 @@ class EditModal extends Component {
   }
 }
 
-EditModal.propTypes = {
-  editBusinessAction: PropTypes.func.isRequired,
-  business: PropTypes.object,
-  categories: PropTypes.array,
-  locations: PropTypes.array,
-  id: PropTypes.number
+EditUserProfile.propTypes = {
+  editUserProfileAction: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  userDetailStorage: PropTypes.object
 };
-const mapStateToProps = (state) => ({
-  business: state.BusinessReducer.business,
-  categories: state.BusinessReducer.categories
-});
+
+const mapStateToProps = (state) => {
+  const userDetailsTemplate = {
+    fullname: '',
+    email: '',
+    username: '',
+    id: ''
+  };
+  return {
+    user: state.AuthReducer.user,
+    userDetailStorage: userDetailsTemplate
+  };
+};
 
 export default connect(
   mapStateToProps,
-  {
-    editBusinessAction
-  }
-)(EditModal);
+  { editUserProfileAction }
+)(EditUserProfile);
