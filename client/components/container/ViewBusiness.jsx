@@ -10,8 +10,10 @@ import Loader from '../presentational/common/Loader';
 import {
   viewBusinessAction,
   deleteBusinessAction,
-  getAllCategoryAction
+  getAllCategoryAction,
 } from '../../actions/BusinessAction';
+import { allReviewAction } from '../../actions/ReviewsAction';
+
 
 /**
  * @class ViewBusiness
@@ -47,6 +49,7 @@ class ViewBusiness extends Component {
       loader: true
     });
     this.props.getAllCategoryAction();
+    this.props.allReviewAction(this.props.match.params.id);
     this.props.viewBusinessAction(this.props.match.params.id)
       .then(() => {
         this.setState({
@@ -54,7 +57,8 @@ class ViewBusiness extends Component {
         });
       })
       .catch((error) => {
-        if (error) {
+        if (error !== 'No review found for this business') {
+          console.log(error);
           this.setState({
             redirectUser: true
           });
@@ -156,6 +160,7 @@ ViewBusiness.propTypes = {
   getAllCategoryAction: PropTypes.func.isRequired,
   viewBusinessAction: PropTypes.func.isRequired,
   deleteBusinessAction: PropTypes.func.isRequired,
+  allReviewAction: PropTypes.func.isRequired,
   categories: PropTypes.array,
   business: PropTypes.object,
   history: PropTypes.object,
@@ -174,6 +179,7 @@ export default connect(
   {
     viewBusinessAction,
     getAllCategoryAction,
-    deleteBusinessAction
+    deleteBusinessAction,
+    allReviewAction,
   }
 )(ViewBusiness);

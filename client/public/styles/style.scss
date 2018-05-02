@@ -1052,3 +1052,40 @@ body {
     }
 }
 
+// user profile
+.main-business .user-profile {
+    .user-img {
+        float: left;
+        margin-bottom: $margin;
+        width: 30%;
+        border-radius: 50%;
+    }
+    .data-key {
+        font-size: ($size * 2- 3);
+        font-weight: bolder;
+    }
+    .key-value {
+        font-size: ($size * 2- 6);
+        font-weight: bold;
+    }
+}
+.btn-group-sm>.btn, .btn-sm {
+    padding: .8rem .8rem;
+    font-size: $size * 2 - 7;
+    line-height: 1.5;
+}
+@media screen and (max-width: 640px) {
+    .main-business .user-profile {
+        max-height: 70vh !important;
+        height: 100vh !important;
+        .data-key {
+            font-size: ($size * 2- 7);
+        }
+        .key-value {
+            font-size: ($size * 2- 9);
+            font-weight: bold;
+        }
+    }
+}
+
+//edit User Profile 

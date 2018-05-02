@@ -32,6 +32,7 @@ const initialState = {
 const BuisnessReducer = (state = initialState, action) => {
   switch (action.type) {
   case GET_ALL_BUSINESSES:
+
     return {
       ...state,
       businesses: action.businesses.rows,
@@ -55,11 +56,7 @@ const BuisnessReducer = (state = initialState, action) => {
     return { ...state, businesses: deletedBusiness };
   }
   case EDIT_BUSINESS: {
-    let newBusiness = [];
-    state.businesses.map(business =>
-      (business.id === action.business.id ?
-        newBusiness.push(action.business) : newBusiness.push(business)));
-    return { ...state, businesses: newBusiness };
+    return { ...state, business: action.business };
   }
   case SEARCH_BUSINESS:
     return {

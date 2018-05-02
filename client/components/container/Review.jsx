@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import toastrOption from '../../utils/toastrOption';
-import { allReviewAction, addReviewAction } from '../../actions/ReviewsAction';
+import { addReviewAction } from '../../actions/ReviewsAction';
 
 /**
  * @class Signup
@@ -33,14 +33,6 @@ class Review extends Component {
     this.displayReviews = this.displayReviews.bind(this);
   }
 
-  /**
-   * @description - get all reviews
-   *
-   * @return {void} no return or void
-   */
-  componentDidMount() {
-    this.props.allReviewAction(this.props.id);
-  }
 
   /**
    * @description - handles the onchange event
@@ -166,7 +158,6 @@ class Review extends Component {
 
 Review.propTypes = {
   id: PropTypes.number,
-  allReviewAction: PropTypes.func.isRequired,
   addReviewAction: PropTypes.func.isRequired,
   reviews: PropTypes.array
 };
@@ -177,5 +168,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { allReviewAction, addReviewAction }
+  { addReviewAction }
 )(Review);

@@ -49,18 +49,6 @@ class SearchBuiness extends Component {
     this.onClick = this.onClick.bind(this);
   }
 
-  /**
-   * @description - gets all businesses
-   *
-   * @return {void} no return or void
-   */
-  componentDidMount() {
-    this.props.getAllCategoryAction();
-    if (this.props.location.pathname === '/userbusiness') {
-      this.props.getAllUserBusinessAction(1);
-    }
-    this.props.getAllBusinessAction(1);
-  }
 
   /**
    * @description - handles the onclick event
