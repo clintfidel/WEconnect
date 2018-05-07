@@ -46,7 +46,7 @@ class UserController {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
         res.status(500).send({
           status: false,
           message: 'Internal server Error'
@@ -119,9 +119,8 @@ class UserController {
    */
   static editProfile(req, res) {
     const { id } = req.decoded.currentUser;
-    // const password = bcrypt.hashSync(req.body.password, 10);
     const {
-      username, fullname, email
+      username, fullname, email, image
     } = req.body;
     User
       .findOne({
@@ -132,7 +131,8 @@ class UserController {
           .update({
             username: username || editProfile.username,
             fullname: fullname || editProfile.fullname,
-            email: email || editProfile.email
+            email: email || editProfile.email,
+            image: image || editProfile.image
           })
           .then((result) => {
             res.status(200).json({
@@ -142,7 +142,8 @@ class UserController {
                 userId: result.id,
                 fullname: result.fullname,
                 username: result.username,
-                email: result.email
+                email: result.email,
+                image: result.image
               }
             });
           }))
@@ -181,6 +182,7 @@ class UserController {
             username: user.username,
             fullname: user.fullname,
             email: user.email,
+            image: user.image
           }
         });
       })

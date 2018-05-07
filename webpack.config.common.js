@@ -5,7 +5,7 @@ module.exports = {
   entry: [
     './client/index.js'],
   output: {
-    path: path.join(__dirname, 'client/dist/'),
+    path: path.join(__dirname, 'client/public'),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -68,7 +68,13 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.EnvironmentPlugin([]),
+    new webpack.EnvironmentPlugin([
+      'UPLOAD_PRESET',
+      'CLOUD_API',
+      'CLOUD_NAME',
+      'CLOUD_SECRET',
+      'CLOUD_API_KEY'
+    ]),
     new webpack.ProvidePlugin({
       "$": 'jquery',
       "jQuery": 'jquery',

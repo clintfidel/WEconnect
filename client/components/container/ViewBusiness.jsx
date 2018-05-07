@@ -49,16 +49,15 @@ class ViewBusiness extends Component {
       loader: true
     });
     this.props.getAllCategoryAction();
-    this.props.allReviewAction(this.props.match.params.id);
     this.props.viewBusinessAction(this.props.match.params.id)
       .then(() => {
+        this.props.allReviewAction(this.props.match.params.id);
         this.setState({
           loader: false
         });
       })
       .catch((error) => {
-        if (error !== 'No review found for this business') {
-          console.log(error);
+        if (error) {
           this.setState({
             redirectUser: true
           });
@@ -109,7 +108,7 @@ class ViewBusiness extends Component {
    */
   displayBusiness() {
     const {
-      userId, details, name, Category, location, views
+      userId, details, name, Category, location, views, image
     } = this.props.business;
     if (Object.keys(this.props.business).length !== 0) {
       return (
@@ -122,6 +121,7 @@ class ViewBusiness extends Component {
           views={views}
           id={+this.props.match.params.id}
           deleteHandler={this.deleteBusiness}
+          image={image}
           key={Math.random() * 10}
           userAuth={Number(this.props.auth.id)}
         />

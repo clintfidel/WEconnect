@@ -59,7 +59,7 @@ class BusinessController {
    */
   static updateBusiness(req, res) {
     const {
-      name, details, location, categoryId
+      name, details, location, categoryId, image
     } = req.body;
     Business
       .findOne({
@@ -72,7 +72,8 @@ class BusinessController {
           name: name || editBusiness.name,
           details: details || editBusiness.details,
           location: location || editBusiness.location,
-          categoryId: categoryId || editBusiness.categoryId
+          categoryId: categoryId || editBusiness.categoryId,
+          image: image || editBusiness.image
         })
         .then((editbusiness) => {
           editbusiness.reload({
@@ -158,7 +159,6 @@ class BusinessController {
       Business
         .findAndCountAll({
           order: [['views', req.query.order || 'DESC']],
-          attributes: ['id', 'name', 'location', 'details', 'views'],
           include: [
             {
               model: Category,
@@ -166,7 +166,7 @@ class BusinessController {
             },
             {
               model: database.User,
-              attributes: ['username', 'email']
+              attributes: ['username']
             }
           ],
           limit,
@@ -174,9 +174,9 @@ class BusinessController {
         })
         .then((businesses) => {
           const pages = Math.ceil(businesses.count / limit);
-          if (!businesses.count) {
-            return res.status(404).send({
-              message: 'No Business found'
+          if (businesses.count < 1) {
+            return res.status(200).send({
+              businesses
             });
           } else if (pageNumber > pages) {
             return res.status(404).send({ message: message });
@@ -262,7 +262,6 @@ class BusinessController {
             userId: id
           },
           order: [['views', req.query.order || 'DESC']],
-          attributes: ['id', 'name', 'location', 'details', 'views'],
           include: [
             {
               model: Category,
@@ -270,7 +269,7 @@ class BusinessController {
             },
             {
               model: database.User,
-              attributes: ['username', 'email']
+              attributes: ['username']
             }
           ],
           limit,
@@ -278,9 +277,9 @@ class BusinessController {
         })
         .then((businesses) => {
           const pages = Math.ceil(businesses.count / limit);
-          if (!businesses.count) {
-            return res.status(404).send({
-              message: 'No Business found'
+          if (businesses.count < 1) {
+            return res.status(200).send({
+              businesses
             });
           } else if (pageNumber > pages) {
             return res.status(404).send({ message: message });
@@ -359,7 +358,7 @@ class BusinessController {
           });
         }
         return res.status(404).json({
-          message: 'No business found'
+          message: 'No category found'
         });
       })
       .catch(() => res.status(500).send({

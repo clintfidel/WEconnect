@@ -1,4 +1,6 @@
 import axios from 'axios';
+import setAuthorization from '../utils/authorization';
+
 import {
   GET_ALL_BUSINESSES,
   GET_ALL_USER_BUSINESS,
@@ -8,9 +10,23 @@ import {
   DELETE_BUSINESS,
   EDIT_BUSINESS,
   SEARCH_BUSINESS,
-  SEARCH_USER_BUSINESS
+  SEARCH_USER_BUSINESS,
+  IMAGE_UPLOAD,
 } from './types';
 
+/**
+ * @description - upload image
+ *
+ * @param {string} imageUrl - conains image url
+ *
+ * @returns {Object} - redux action to be dispatched
+ */
+export function imageUpload(imageUrl) {
+  return {
+    type: IMAGE_UPLOAD,
+    imageUrl,
+  };
+}
 /**
  * @description - Search business
  *
@@ -137,6 +153,23 @@ export const editBusinessAction = (businessId, businessDetails) => (dispatch) =>
     })
     .catch(error => Promise.reject(error.response.data.message));
 
+export const imageUploadAction = (image) => {
+  const uploadPreset = process.env.UPLOAD_PRESET;
+  const cloudApi = process.env.CLOUD_API;
+  const formData = new FormData();
+  formData.append('file', image);
+  formData.append('upload_preset', uploadPreset);
+      delete axios.defaults.headers.common.Authorization; // eslint-disable-line
+  return dispatch => axios.post(cloudApi, formData)
+    .then((res) => {
+      let token = localStorage.getItem('token');
+      setAuthorization(token);
+      dispatch(imageUpload(res.data.public_id));
+    })
+    .catch((error) => {
+      throw (error);
+    });
+};
 export const searchBusinessAction =
  (location, category) => (dispatch) => {
    const url = searchQuery(location, category, '/api/v1/businesses');

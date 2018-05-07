@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import NavBar from '../presentational/common/NavBar';
 import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
-import { getAllBusinessAction } from '../../actions/BusinessAction';
+import {
+  getAllBusinessAction,
+  getAllCategoryAction
+} from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
 import Loader from '../presentational/common/Loader';
 
@@ -41,6 +44,7 @@ class AllBusiness extends Component {
     this.setState({
       loader: true
     });
+    this.props.getAllCategoryAction();
     this.props.getAllBusinessAction(1)
       .then(() => {
         this.setState({
@@ -59,7 +63,7 @@ class AllBusiness extends Component {
     const allBusiness = this.props.businesses;
     if (allBusiness.length < 1) {
       return (<div className="not-found"
-        style={{ textAlign: 'center', paddingTop: 50 }}>
+        style={{ tetAlign: 'center', paddingTop: 50 }}>
         <h2>No Business found!!</h2>
       </div>);
     }
@@ -73,7 +77,8 @@ class AllBusiness extends Component {
           views={business.views}
           userId={business.userId}
           id={business.id}
-          key={business.id}/>
+          key={business.id}
+          image={business.image}/>
       ))
     );
   }
@@ -158,6 +163,7 @@ class AllBusiness extends Component {
 
 AllBusiness.propTypes = {
   getAllBusinessAction: PropTypes.func.isRequired,
+  getAllCategoryAction: PropTypes.func.isRequired,
   businesses: PropTypes.array,
   count: PropTypes.number
 };
@@ -167,5 +173,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
   mapStateToProps,
-  { getAllBusinessAction }
+  { getAllBusinessAction, getAllCategoryAction }
 )(AllBusiness);

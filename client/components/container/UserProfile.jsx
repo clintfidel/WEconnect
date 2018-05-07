@@ -47,6 +47,7 @@ class UserProfile extends Component {
         });
       });
   }
+
   /**
    * @description displayUserProfile - display user profile
    *
@@ -54,13 +55,16 @@ class UserProfile extends Component {
    *
    */
   displayUserProfile() {
-    const { fullname, email, username } = this.props.userProfile;
+    const {
+      fullname, email, username, image
+    } = this.props.userProfile;
     return (
       <ViewUserProfile
         fullname={fullname}
         email={email}
         username={username}
         noOfBusiness={this.props.count}
+        image={image}
       />
     );
   }
@@ -104,12 +108,16 @@ UserProfile.propTypes = {
   fullname: PropTypes.string,
   username: PropTypes.string,
   email: PropTypes.string,
-  count: PropTypes.number
+  count: PropTypes.number,
+  image: PropTypes.string
 };
-const mapStateToProps = (state) => ({
-  userProfile: state.AuthReducer.user,
-  count: state.BusinessReducer.count
-});
+const mapStateToProps = (state) => {
+  return {
+    userProfile: state.AuthReducer.user,
+    count: state.BusinessReducer.count,
+    image: state.AuthReducer.imageUrl
+  };
+};
 
 export default connect(
   mapStateToProps,

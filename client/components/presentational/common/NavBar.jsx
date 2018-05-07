@@ -19,47 +19,52 @@ class NavBar extends Component {
    */
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-expand-md ">
-          <div className="link-container">
-            <div className="nav navbar-brand">
-              <Link to="/">
-                <img src="/wc-logo.png" alt="" />
+      <ul className="nav justify-content-end business-nav">
+        <li className="nav-item">
+          <Link className="nav-link" to="/">
+            <img src="/images/wc-logo.png"
+              alt="logo" style={{ width: "150px" }}/>
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/register-business">
+     Register-business
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/all-business">
+      Catalogue
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/userbusiness">
+      My-business
+          </Link>
+        </li>
+        <li className="nav-item">
+          <div
+            className="dropdown">
+            <button className="btn btn-light dropdown-toggle"
+              type="button"
+              id="dropdownMenu2"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">Profile
+            </button>
+            <div className="dropdown-menu">
+              <Link
+                className="dropdown-item"
+                to="/profile">View profile
+              </Link>
+              <div className="dropdown-divider" />
+              <Link
+                onClick={this.props.logoutAction}
+                className="nav-link" to="/">Log out
               </Link>
             </div>
-            <div className="nav-list" id="navbarNavDropdown">
-              <ul className="nav navbar-pull-right">
-                <li className="nav-item active">
-                  <Link className="nav-link" to="/">Home
-                  <span className="sr-only">(current)</span>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/register-business">
-                  Register-business
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/all-business">
-                Catalogue
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/userbusiness">
-                My-business
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    onClick={this.props.logoutAction}
-                    className="nav-link" to="/">Logout
-                  </Link>
-                </li>
-              </ul>
-            </div>
           </div>
-        </nav>
-      </div>
+        </li>
+      </ul>
     );
   }
 }

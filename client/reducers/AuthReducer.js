@@ -2,13 +2,15 @@ import {
   SET_CURRENT_USER,
   USER_LOGOUT,
   USER_PROFILE,
-  EDIT_USER_PROFILE
+  EDIT_USER_PROFILE,
+  IMAGE_UPLOAD
 } from '../actions/types';
 
 const initialState = {
   user: {},
   authenticated: false,
-  message: ''
+  message: '',
+  imageUrl: ''
 };
 
 /**
@@ -26,6 +28,8 @@ const AuthReducer = (state = initialState, action) => {
     return { ...state, user: action.user, authenticated: action.authenticated };
   case USER_PROFILE:
     return { ...state, user: action.profile, authenticated: true };
+  case IMAGE_UPLOAD:
+    return { ...state, imageUrl: action.imageUrl };
   case EDIT_USER_PROFILE:
     return { ...state, user: action.newProfile, authenticate: true };
   case USER_LOGOUT:

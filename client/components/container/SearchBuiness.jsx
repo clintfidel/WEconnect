@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {
   searchBusinessAction,
   searchUserBusinessAction,
-  getAllCategoryAction,
   getAllBusinessAction,
   getAllUserBusinessAction
 } from '../../actions/BusinessAction';
@@ -195,7 +194,6 @@ export default withRouter(connect(
   {
     searchBusinessAction,
     searchUserBusinessAction,
-    getAllCategoryAction,
     getAllBusinessAction,
     getAllUserBusinessAction
   }

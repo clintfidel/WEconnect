@@ -134,7 +134,7 @@ export const checkBusinessInput = (req, res, next) => {
       .json(allErrors[0]);
   }
   const {
-    name, details, location, categoryId
+    name, details, location, categoryId, image
   } = req.body;
   const { id } = req.decoded.currentUser;
   req.businessInput = {
@@ -142,6 +142,7 @@ export const checkBusinessInput = (req, res, next) => {
     details,
     location,
     categoryId,
+    image,
     userId: id
   };
   next();

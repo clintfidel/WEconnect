@@ -8,7 +8,7 @@ const HomePage = () => (
       <section className="our-brand">
         <nav className="nav-header">
           <div className="brand-logo">
-            <img src="/logo-with-background.png" alt="WEconnect"/>
+            <img src="/images/logo-with-background.png" alt="WEconnect"/>
           </div>
           <ul className="user">
             <li>
@@ -48,16 +48,16 @@ const HomePage = () => (
       <section className="footer">
         <div className="social">
           <a href="#">
-            <img src="/facebook-icon.png" alt=""/>
+            <img src="/images/facebook-icon.png" alt=""/>
           </a>
           <a href="#">
-            <img src="/instagram-icon.png" alt=""/>
+            <img src="/images/instagram-icon.png" alt=""/>
           </a>
           <a href="#">
-            <img src="/twitter-icon.png" alt=""/>
+            <img src="/images/twitter-icon.png" alt=""/>
           </a>
           <a href="#">
-            <img src="/google-icon.png" alt=""/>
+            <img src="/images/google-icon.png" alt=""/>
           </a>
         </div>
         <div className="contact-me">

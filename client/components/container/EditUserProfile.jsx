@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastrOption from '../../utils/toastrOption';
-import { editUserProfileAction } from '../../actions/AuthAction';
+import {
+  editUserProfileAction,
+  imageUploadAction
+} from '../../actions/AuthAction';
 
 /**
  * @class ViewBusiness
@@ -23,11 +26,14 @@ class EditUserProfile extends Component {
     super(props);
     this.state = {
       loader: false,
-      userTemplate: this.props.userDetailStorage
+      userTemplate: this.props.userDetailStorage,
+      image: null,
+      imageUrl: null
 
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.imageUpload = this.imageUpload.bind(this);
   }
 
   /**
@@ -62,6 +68,32 @@ class EditUserProfile extends Component {
   }
 
   /**
+   * @description - handles the upload image event
+   *
+   * @param  {object} event the event for the content field
+   *
+   * @return {void} no return or void
+   *
+ */
+  imageUpload(event) {
+    event.preventDefault();
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+    if (file) {
+      fileReader.onload = () => {
+        const newImage = new Image();
+        newImage.src = fileReader.result;
+        newImage.onload = () => {
+          this.setState({
+            image: file,
+            imageUrl: newImage.src
+          });
+        };
+      };
+      fileReader.readAsDataURL(file);
+    }
+  }
+  /**
    * @description - handles the onSubmit event
    *
    * @param  {object} event the event for the content field
@@ -70,17 +102,40 @@ class EditUserProfile extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.editUserProfileAction(this.state.userTemplate)
-      .then((message) => {
-        $(".modal-backdrop").remove();
-        $('.modal').hide();
-        toastrOption();
-        toastr.success(message);
-      })
-      .catch((message) => {
-        toastrOption();
-        toastr.error(message);
-      });
+    if (!this.state.image) {
+      this.props.editUserProfileAction(this.state.userTemplate)
+        .then((message) => {
+          $(".modal-backdrop").remove();
+          $('.modal').hide();
+          toastrOption();
+          toastr.success(message);
+        })
+        .catch((message) => {
+          toastrOption();
+          toastr.error(message);
+        });
+    } else {
+      this.props.imageUploadAction(this.state.image)
+        .then(() => {
+          this.setState({
+            userTemplate: {
+              ...this.state.userTemplate,
+              image: this.props.imageUrl
+            }
+          });
+          this.props.editUserProfileAction(this.state.userTemplate)
+            .then((message) => {
+              $(".modal-backdrop").remove();
+              $('.modal').hide();
+              toastrOption();
+              toastr.success(message);
+            })
+            .catch((message) => {
+              toastrOption();
+              toastr.error(message);
+            });
+        });
+    }
   }
 
   /**
@@ -173,9 +228,23 @@ class EditUserProfile extends Component {
                       <div className="input-group">
                         <span className="input-group-addon" />
                         <input type="file"
+                          name="image"
+                          onChange={this.imageUpload}
+                          accept=".jpg, .png, .jpeg"
                           className="form-control-file"
                           id="exampleFormControlFile1"/>
                       </div>
+                    </div>
+                    <div>
+                      {
+                        this.state.imageUrl ?
+                          <img alt="User Pic" src={this.state.imageUrl}
+                            className="img-fluid mb-2 mt-2"/> :
+                          <img alt="User Pic"
+                            src=
+                              {`http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.userTemplate.image}`}
+                            className="img-fluid mb-2 mt-2"/>
+                      }
                     </div>
                     <div className="modal-footer">
                       <button type="button"
@@ -198,6 +267,8 @@ class EditUserProfile extends Component {
 
 EditUserProfile.propTypes = {
   editUserProfileAction: PropTypes.func.isRequired,
+  imageUploadAction: PropTypes.func.isRequired,
+  imageUrl: PropTypes.string,
   user: PropTypes.object,
   userDetailStorage: PropTypes.object
 };
@@ -207,15 +278,17 @@ const mapStateToProps = (state) => {
     fullname: '',
     email: '',
     username: '',
-    id: ''
+    id: '',
+    image: ''
   };
   return {
     user: state.AuthReducer.user,
-    userDetailStorage: userDetailsTemplate
+    userDetailStorage: userDetailsTemplate,
+    imageUrl: state.AuthReducer.imageUrl
   };
 };
 
 export default connect(
   mapStateToProps,
-  { editUserProfileAction }
+  { editUserProfileAction, imageUploadAction }
 )(EditUserProfile);

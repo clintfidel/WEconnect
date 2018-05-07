@@ -8,7 +8,8 @@ import toastrOption from '../../utils/toastrOption';
 import
 {
   addBusinessAction,
-  getAllCategoryAction
+  getAllCategoryAction,
+  imageUploadAction
 } from '../../actions/BusinessAction';
 
 
@@ -43,15 +44,20 @@ class RegisterBusiness extends Component {
   constructor(props, defaultProps) {
     super(props, defaultProps);
     this.state = {
-      name: '',
-      details: '',
-      location: '',
-      categoryId: '',
-      redirectUser: false
+      businessDetails: {
+        name: '',
+        details: '',
+        location: '',
+        categoryId: '',
+        redirectUser: false,
+      },
+      image: '',
+      imageUrl: ''
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.imageUpload = this.imageUpload.bind(this);
   }
 
   /**
@@ -70,12 +76,39 @@ class RegisterBusiness extends Component {
    * @return {void}
    */
   onChange(event) {
+    const { businessDetails } = this.state;
+    businessDetails[event.target.name] = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value
+      businessDetails: businessDetails
     });
   }
 
-
+  /**
+   * @description - handles the upload image event
+   *
+   * @param  {object} event the event for the content field
+   *
+   * @return {void} no return or void
+   *
+ */
+  imageUpload(event) {
+    event.preventDefault();
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+    if (file) {
+      fileReader.onload = () => {
+        const newImage = new Image();
+        newImage.src = fileReader.result;
+        newImage.onload = () => {
+          this.setState({
+            image: file,
+            imageUrl: newImage.src
+          });
+        };
+      };
+      fileReader.readAsDataURL(file);
+    }
+  }
   /**
    * @description - handles the onSubmit event
    *
@@ -85,24 +118,43 @@ class RegisterBusiness extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.addBusinessAction(this.state)
-      .then((message) => {
-        this.setState({
-          name: '',
-          details: '',
-          location: '',
-          categoryId: ''
+    if (!this.state.image) {
+      this.props.addBusinessAction(this.state.businessDetails)
+        .then((message) => {
+          toastrOption();
+          toastr.success(message);
+          setTimeout(() => {
+            this.setState({ redirectUser: true });
+          }, 3000);
+        })
+        .catch((message) => {
+          toastrOption();
+          toastr.error(message);
         });
-        toastrOption();
-        toastr.success(message);
-        setTimeout(() => {
-          this.setState({ redirectUser: true });
-        }, 3000);
-      })
-      .catch((message) => {
-        toastrOption();
-        toastr.error(message);
-      });
+    }
+    if (this.state.image !== '') {
+      this.props.imageUploadAction(this.state.image)
+        .then(() => {
+          this.setState({
+            businessDetails: {
+              ...this.state.businessDetails,
+              image: this.props.imageUrl
+            }
+          });
+          this.props.addBusinessAction(this.state.businessDetails)
+            .then((message) => {
+              toastrOption();
+              toastr.success(message);
+              setTimeout(() => {
+                this.setState({ redirectUser: true });
+              }, 3000);
+            })
+            .catch((message) => {
+              toastrOption();
+              toastr.error(message);
+            });
+        });
+    }
   }
 
   /**
@@ -116,99 +168,120 @@ class RegisterBusiness extends Component {
     return (
       this.state.redirectUser ?
         <Redirect to="/userbusiness" /> :
-        <div>
+        <div className="background">
           <NavBar />
-          <div className="full-page">
-            <div className="content-page">
-              <main className="register-business">
-                <h2>Register Your Business</h2>
-                <div className="panel-body">
-                  <form
-                    action="#"
-                    method="post"
-                    role="form"
-                    onSubmit= {this.onSubmit}>
-                    <div className="form-group">
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <input
-                          type="text"
-                          onChange={this.onChange}
-                          name="name"
-                          placeholder="Business Name"
-                          className="form-control"
-                          autoFocus="autofocus"
-                          required />
+          <div className="register-wrapper">
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="register-business text-center">
+                  <h2>Register Your Business</h2>
+                  <div className="panel-body">
+                    <form
+                      action="#"
+                      method="post"
+                      role="form"
+                      onSubmit= {this.onSubmit}>
+                      <div className="form-group">
+                        <div className="input-group">
+                          <span className="input-group-addon" />
+                          <input
+                            type="text"
+                            onChange={this.onChange}
+                            name="name"
+                            placeholder="Business Name"
+                            className="form-control"
+                            autoFocus="autofocus"
+                            required />
+                        </div>
                       </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <select
-                          type="select"
-                          className="custom-select
+                      <div className="form-group">
+                        <div className="input-group">
+                          <span className="input-group-addon" />
+                          <select
+                            type="select"
+                            className="custom-select
                           form-control"
-                          name="location"
-                          onChange= {this.onChange}
-                          required>
-                          <option>Choose location</option>
-                          {this.props.locations.map((location, index) => (
-                            <option
-                              key={index}
-                              value={location}
-                              id={`${location}`}>
-                              {location}
-                            </option>
-                          ))}
-                        </select>
+                            name="location"
+                            onChange= {this.onChange}
+                            required>
+                            <option>Choose location</option>
+                            {this.props.locations.map((location, index) => (
+                              <option
+                                key={index}
+                                value={location}
+                                id={`${location}`}>
+                                {location}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <select
-                          type="select"
-                          className="custom-select
+                      <div className="form-group">
+                        <div className="input-group">
+                          <span className="input-group-addon" />
+                          <select
+                            type="select"
+                            className="custom-select
                             form-control"
-                          name="categoryId"
-                          onChange= {this.onChange}
-                          required>
-                          <option>Choose category</option>
-                          {allcategories.map((category) =>
-                            (<option key={category.id}
-                              value= {category.id}
-                              id={`${category.category}`}>
-                              {category.category}
-                            </option>))
-                          }
-                        </select>
+                            name="categoryId"
+                            onChange= {this.onChange}
+                            required>
+                            <option>Choose category</option>
+                            {allcategories.map((category) =>
+                              (<option key={category.id}
+                                value= {category.id}
+                                id={`${category.category}`}>
+                                {category.category}
+                              </option>))
+                            }
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <textarea
-                          name="details"
-                          onChange={this.onChange}
-                          placeholder="Business-Details"
-                          rows="4"
-                          className="form-control"
-                          type="text"
-                          required />
+                      <div className="form-group">
+                        <div className="input-group"
+                          id="exampleFormControlFile1">
+                          <span className="input-group-addon" />
+                          <input type="file"
+                            className="form-control-file"
+                            onChange={this.imageUpload}
+                            name="image"
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <button type="submit" className="register-button">
+                      <div className="form-group">
+                        <div className="input-group">
+                          <span className="input-group-addon" />
+                          <textarea
+                            name="details"
+                            onChange={this.onChange}
+                            placeholder="Business-Details"
+                            rows="6"
+                            className="form-control"
+                            type="text"
+                            required />
+                        </div>
+                      </div>
+                      <button type="submit" className="register-button">
                     Send
-                    </button>
-                  </form>
+                      </button>
+                    </form>
+                  </div>
                 </div>
-              </main>
-              <aside className="business-story">
+              </div>
+              <div className="col-sm-6">
                 <div className="image-wrapper">
-                  <img src="/placeholder.png" alt="image-placeholder" />
+                  {
+                    !this.state.imageUrl ?
+                      <img alt="User Pic" src="/images/placeholder.png"
+                        className="img-fluid"/> :
+                      <img alt="User Pic"
+                        src=
+                          {this.state.imageUrl}
+                        className="img-fluid mb-2 mt-2"/>
+                  }
                 </div>
-                <a href="#" className="btn upload-button">Upload Image</a>
-              </aside>
+              </div>
+
             </div>
           </div>
           <Footer />
@@ -220,13 +293,21 @@ class RegisterBusiness extends Component {
 RegisterBusiness.propTypes = {
   getAllCategoryAction: PropTypes.func.isRequired,
   addBusinessAction: PropTypes.func.isRequired,
+  imageUploadAction: PropTypes.func.isRequired,
   categories: PropTypes.array,
-  locations: PropTypes.array
+  locations: PropTypes.array,
+  imageUrl: PropTypes.string,
+
 };
 const mapStateToProps = (state) => ({
-  categories: state.BusinessReducer.categories
+  categories: state.BusinessReducer.categories,
+  imageUrl: state.BusinessReducer.imageUrl
 });
 export default connect(
   mapStateToProps,
-  { addBusinessAction, getAllCategoryAction }
+  {
+    addBusinessAction,
+    getAllCategoryAction,
+    imageUploadAction
+  }
 )(RegisterBusiness);

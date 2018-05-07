@@ -5,7 +5,8 @@ import {
   SET_CURRENT_USER,
   USER_LOGOUT,
   USER_PROFILE,
-  EDIT_USER_PROFILE
+  EDIT_USER_PROFILE,
+  IMAGE_UPLOAD
 } from './types';
 import toastrOption from '../utils/toastrOption';
 
@@ -22,6 +23,20 @@ export function setCurrentUser(user) {
     type: SET_CURRENT_USER,
     user,
     authenticated: true
+  };
+}
+
+/**
+ * @description - upload image
+ *
+ * @param {string} imageUrl - conains image url
+ *
+ * @returns {Object} - redux action to be dispatched
+ */
+export function imageUpload(imageUrl) {
+  return {
+    type: IMAGE_UPLOAD,
+    imageUrl,
   };
 }
 
@@ -69,6 +84,25 @@ export const userProfileAction = () => (dispatch) =>
       });
     })
     .catch(error => Promise.reject(error.response.data.message));
+
+export const imageUploadAction = (image) => {
+  const uploadPreset = process.env.UPLOAD_PRESET;
+  const cloudApi = process.env.CLOUD_API;
+  const formData = new FormData();
+  formData.append('file', image);
+  formData.append('upload_preset', uploadPreset);
+  delete axios.defaults.headers.common.Authorization; // eslint-disable-line
+  return dispatch => axios.post(cloudApi, formData)
+    .then((res) => {
+      let token = localStorage.getItem('token');
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      setAuthorization(token);
+      dispatch(imageUpload(res.data.public_id));
+    })
+    .catch((error) => {
+      throw (error);
+    });
+};
 
 export const logoutAction = () => (dispatch) => {
   localStorage.removeItem('token');
