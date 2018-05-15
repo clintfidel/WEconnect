@@ -21,11 +21,6 @@ const HomePage = () => (
                 <button type="submit">Login</button>
               </Link>
             </li>
-            <li>
-              <a href="">
-                <button type="submit">Catalogue</button>
-              </a>
-            </li>
           </ul>
         </nav>
       </section>

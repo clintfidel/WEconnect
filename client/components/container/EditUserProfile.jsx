@@ -6,6 +6,7 @@ import {
   editUserProfileAction,
   imageUploadAction
 } from '../../actions/AuthAction';
+import Loader from '../presentational/common/Loader';
 
 /**
  * @class ViewBusiness
@@ -102,11 +103,17 @@ class EditUserProfile extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setState({
+      loader: true
+    });
     if (!this.state.image) {
       this.props.editUserProfileAction(this.state.userTemplate)
         .then((message) => {
           $(".modal-backdrop").remove();
           $('.modal').hide();
+          this.setState({
+            loader: false
+          });
           toastrOption();
           toastr.success(message);
         })
@@ -127,6 +134,9 @@ class EditUserProfile extends Component {
             .then((message) => {
               $(".modal-backdrop").remove();
               $('.modal').hide();
+              this.setState({
+                loader: false
+              });
               toastrOption();
               toastr.success(message);
             })
@@ -146,116 +156,122 @@ class EditUserProfile extends Component {
    */
   render() {
     return (
-      <div>
-        <div className="modal"
-          id="editModal"
-          tabIndex="-1" role="dialog"
-          aria-labelledby="exampleModalVerticalLabel"
-          aria-hidden="true">
-          <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h3 className="modal-title"
-                  id="exampleModalVerticalLabel">Edit User Profile</h3>
-                <button type="button" className="close"
-                  data-dismiss="modal" aria-label="Closen">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="panel-body">
-                  <form
-                    action="#"
-                    method="post"
-                    role="form"
-                    onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Full Name:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <input type="text"
-                          name="fullname"
-                          onChange={this.onChange}
-                          value={this.state.userTemplate.fullname}
-                          placeholder="fullname"
-                          className="form-control"
-                          autoFocus="autofocus"
-                          required/>
-                      </div>
+      <div className="modal"
+        id="editModal"
+        tabIndex="-1" role="dialog"
+        aria-labelledby="exampleModalVerticalLabel"
+        aria-hidden="true">
+        <div className="modal-dialog modal-lg" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3 className="modal-title"
+                id="exampleModalVerticalLabel">Edit User Profile</h3>
+              <button type="button" className="close"
+                data-dismiss="modal" aria-label="Closen">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="panel-body">
+                <form
+                  action="#"
+                  method="post"
+                  role="form"
+                  onSubmit={this.onSubmit}>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Full Name:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <input type="text"
+                        name="fullname"
+                        onChange={this.onChange}
+                        value={this.state.userTemplate.fullname}
+                        placeholder="fullname"
+                        className="form-control"
+                        autoFocus="autofocus"
+                        required/>
                     </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Username:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <input type="text"
-                          name="username"
-                          onChange={this.onChange}
-                          value={this.state.userTemplate.username}
-                          placeholder="userame"
-                          className="form-control"
-                          autoFocus="autofocus"
-                          required/>
-                      </div>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Username:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <input type="text"
+                        name="username"
+                        onChange={this.onChange}
+                        value={this.state.userTemplate.username}
+                        placeholder="userame"
+                        className="form-control"
+                        autoFocus="autofocus"
+                        required/>
                     </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Email:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <input type="email"
-                          name="email"
-                          onChange={this.onChange}
-                          value={this.state.userTemplate.email}
-                          placeholder="email"
-                          className="form-control"
-                          autoFocus="autofocus"
-                          required/>
-                      </div>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Email:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <input type="email"
+                        name="email"
+                        onChange={this.onChange}
+                        value={this.state.userTemplate.email}
+                        placeholder="email"
+                        className="form-control"
+                        autoFocus="autofocus"
+                        required/>
                     </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Picture:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <input type="file"
-                          name="image"
-                          onChange={this.imageUpload}
-                          accept=".jpg, .png, .jpeg"
-                          className="form-control-file"
-                          id="exampleFormControlFile1"/>
-                      </div>
-                    </div>
-                    <div>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Picture:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <input type="file"
+                        name="image"
+                        onChange={this.imageUpload}
+                        accept=".jpg, .png, .jpeg"
+                        className="form-control-file"
+                        id="exampleFormControlFile1"/>
                       {
-                        this.state.imageUrl ?
-                          <img alt="User Pic" src={this.state.imageUrl}
-                            className="img-fluid mb-2 mt-2"/> :
-                          <img alt="User Pic"
-                            src=
-                              {`http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.userTemplate.image}`}
-                            className="img-fluid mb-2 mt-2"/>
+                        this.state.loader ?
+                          <Loader size={'60px'}/> :
+                          null
                       }
                     </div>
-                    <div className="modal-footer">
-                      <button type="button"
-                        className="btn btn-secondary"
-                        data-dismiss="modal">Close</button>
-                      <button type="submit"
-                        id="modal-button"
-                        className="btn btn-primary">Save changes</button>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                  <div className="img-wrapper">
+                    {
+                      this.state.imageUrl ?
+                        <img alt="User Pic" src={this.state.imageUrl}
+                          className="img-fluid user-img"/> :
+                        <img alt="User Pic"
+                          src= {
+                            !this.state.userTemplate.image ?
+                              "/images/placeholder.png" :
+                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.userTemplate.image}`
+                          }
+                          className="img-fluid user-img"/>
+                    }
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button"
+                      className="btn btn-secondary"
+                      data-dismiss="modal">Close</button>
+                    <button type="submit"
+                      id="modal-button"
+                      className="btn btn-primary">Save changes</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

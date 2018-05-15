@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import NavBar from '../presentational/common/NavBar';
+import { NavBar } from '../presentational/common/NavBar';
 import Footer from '../presentational/common/Footer';
 import toastrOption from '../../utils/toastrOption';
 import

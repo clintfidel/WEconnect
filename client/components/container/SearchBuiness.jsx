@@ -118,54 +118,65 @@ class SearchBuiness extends Component {
    */
   render() {
     return (
-      <div>
-        <div className="container" id="contain-form">
-          <div className="row search">
-            <input type="text"
-              name="name"
-              onChange={this.handleSearch}
-              placeholder="search business by name...." />
-            <select
-              type="select"
-              className="custom-select"
-              name="location"
-              value={this.state.location}
-              onChange={this.handleSearch}
-              required>
-              <option value="Select From...">
+      <div className="container">
+        <div className="contain-form">
+          <div className="row">
+            <div className="col-sm-4">
+              <input
+                className="search-input"
+                type="text"
+                name="name"
+                onChange={this.handleSearch}
+                placeholder="search business by name...." />
+            </div>
+            <div className="col-sm-3">
+              <select
+                type="select"
+                className="custom-select"
+                name="location"
+                value={this.state.location}
+                onChange={this.handleSearch}
+                required>
+                <option value="Select From...">
               Choose location
-              </option>
-              {this.props.locations.map((location, index) => (
-                <option
-                  key={index}
-                  value={location}
-                  id={`${location}`}>
-                  {location}
                 </option>
-              ))}
-            </select>
-            <select
-              type="select"
-              className="custom-select"
-              name="category"
-              value={this.state.category}
-              onChange= {this.handleSearch}
-              required>
-              <option value="Select From...">
+                {this.props.locations.map((location, index) => (
+                  <option
+                    key={index}
+                    value={location}
+                    id={`${location}`}>
+                    {location}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-sm-3">
+              <select
+                type="select"
+                className="custom-select"
+                name="category"
+                value={this.state.category}
+                onChange= {this.handleSearch}
+                required>
+                <option value="Select From...">
                   Choose category
-              </option>
-              {this.props.allCategories.map((category) =>
-                (<option key={category.id}
-                  value={category.category}
-                  id={`${category.category}`}>
-                  {category.category}
-                </option>))
-              }
-            </select>
-            <button
-              onClick={this.onClick}>
+                </option>
+                {this.props.allCategories.map((category) =>
+                  (<option key={category.id}
+                    value={category.category}
+                    id={`${category.category}`}>
+                    {category.category}
+                  </option>))
+                }
+              </select>
+            </div>
+            <div className="col-sm-2">
+              <button
+                className="search-button"
+                onClick={this.onClick}>
                 Reset
-            </button>
+              </button>
+            </div>
           </div>
         </div>
       </div>

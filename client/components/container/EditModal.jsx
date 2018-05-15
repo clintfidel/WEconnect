@@ -269,8 +269,9 @@ class EditModal extends Component {
                           <img alt="User Pic" src={this.state.imageUrl}
                             className="img-fluid mb-2 mt-2"/> :
                           <img alt="User Pic"
-                            src=
-                              {`http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.businessDetails.image}`}
+                            src={!this.state.businessDetails.image ?
+                              "/images/placeholder.png" :
+                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.businessDetails.image}`}
                             className="img-fluid mb-2 mt-2"/>
                       }
                     </div>

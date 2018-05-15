@@ -14,7 +14,7 @@ const BusinessInfo = ({
         {
           !image ?
             <img alt="User Pic"
-              src="/images/placeholder.png"
+              src="/images/background.png"
               className="img-fluid"/> :
             <img alt="User Pic"
               src={`http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_281,w_465/${image}`}
@@ -55,7 +55,7 @@ const BusinessInfo = ({
             </h5>
           </div>
           {userAuth === userId ?
-            <div className="Icon-Images">
+            <div className="icon-Images">
               <img src="/images/edit-icon-2375785_1280.png"
                 alt="edit Icon" data-toggle="modal"
                 data-target="#editModal"

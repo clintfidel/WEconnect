@@ -79,6 +79,7 @@ class AllBusiness extends Component {
           userId={business.userId}
           id={business.id}
           key={business.id}
+          owner={business.User.username}
           image={business.image}/>
       ))
     );
@@ -141,9 +142,9 @@ class AllBusiness extends Component {
       <div>
         <NavBar/>
         <div>
-          <div className="main-business">
+          <div>
             <SearchBusiness/>
-            <div className="jumbotron">
+            <div className="container card-container">
               { this.state.loader ?
                 <Loader size={'250px'} /> :
                 <div>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Footer = () => (
-  <div className="footer">
+  <div className="business-footer">
     <div className="text-center">
       <p>
         Policies: Terms of use | Privacy| Authentic Items Copyright ©

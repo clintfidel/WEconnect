@@ -63,7 +63,7 @@ class AllBusiness extends Component {
     const allBusiness = this.props.businesses;
     if (allBusiness.length < 1) {
       return (<div className="not-found"
-        style={{ tetAlign: 'center', paddingTop: 50 }}>
+        style={{ textAlign: 'center', paddingTop: 50 }}>
         <h2>No Business found!!</h2>
       </div>);
     }
@@ -78,6 +78,7 @@ class AllBusiness extends Component {
           userId={business.userId}
           id={business.id}
           key={business.id}
+          owner={business.User.username}
           image={business.image}/>
       ))
     );
@@ -140,18 +141,16 @@ class AllBusiness extends Component {
       <div>
         <NavBar/>
         <div>
-          <div className="main-business">
-            <SearchBusiness/>
-            <div className="jumbotron">
-              { this.state.loader ?
-                <Loader size={'250px'} /> :
-                <div>
-                  <h1>All Businesses</h1>
-                  {this.renderAllBusiness()}
-                  {this.renderPagination(0)}
-                </div>
-              }
-            </div>
+          <SearchBusiness/>
+          <div className="container card-container">
+            { this.state.loader ?
+              <Loader size={'250px'} /> :
+              <div>
+                <h1>All Businesses</h1>
+                {this.renderAllBusiness()}
+                {this.renderPagination(0)}
+              </div>
+            }
           </div>
         </div>
         <Footer />

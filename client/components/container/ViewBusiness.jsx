@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { Redirect } from 'react-router-dom';
-import NavBar from '../presentational/common/NavBar';
 import BusinessInfo from '../presentational/BusinessInfo';
+import NavBar from '../presentational/common/NavBar';
 import Footer from '../presentational/common/Footer';
 import Loader from '../presentational/common/Loader';
 import {

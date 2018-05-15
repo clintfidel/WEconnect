@@ -72,8 +72,6 @@ module.exports = {
       'UPLOAD_PRESET',
       'CLOUD_API',
       'CLOUD_NAME',
-      'CLOUD_SECRET',
-      'CLOUD_API_KEY'
     ]),
     new webpack.ProvidePlugin({
       "$": 'jquery',

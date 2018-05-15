@@ -78,19 +78,13 @@ class UserProfile extends Component {
     return (
       <div>
         <NavBar/>
-        <div className="main-business">
-          <div className="jumbotron user-profile">
-            <div className="container">
-              <div className="panel panel-info">
-                <div className="panel-heading">
-                  <h2 className="panel-title">My profile</h2>
-                </div>
-                <hr/>
-                <div>
-                  {this.displayUserProfile()}
-                </div>
-
-
+        <div>
+          <div className="container user-profile">
+            <div className="card-container">
+              <h2 className="panel-title">My profile</h2>
+              <hr/>
+              <div>
+                {this.displayUserProfile()}
               </div>
             </div>
           </div>
@@ -111,15 +105,14 @@ UserProfile.propTypes = {
   count: PropTypes.number,
   image: PropTypes.string
 };
-const mapStateToProps = (state) => {
-  return {
-    userProfile: state.AuthReducer.user,
-    count: state.BusinessReducer.count,
-    image: state.AuthReducer.imageUrl
-  };
-};
+const mapStateToProps = (state) => ({
+  userProfile: state.AuthReducer.user,
+  count: state.BusinessReducer.count,
+  image: state.AuthReducer.imageUrl
+});
 
 export default connect(
   mapStateToProps,
   { userProfileAction, getAllUserBusinessAction }
 )(UserProfile);
+

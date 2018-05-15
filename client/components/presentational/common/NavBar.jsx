@@ -10,7 +10,7 @@ import { logoutAction } from '../../../actions/AuthAction';
  * @classdesc registers user
  *
  */
-class NavBar extends Component {
+export class NavBar extends Component {
   /**
    * @description render - renders the class component
    *
@@ -19,52 +19,64 @@ class NavBar extends Component {
    */
   render() {
     return (
-      <ul className="nav justify-content-end business-nav">
-        <li className="nav-item">
-          <Link className="nav-link" to="/">
-            <img src="/images/wc-logo.png"
-              alt="logo" style={{ width: "150px" }}/>
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/register-business">
-     Register-business
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/all-business">
-      Catalogue
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/userbusiness">
-      My-business
-          </Link>
-        </li>
-        <li className="nav-item">
-          <div
-            className="dropdown">
-            <button className="btn btn-light dropdown-toggle"
-              type="button"
-              id="dropdownMenu2"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false">Profile
-            </button>
-            <div className="dropdown-menu">
-              <Link
-                className="dropdown-item"
-                to="/profile">View profile
+      <nav className="navbar navbar-expand-lg navbar-light business-nav">
+        <Link className="nav-link" to="/all-business">
+          <img src="/images/wc-logo.png"
+            alt="logo" style={{ width: "150px" }}/>
+        </Link>
+        <button
+          className="navbar-toggler collapsed"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="navbar-collapse collapse" id="navbarNavDropdown">
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item active">
+              <Link className="nav-link link" to="/register-business">
+                Register-business
               </Link>
-              <div className="dropdown-divider" />
-              <Link
-                onClick={this.props.logoutAction}
-                className="nav-link" to="/">Log out
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link link" to="/all-business">
+                Catalogue
               </Link>
-            </div>
-          </div>
-        </li>
-      </ul>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link link" to="/userbusiness">
+                My-business
+              </Link>
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle link"
+                id="navbarDropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+                Profile
+              </a>
+              <div className="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink">
+                <Link
+                  className="nav-link"
+                  to="/myprofile">
+                  View profile
+                </Link>
+                <Link
+                  onClick={this.props.logoutAction}
+                  className="nav-link" to="/">Log out
+                </Link>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
     );
   }
 }
@@ -74,3 +86,4 @@ NavBar.propTypes = {
 };
 
 export default connect(null, { logoutAction })(NavBar);
+

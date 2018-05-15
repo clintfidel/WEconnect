@@ -6,14 +6,15 @@ $radius: 5px;
 
 body {
     width: 100%;
+    // height: 100%;
     margin: 0;
     box-sizing: border-box;
     padding: 0;
     font-family: 'Philosopher', sans-serif;
+    background-image: url('/images/app-background.png');  
 }
 
 //landing-page
-
 .nav-header {
     position: fixed;
     width: 100%;
@@ -45,7 +46,7 @@ body {
 }
 
 .landing-page-container {
-    
+    background-color: #fff;
     .our-brand {
         // box-sizing: border-box;
         position: relative;
@@ -77,7 +78,7 @@ body {
         .wrap {
             width: 100%;
             height: 100%;
-            max-width: 65%;
+            max-width: 55%;
             min-height: 100%;
             margin-right: 20%;
             h2 {
@@ -91,9 +92,7 @@ body {
                 padding: 10px 10%;
                 line-height: 1.5em;
             }
-            
         }
-        
     }
     
     .footer {
@@ -138,18 +137,10 @@ body {
                 
             }
         }
-        
-    }
-   
-        
+    }    
 }
 
-   
-
-
-
 //login and register pages
-
 
 .login-body {
     position: absolute;
@@ -208,7 +199,8 @@ body {
         border-radius: $radius;
         color: white;
         font-size: ($size * 2);
-        font-weight: bolder
+        font-weight: bolder;
+        cursor: pointer;
     }
 
     .create-account {
@@ -288,7 +280,7 @@ body {
                 button {
                     height: 40px;
                     width: 100%;
-                   
+                    cursor: pointer;
                 }
             }
             
@@ -364,35 +356,21 @@ body {
 }
 
 // footer
-
-.footer {
+.business-footer {
     background-color: $backgroundcolor1;
     padding: 10px 0;
     color: white;
     font-size:15px;
-    
+    clear: both;
+    margin-top: 5%;
 }
 
 // business- page
 .business-nav {
     background-color:$backgroundcolor1;
-    height: 80px;
-    font-size: $size * 2;
-    .nav-link {
-        color: #fff;
-        list-style: none;
-        text-decoration: none;
-        display: block;
-        padding: 1rem 1rem;
-    }
-    .btn-light {
-        color: #111;
-        background-color: #31639473;
-        border-color: #f8f9fa;
-        padding: 1.2rem 1rem;
-        color: white;
-        border: none;
-        font-size: $size * 2;
+    padding: 1% 5%;
+    .link {
+        color: #fff !important;
     }
 }
 
@@ -434,124 +412,6 @@ body {
        margin-top: 5%;
     }
 }
-     //  input,textarea,select{
-    //      color: black;
-    //     }
-
-//  input:focus::-webkit-input-placeholder { color:transparent; }
-//  input:focus:-moz-placeholder { color:transparent; } 
-//  input:focus::-moz-placeholder { color:transparent; } 
-//  input:focus::-moz-placeholder { color:transparent; } 
-//  input:focus:-ms-input-placeholder { color:transparent; }
-
-
-// All Business Page
-.main-business {
-    position: relative;
-    background-image: url('/images/app-background.png');  
-    width: 100%;
-    height: 100vh;
-    padding-top: 2%; 
-    #contain-form  {
-        height: 7vh;
-        width: 80%;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 70%;
-        left: 0;
-        background-color: white;
-        border: 1px solid grey;
-        border-radius: 5px;
-        margin: auto !important;
-        .search {
-            width: 100%;
-            height: 5vh;
-            border-radius: 5px;
-            margin: ($margin *2) 3px;
-            input {
-                width: 40%;
-                height: 5vh;
-                border-radius: 5px;
-                padding: 0 5px;
-                color: white !important;
-                background-color: $backgroundcolor1;
-                font-size: ($size * 2);
-                outline: none;
-            }
-            ::placeholder { 
-                color: white;
-                opacity: 1; 
-            }
-            select {
-                width: 25%;
-                height: 5vh;
-                border-radius: 5px;
-                padding: 0 5px;
-                outline: none;
-            }
-            button {
-                background-color:$backgroundcolor1;
-                width: 10%;
-                color: white;
-                font: ($size * 2) bolder;
-                height: 5vh;
-                border-radius: 5px;
-                padding: 0 5px;
-            }
-           
-        }
-    }
-    .jumbotron { 
-        background-color: white;
-        width: 80%;
-        height: 70vh;
-        margin: auto;
-        position: absolute;
-        top: 10%;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        box-shadow: 0 0 20px rgba(0, 0, 0, .5);
-        overflow: scroll;
-        a {
-            text-decoration: none;
-        }
-        h1 {
-            font-weight: bolder;
-        }
-        .cataloge {
-            background-color: #fff;
-            border-radius: 20px;
-            box-shadow: 0 0 10px #555;
-            .text {
-                color: black;
-                font-size: ($size*2);
-                padding: 2%;
-            } 
-            .details {
-                margin-bottom: 1%;
-            }
-            
-            .button-container {
-                margin-top: 2%;
-            }
-
-            .view-button {
-                background-color: $backgroundcolor1;
-                padding: 1.5%;
-                border-radius: $radius;
-                color: white
-            }
-        }
-        
-       
-    }
-    
-}
-
-
-
 
 // edit modal
 .modal-dialog {
@@ -656,9 +516,10 @@ body {
                    text-transform: uppercase;
                }
            }
-           .Icon-Images {
+           .icon-Images {
                 display: flex;
                 align-items: center;
+                cursor: pointer;
                 img {
                     width: 6%;
                     margin: auto;
@@ -717,157 +578,7 @@ body {
       .comment-author:hover {
         color: #ff6c6c;
         text-decoration: none;
-      }
-      
-      
-}
-
-@media screen and (max-width: 1700px) {
-    .jumbotron {
-        .cataloge {
-            height: 60%;
-        }
-    }
-    .business-body {  
-        .content-display {
-            h3 {
-                font-weight: bolder;
-                text-decoration: underline;
-            }
-            .bus-info-details {
-               .business-content {
-                   h5 {
-                       
-                       line-height: 1.4em;
-                   }
-                   #details {
-                      
-                       box-shadow: 0 0 20px rgba(0, 0, 0, .5);
-                      
-                       border-radius: 20px;
-                       
-                   }
-                   span{
-                       font-size: ($size * 2);
-                   }
-                  
-               }
-              
-            }
-        }
-    }
-}
-
-
-
-@media screen and (max-width: 800px) {
-    .jumbotron {
-        .cataloge {
-            height: 60%;
-        }
-    }
-
-    .business-body {
-        .business-image {
-            margin: 20% auto 0;
-        }
-    }
-}
-
-@media screen and (max-width: 640px) {
-    .main-business{ 
-        min-width: 30px;
-        #contain-form  {
-            height: 13%;
-            bottom: 55%;
-            .search {
-                width: 100%;
-                height: 5vh;
-                border-radius: 5px;
-                margin: ($margin *2) 3px;
-                input {
-                    width: 100%;
-                    font-size: $size;
-                }
-                select {
-                    width: 40%;
-                    font-size: $size;
-                }
-                button {
-                    width: 20%;
-                    font: $size bolder;
-                }
-               
-            }
-        }
-        .jumbotron {
-            max-height: 55vh;
-            .cataloge {
-                height: 60%;
-                .text {
-                    // overflow:hidden;
-                    // text-overflow: ellipsis;
-
-                  
-                    h2 {
-                      font-size: ($size * 2);
-                      font-weight: bolder
-                    }
-                }
-                .image {
-                    background-size: cover
-                }
-            }
-        }
-    }
-    .full-page {
-        
-        .content-page {
-            height: 80vh;
-
-        }
-    }
-    .business-body {
-        .grouped-buttons {
-            margin: auto 20% ;
-            font-size: ($size * 2) !important;
-            padding: 3% 0 !important;
-        }
-        .business-image {
-            margin: 40% auto 0;
-        }
-    }
-}
-
-@media screen and (max-width: 450px) { 
-    .nav-header {
-         position: relative;
-        
-    }
-    .main-business {
-        position: absolute;
-        margin-top: 10%;
-        height: 100vh;
-        padding-top: 335px;
-        .jumbotron {
-          height: 50vh;
-        //   margin-top: 48%;
-        }     
-    }
-    .full-page {
-        .content-page {
-            height: 75vh;
-        }
-    }
-   
-}
-
-@media(min-width: 1024px) and (max-width: 1366px) {
-    .business-body {
-        .business-image {
-            margin: 15% auto 0;
-        }
-    }
+      } 
 }
 
 //pagination
@@ -907,40 +618,122 @@ body {
 }
 
 // user profile
-.main-business .user-profile {
-    .user-img {
-        float: left;
-        margin-bottom: $margin;
-        width: 30%;
-        border-radius: 50%;
-    }
-    .data-key {
-        font-size: ($size * 2 - 3);
-        font-weight: bolder;
-    }
-    .key-value {
-        font-size: ($size * 2 - 6);
-        font-weight: bold;
-    }
+.user-profile {
+    min-height: calc(100vh - 58px);
 }
-.btn-group-sm>.btn, .btn-sm {
-    padding: .8rem .8rem;
-    font-size: $size * 2 - 7;
-    line-height: 1.5;
-    border-radius: 10px;
+.data-key {
+    font-size: ($size * 2 - 3);
+    font-weight: bolder;
 }
-@media screen and (max-width: 640px) {
-    .main-business .user-profile {
-        max-height: 70vh !important;
-        height: 100vh !important;
-        .data-key {
-            font-size: ($size * 2 - 7);
-        }
-        .key-value {
-            font-size: ($size * 2 - 9);
-            font-weight: bold;
-        }
+.key-value {
+    font-size: ($size * 2 - 6);
+    font-weight: bold;
+}
+
+.btn-info {
+    margin-left: 1.5%;
+    font-size: ($size * 2 - 3);
+    cursor: pointer;
+}
+
+.img-wrapper {
+    width: 300px;
+    height: 300px;
+}
+
+.user-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.navbar-collapse {
+    align-self: flex-end;
+}
+
+.dropdown-menu {
+    min-width: 9rem;
+    padding: 2%;
+}
+
+a {
+    cursor: pointer;
+}
+
+.card-wrapper {
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+    margin-bottom: 15px;
+    border-radius: 4px;
+    .text {
+        color: black;
+        font-size: ($size*2);
+        padding: 2%;
+    }
+    .views {
+        margin-top: 10%;
+        margin-bottom: 0;
+    } 
+}
+
+.card-container {
+    background-color: #fff;
+    padding: 5%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+    border-radius: 20px;
+    margin: 2% auto;
+}
+
+.button-container {
+    margin-top: 2%;
+    a:hover {
+        color: #fff;
+        text-decoration: none;
     }
 }
 
-//edit User Profile 
+.view-button {
+    background-color: $backgroundcolor1;
+    padding: 1.5%;
+    border-radius: $radius;
+    color: white;
+    text-decoration: none;
+}
+
+.contain-form {
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin-top: 3%;
+    padding: 0.6% 1%;
+    ::placeholder { 
+        color: white;
+    }
+}
+
+.search-button {
+    width: 100%;
+    background-color: $backgroundcolor1;
+    padding: 4% 0;
+    border-radius: $radius;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.search-input {
+    width: 100%;
+    padding: 2% 2%;
+    border-radius: 5px;
+    background-color: $backgroundcolor1;
+    color: #fff;
+    outline: none;
+}
+
+.custom-select {
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
