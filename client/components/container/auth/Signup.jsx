@@ -214,7 +214,7 @@ class Signup extends Component {
             <main className="login-container">
               <div className="my-logo">
                 <Link to="/">
-                  <img src="/logo.png" alt=" WEconnect" />
+                  <img src="/images/logo.png" alt=" WEconnect" />
                 </Link>
               </div>
               <div className="input-box">

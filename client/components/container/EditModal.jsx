@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editBusinessAction } from '../../actions/BusinessAction';
+import {
+  editBusinessAction,
+  imageUploadAction
+}
+  from '../../actions/BusinessAction';
 import toastrOption from '../../utils/toastrOption';
 
 /**
@@ -35,15 +39,19 @@ class EditModal extends Component {
   constructor(props, defaultProps) {
     super(props);
     this.state = {
-      isOpen: false,
       redirectUser: false,
-      name: this.props.business.name,
-      details: this.props.business.details,
-      categoryId: this.props.business.categoryId,
-      location: this.props.business.location
+      image: '',
+      imageUrl: '',
+      businessDetails: {
+        name: this.props.business.name,
+        details: this.props.business.details,
+        categoryId: this.props.business.categoryId,
+        location: this.props.business.location
+      }
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.imageUpload = this.imageUpload.bind(this);
   }
 
 
@@ -60,9 +68,38 @@ class EditModal extends Component {
       toastr.error('Please make a valid selection');
       return false;
     }
+    const { businessDetails } = this.state;
+    businessDetails[event.target.name] = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value
+      businessDetails: businessDetails
     });
+  }
+
+  /**
+   * @description - handles the upload image event
+   *
+   * @param  {object} event the event for the content field
+   *
+   * @return {void} no return or void
+   *
+ */
+  imageUpload(event) {
+    event.preventDefault();
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+    if (file) {
+      fileReader.onload = () => {
+        const newImage = new Image();
+        newImage.src = fileReader.result;
+        newImage.onload = () => {
+          this.setState({
+            image: file,
+            imageUrl: newImage.src
+          });
+        };
+      };
+      fileReader.readAsDataURL(file);
+    }
   }
 
   /**
@@ -74,17 +111,43 @@ class EditModal extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.editBusinessAction(this.props.id, this.state)
-      .then((message) => {
-        $(".modal-backdrop").remove();
-        $('.modal').hide();
-        toastrOption();
-        toastr.success(message);
-      })
-      .catch((message) => {
-        toastrOption();
-        toastr.error(message);
-      });
+    if (!this.state.image) {
+      this.props.editBusinessAction(this.props.id, this.state.businessDetails)
+        .then((message) => {
+          $(".modal-backdrop").remove();
+          $('.modal').hide();
+          toastrOption();
+          toastr.success(message);
+        })
+        .catch((message) => {
+          toastrOption();
+          toastr.error(message);
+        });
+    } else {
+      this.props.imageUploadAction(this.state.image)
+        .then(() => {
+          this.setState({
+            businessDetails: {
+              ...this.state.businessDetails,
+              image: this.props.imageUrl
+            }
+          });
+          this.props.editBusinessAction(
+            this.props.id,
+            this.state.businessDetails
+          )
+            .then((message) => {
+              $(".modal-backdrop").remove();
+              $('.modal').hide();
+              toastrOption();
+              toastr.success(message);
+            })
+            .catch((message) => {
+              toastrOption();
+              toastr.error(message);
+            });
+        });
+    }
   }
 
 
@@ -129,7 +192,7 @@ class EditModal extends Component {
                         <input type="text"
                           name="name"
                           onChange={this.onChange}
-                          defaultValue={this.state.name}
+                          defaultValue={this.state.businessDetails.name}
                           placeholder="Business Name"
                           className="form-control"
                           autoFocus="autofocus"
@@ -146,7 +209,7 @@ class EditModal extends Component {
                         <select type="select"
                           name="location"
                           onChange={this.onChange}
-                          defaultValue={this.state.location}
+                          defaultValue={this.state.businessDetails.location}
                           placeholder="category"
                           className="form-control"
                           required>
@@ -171,7 +234,7 @@ class EditModal extends Component {
                         <select type="select"
                           name="categoryId"
                           onChange={this.onChange}
-                          defaultValue={this.state.categoryId}
+                          defaultValue={this.state.businessDetails.categoryId}
                           placeholder="category"
                           className="form-control"
                           required>
@@ -193,9 +256,24 @@ class EditModal extends Component {
                       <div className="input-group">
                         <span className="input-group-addon" />
                         <input type="file"
+                          name="image"
+                          onChange={this.imageUpload}
+                          accept=".jpg, .png, .jpeg"
                           className="form-control-file"
                           id="exampleFormControlFile1"/>
                       </div>
+                    </div>
+                    <div>
+                      {
+                        this.state.imageUrl ?
+                          <img alt="User Pic" src={this.state.imageUrl}
+                            className="img-fluid mb-2 mt-2"/> :
+                          <img alt="User Pic"
+                            src={!this.state.businessDetails.image ?
+                              "/images/placeholder.png" :
+                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.businessDetails.image}`}
+                            className="img-fluid mb-2 mt-2"/>
+                      }
                     </div>
                     <div className="form-group">
                       <label
@@ -207,7 +285,7 @@ class EditModal extends Component {
                         <textarea
                           name="details"
                           onChange={this.onChange}
-                          defaultValue={this.state.details}
+                          defaultValue={this.state.businessDetails.details}
                           placeholder="Business-Details"
                           rows="10" className="form-control"
                           type="text"
@@ -235,19 +313,23 @@ class EditModal extends Component {
 
 EditModal.propTypes = {
   editBusinessAction: PropTypes.func.isRequired,
+  imageUploadAction: PropTypes.func.isRequired,
   business: PropTypes.object,
+  imageUrl: PropTypes.string,
   categories: PropTypes.array,
   locations: PropTypes.array,
   id: PropTypes.number
 };
 const mapStateToProps = (state) => ({
   business: state.BusinessReducer.business,
-  categories: state.BusinessReducer.categories
+  categories: state.BusinessReducer.categories,
+  imageUrl: state.BusinessReducer.imageUrl
 });
 
 export default connect(
   mapStateToProps,
   {
-    editBusinessAction
+    editBusinessAction,
+    imageUploadAction
   }
 )(EditModal);

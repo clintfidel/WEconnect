@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         message: 'Business title already exist '
       }
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     details: {
       type: DataTypes.TEXT,
       allowNull: false,

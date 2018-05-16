@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Loader = ({ size }) => (
   <div>
-    <img src="/log.gif" alt="loader"
+    <img src="/images/log.gif" alt="loader"
       style= {{
         width: size,
         position: "absolute",

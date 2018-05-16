@@ -66,12 +66,7 @@ class ReviewController {
         ]
       })
       .then((reviews) => {
-        if (reviews.length === 0) {
-          return res.status(404).json({
-            message: 'No review found for this business'
-          });
-        }
-        return res.status(200).send({
+        res.status(200).send({
           status: 'success',
           allReviews: reviews
         });
@@ -79,6 +74,66 @@ class ReviewController {
       .catch(() => res.status(500).send({
         message: 'Internal server Error'
       }));
+  }
+
+  /**
+   * @description - User gets all review for a business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Get:/api/v1/business/:businessId/reviews
+   */
+  static getAllReview(req, res) {
+    const { pageNum } = req.query;
+    if (pageNum) {
+      const pageNumber = Number(pageNum);
+      const message = 'Sorry no business found for this page';
+      const limit = 5;
+      let offset;
+      let page;
+      if (pageNumber === 0) {
+        offset = 0;
+      } else {
+        page = pageNumber;
+        offset = limit * (page - 1);
+      }
+      Review
+        .findAndCountAll({
+          where: {
+            businessId: req.params.businessId
+          },
+          include: [
+            {
+              model: User,
+              attributes: ['username']
+            }
+          ],
+          limit,
+          offset,
+        })
+        .then((reviews) => {
+          const pages = Math.ceil(reviews.count / limit);
+          if (reviews.count < 1) {
+            return res.status(200).send({
+              reviews
+            });
+          } else if (pageNumber > pages) {
+            return res.status(404).send({ message: message });
+          }
+          return res.status(200).send({
+            reviews, count: reviews.count, pages
+          });
+        })
+        .catch((error) => {
+          res.status(500).send({
+            message: 'Internal server error'
+          });
+        });
+    }
   }
 }
 

@@ -33,7 +33,6 @@ class Review extends Component {
     this.displayReviews = this.displayReviews.bind(this);
   }
 
-
   /**
    * @description - handles the onchange event
    *
@@ -128,12 +127,25 @@ class Review extends Component {
                   {
                     this.displayReviews()
                   }
+                  <button style={{
+                    float: 'right',
+                    padding: '8px',
+                    backgroundColor: '#15b78d',
+                    color: 'white',
+                    borderRadius: '5px',
+                    outline: 'none'
+                  }}>
+                    Load More
+                  </button>
                   <form
                     action="#"
                     method="post"
                     role="form"
                     onSubmit={this.onSubmit}>
                     <textarea
+                      style={{
+                        outline: 'none'
+                      }}
                       name="comments"
                       value={this.state.comments}
                       onChange= {this.onChange}

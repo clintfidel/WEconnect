@@ -92,7 +92,7 @@ class Login extends Component {
             <main className="login-container">
               <div className="my-logo">
                 <Link to="/">
-                  <img src="/logo.png" alt=" WEconnect"/>
+                  <img src="/images/logo.png" alt=" WEconnect"/>
                 </Link>
               </div>
               <div className="input-box">
@@ -121,7 +121,7 @@ class Login extends Component {
                 <div className="create-account">
                   <p>
                     <Link to="/signup">Don't have an account? create one
-                    <span>Here</span>
+                    <span> Here</span>
                     </Link>
 
                   </p>

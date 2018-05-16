@@ -6,7 +6,6 @@ import path from 'path';
 import validator from 'express-validator';
 import bodyParser from 'body-parser';
 import webpackConfig from './webpack.config.dev';
-import webpackConfigProd from './webpack.config.prod';
 import UserRouter from './server/routes/userRoutes';
 import BusinessRouter from './server/routes/businessRoutes';
 import ReviewRouter from './server/routes/reviewRoutes';
@@ -15,10 +14,8 @@ const app = express();
 if (process.env.NODE_ENV !== 'production') {
   app.use(webpackMiddleware(webpack(webpackConfig)));
 }
-if (process.env.NODE_ENV === 'production') {
-  app.use(webpackMiddleware(webpack(webpackConfigProd)));
-}
-app.use(express.static(path.join(__dirname, './client/public/images')));
+
+app.use(express.static(path.join(__dirname, './client/public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());

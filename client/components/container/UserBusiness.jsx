@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import NavBar from '../presentational/common/NavBar';
 import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
-import { getAllUserBusinessAction } from '../../actions/BusinessAction';
+import {
+  getAllUserBusinessAction,
+  getAllCategoryAction
+} from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
 import Loader from '../presentational/common/Loader';
 
@@ -41,6 +44,7 @@ class AllBusiness extends Component {
     this.setState({
       loader: true
     });
+    this.props.getAllCategoryAction();
     this.props.getAllUserBusinessAction(1)
       .then(() => {
         this.setState({
@@ -58,10 +62,11 @@ class AllBusiness extends Component {
   renderAllBusiness() {
     const allBusiness = this.props.businesses;
     if (allBusiness.length < 1) {
-      return (<div className="not-found"
-        style={{ textAlign: 'center', paddingTop: 50 }}>
-        <h2>No Business found!!</h2>
-      </div>);
+      return (
+        <div style={{ textAlign: 'center', paddingTop: 50 }}>
+          <h2>No Business found!!</h2>
+        </div>
+      );
     }
     return (
       allBusiness.map((business) => (
@@ -73,7 +78,9 @@ class AllBusiness extends Component {
           views={business.views}
           userId={business.userId}
           id={business.id}
-          key={business.id}/>
+          key={business.id}
+          owner={business.User.username}
+          image={business.image}/>
       ))
     );
   }
@@ -135,9 +142,9 @@ class AllBusiness extends Component {
       <div>
         <NavBar/>
         <div>
-          <div className="main-business">
+          <div>
             <SearchBusiness/>
-            <div className="jumbotron">
+            <div className="container card-container">
               { this.state.loader ?
                 <Loader size={'250px'} /> :
                 <div>
@@ -158,6 +165,7 @@ class AllBusiness extends Component {
 
 AllBusiness.propTypes = {
   getAllUserBusinessAction: PropTypes.func.isRequired,
+  getAllCategoryAction: PropTypes.func.isRequired,
   businesses: PropTypes.array,
   count: PropTypes.number
 };
@@ -167,5 +175,8 @@ const mapStateToProps = (state) => ({
 });
 export default connect(
   mapStateToProps,
-  { getAllUserBusinessAction }
+  {
+    getAllUserBusinessAction,
+    getAllCategoryAction
+  }
 )(AllBusiness);
