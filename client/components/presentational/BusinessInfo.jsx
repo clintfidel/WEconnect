@@ -6,7 +6,7 @@ import EditModal from '../container/EditModal';
 const BusinessInfo = ({
   userId, name, details, location,
   category, deleteHandler, image, userAuth,
-  allCategories, id
+  allCategories, id, moreReviews
 }) =>
   (
     <div>
@@ -17,11 +17,14 @@ const BusinessInfo = ({
               src="/images/background.png"
               className="img-fluid"/> :
             <img alt="User Pic"
-              src={`http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_281,w_465/${image}`}
+              src={`http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/${image}`}
               className="img-fluid"/>
         }
-        <div className="text-center">
-          <span>{name}</span>
+        <div className="overlay">
+          <div className="text-center">
+            <span className="word-wrap">{name}</span>
+          </div>
+
         </div>
       </div>
       <div className="row grouped-buttons">
@@ -49,7 +52,7 @@ const BusinessInfo = ({
 
             <h5>
               <span>Details</span>:
-              <p>
+              <p className="word-wrap">
                 {details}
               </p>
             </h5>
@@ -72,7 +75,8 @@ const BusinessInfo = ({
           <hr/>
         </div>
         <Review
-          id={+id}/>
+          id={+id}
+          moreReviews={moreReviews}/>
       </div>
     </div>
   );
@@ -88,7 +92,8 @@ BusinessInfo.propTypes = {
   userAuth: PropTypes.number,
   userId: PropTypes.number,
   allCategories: PropTypes.array,
-  id: PropTypes.number
+  id: PropTypes.number,
+  moreReviews: PropTypes.func,
 };
 
 export default BusinessInfo;

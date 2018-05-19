@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.load();
-const key = process.env.secretKey;
+const key = process.env.SECRET_KEY;
 
 /**
    * @description - Checks if logged in user has valid AUTH token

@@ -34,9 +34,11 @@ class ViewBusiness extends Component {
     super(props);
     this.state = {
       loader: false,
+      reviewsNumber: 1,
       redirectUser: false,
     };
     this.deleteBusiness = this.deleteBusiness.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   /**
@@ -51,7 +53,7 @@ class ViewBusiness extends Component {
     this.props.getAllCategoryAction();
     this.props.viewBusinessAction(this.props.match.params.id)
       .then(() => {
-        this.props.allReviewAction(this.props.match.params.id);
+        this.props.allReviewAction(this.props.match.params.id, this.state.reviewsNumber);
         this.setState({
           loader: false
         });
@@ -65,6 +67,23 @@ class ViewBusiness extends Component {
       });
   }
 
+  /**
+   * @description - handles the onclick event
+   *
+   * @param  {object} event -the event for the content field
+   *
+   * @return {void}
+   */
+  onClick(event) {
+    event.preventDefault();
+    this.setState(
+      {
+        reviewsNumber: this.state.reviewsNumber + 1
+      },
+      () =>
+        this.props.allReviewAction(this.props.match.params.id, this.state.reviewsNumber)
+    );
+  }
   /**
    * @description deleteBusiness - details user's business
    *
@@ -89,7 +108,7 @@ class ViewBusiness extends Component {
               });
             })
             .then(() => {
-              this.props.history.push('/all-business/');
+              this.props.history.push('/userbusiness');
             });
         } else {
           swal('Your Business Is still intact!!');
@@ -121,6 +140,7 @@ class ViewBusiness extends Component {
           views={views}
           id={+this.props.match.params.id}
           deleteHandler={this.deleteBusiness}
+          moreReviews = {this.onClick}
           image={image}
           key={Math.random() * 10}
           userAuth={Number(this.props.auth.id)}
@@ -139,7 +159,7 @@ class ViewBusiness extends Component {
     return (
       //change redirect page back to 404 not found page
       this.state.redirectUser ?
-        <Redirect to="/" /> :
+        <Redirect to="/*" /> :
         <div>
           <NavBar />
           <div className="business-body">

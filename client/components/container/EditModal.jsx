@@ -7,6 +7,7 @@ import {
 }
   from '../../actions/BusinessAction';
 import toastrOption from '../../utils/toastrOption';
+import locations from '../../mockData';
 
 /**
  * @class Signup
@@ -16,15 +17,7 @@ import toastrOption from '../../utils/toastrOption';
  */
 class EditModal extends Component {
   static defaultProps = {
-    locations: [
-      'ABIA', 'ADAMAWA', 'AKWA IBOM', 'ANAMBRA',
-      'BAUCHI', 'BAYELSA', 'BENUE', 'BORNO',
-      'CROSS RIVER', 'DELTA', 'EBONYI',
-      'EDO', 'EKITI', 'ENUGU', 'FCT-ABUJA', 'GOMBE',
-      'IMO', 'JIGAWA', 'KADUNA', 'KANO', 'KATSINA',
-      'KEBBI', 'KOGI', 'KWARA', 'LAGOS', 'NASSARAWA', 'NIGER', 'OGUN', 'ONDO',
-      'OSUN', 'OYO', 'PLATEAU', 'RIVERS', 'SOKOTO', 'TARABA', 'YOBE', 'ZAMFARA'
-    ]
+    locations
   }
   /**
    * constructor - contains the constructor
@@ -46,7 +39,8 @@ class EditModal extends Component {
         name: this.props.business.name,
         details: this.props.business.details,
         categoryId: this.props.business.categoryId,
-        location: this.props.business.location
+        location: this.props.business.location,
+        image: this.props.business.image
       }
     };
     this.onChange = this.onChange.bind(this);
@@ -271,7 +265,7 @@ class EditModal extends Component {
                           <img alt="User Pic"
                             src={!this.state.businessDetails.image ?
                               "/images/placeholder.png" :
-                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.businessDetails.image}`}
+                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_800/${this.state.businessDetails.image}`}
                             className="img-fluid mb-2 mt-2"/>
                       }
                     </div>

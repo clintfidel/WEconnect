@@ -57,16 +57,18 @@ export function searchUserBusiness(result) {
 /**
  * @description - Search Query
  *
+ * @param {string} name - business name
  * @param {string} location - business location
- *
  * @param {string} category - business category
  *
  * @param {string} url - endpoint
  *
  * @returns {Object} - redux action to be dispatched
  */
-export function searchQuery(location, category, url) {
+export function searchQuery(name, location, category, url) {
   let queryParams = '?';
+  queryParams =
+    !name ? queryParams : `${queryParams}name=${name}&`;
   queryParams =
     !location ? queryParams : `${queryParams}location=${location}&`;
   queryParams =
@@ -171,15 +173,15 @@ export const imageUploadAction = (image) => {
     });
 };
 export const searchBusinessAction =
- (location, category) => (dispatch) => {
-   const url = searchQuery(location, category, '/api/v1/businesses');
+ (name, location, category) => (dispatch) => {
+   const url = searchQuery(name, location, category, '/api/v1/businesses');
    axios.get(url)
      .then((response) => dispatch(searchBusiness(response.data.businesses)));
  };
 
 export const searchUserBusinessAction =
- (location, category) => (dispatch) => {
-   const url = searchQuery(location, category, '/api/v1/businesses/user');
+ (name, location, category) => (dispatch) => {
+   const url = searchQuery(name, location, category, '/api/v1/businesses/user');
    axios.get(url)
      .then((response) =>
        dispatch(searchUserBusiness(response.data.businesses)));

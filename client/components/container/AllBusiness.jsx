@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactPaginate from 'react-paginate';
+import ReactPagination from "react-paginate";
 import { connect } from 'react-redux';
 import NavBar from '../presentational/common/NavBar';
 import Businesses from '../presentational/Businesses';
@@ -30,7 +30,8 @@ class AllBusiness extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loader: false
+      loader: false,
+      activePage: 1
     };
     this.handlePageChange = this.handlePageChange.bind(this);
   }
@@ -45,7 +46,7 @@ class AllBusiness extends Component {
       loader: true
     });
     this.props.getAllCategoryAction();
-    this.props.getAllBusinessAction(1)
+    this.props.getAllBusinessAction(this.state.activePage)
       .then(() => {
         this.setState({
           loader: false
@@ -107,24 +108,27 @@ class AllBusiness extends Component {
   renderPagination(count) {
     if (this.props.count > 10) {
       return (
-        <ReactPaginate
-          previousLabel={
-            <i className="page-link">Previous</i>
-          }
-          nextLabel={
-            <i className="page-link">Next</i>
-          }
-          breakLabel={<a href="">...</a>}
-          breakClassName={'break-me'}
-          pageCount={this.props.count / 10}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          initialPage={count}
-          onPageChange={this.handlePageChange}
-          containerClassName={'pagination justify-content-center'}
-          subContainerClassName={"pages pagination"}
-          activeClassName={'active'}
-        />
+        <div>
+          <ReactPagination
+            previousLabel={
+              <i className="fas fa-angle-double-left" />
+            }
+            nextLabel={
+              <i className="fas fa-angle-double-right" />
+            }
+            breakLabel={<a href="">...</a>}
+            breakClassName={'break-me'}
+            pageCount={this.props.count / 10}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            initialPage={count}
+            onPageChange={this.handlePageChange}
+            containerClassName={'pagination justify-content-center'}
+            subContainerClassName={"pages pagination"}
+            activeClassName={'active'}
+          />
+
+        </div>
       );
     }
   }

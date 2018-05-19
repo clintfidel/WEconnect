@@ -1,4 +1,3 @@
-const dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const webpackCommon = require('./webpack.config.common');
@@ -12,10 +11,6 @@ module.exports = merge(webpackCommon, {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new dotenv({
-      path: './.env',
-      safe: false
-    }),
   ],
   module: {
     rules: [

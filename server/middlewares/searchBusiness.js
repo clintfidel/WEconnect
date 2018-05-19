@@ -20,22 +20,41 @@ const {
    * ROUTE: Get:/api/v1/business/?location=location
    */
 export const searchBusiness = (req, res, next) => {
-  const { location, category } = req.query;
+  const { location, category, name } = req.query;
   const searchLocation = location;
   const searchCategory = category;
+  const searchName = name;
   const serverMessage = {
     message: 'Internal sever error'
   };
   if (searchLocation && searchCategory) {
     Business
       .findAndCountAll({
-        where:
-            {
-              $and: [
-                { location: { ilike: `%${searchLocation}%` } },
-                { '$Category.category$': { ilike: `%${searchCategory}%` } }
-              ]
-            },
+        where: {
+          $and: [
+            { location: { ilike: `%${searchLocation}%` } },
+            { '$Category.category$': { ilike: `%${searchCategory}%` } }
+          ]
+        },
+        include: [{
+          model: database.User,
+          attributes: ['username']
+        },
+        {
+          model: Category,
+          attributes: ['category']
+        }
+        ],
+
+      })
+      .then((businesses) => {
+        checkBusinessResponse(businesses, res);
+      })
+      .catch(() => res.status(500).send(serverMessage));
+  } else if (searchName) {
+    Business
+      .findAndCountAll({
+        where: { name: { ilike: `%${searchName}%` } },
         include: [{
           model: database.User,
           attributes: ['username']
@@ -54,10 +73,7 @@ export const searchBusiness = (req, res, next) => {
   } else if (searchCategory) {
     Business
       .findAndCountAll({
-        where:
-
-          { '$Category.category$': { ilike: `%${searchCategory}%` } },
-
+        where: { '$Category.category$': { ilike: `%${searchCategory}%` } },
         include: [{
           model: database.User,
           attributes: ['username']
@@ -76,10 +92,7 @@ export const searchBusiness = (req, res, next) => {
   } else if (searchLocation) {
     Business
       .findAndCountAll({
-        where:
-
-          { location: { ilike: `%${searchLocation}%` } },
-
+        where: { location: { ilike: `%${searchLocation}%` } },
         include: [{
           model: database.User,
           attributes: ['username']
@@ -114,8 +127,9 @@ export const searchBusiness = (req, res, next) => {
    * ROUTE: Get:/api/v1/business/?location=location
    */
 export const searchUserBusiness = (req, res, next) => {
-  const { location, category } = req.query;
+  const { name, location, category } = req.query;
   const { id } = req.decoded.currentUser;
+  const searchName = name;
   const searchLocation = location;
   const searchCategory = category;
   const serverMessage = {
@@ -147,6 +161,30 @@ export const searchUserBusiness = (req, res, next) => {
         checkBusinessResponse(businesses, res);
       })
       .catch(() => res.status(500).send(serverMessage));
+  } else if (searchName) {
+    Business
+      .findAndCountAll({
+        where: {
+          $and: [
+            { userId: id },
+            { name: { ilike: `%${searchName}%` } }
+          ]
+        },
+        include: [{
+          model: database.User,
+          attributes: ['username']
+        },
+        {
+          model: Category,
+          attributes: ['category']
+        }
+        ],
+
+      })
+      .then((businesses) => {
+        checkBusinessResponse(businesses, res);
+      })
+      .catch(() => res.status(500).send(serverMessage));
   } else if (searchCategory) {
     Business
       .findAndCountAll({
@@ -157,7 +195,6 @@ export const searchUserBusiness = (req, res, next) => {
             { '$Category.category$': { ilike: `%${searchCategory}%` } },
           ]
         },
-
         include: [{
           model: database.User,
           attributes: ['username']
@@ -183,7 +220,6 @@ export const searchUserBusiness = (req, res, next) => {
             { location: { ilike: `%${searchLocation}%` } },
           ]
         },
-
         include: [{
           model: database.User,
           attributes: ['username']

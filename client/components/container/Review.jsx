@@ -66,15 +66,7 @@ class Review extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.addReviewAction(this.props.id, this.state)
-      .then((message) => {
-        toastrOption();
-        toastr.success(message);
-      })
-      .catch(message => {
-        toastrOption();
-        toastr.error(message);
-      });
+    this.props.addReviewAction(this.props.id, this.state);
     this.setState({
       comments: ''
     });
@@ -98,10 +90,10 @@ class Review extends Component {
             <a href="#" className="comment-author" title="Comment Author">
               <h4>{review.User.username}</h4>
             </a>
-            <p>{review.comments}</p>
+            <p className="word-wrap">{review.comments}</p>
             <small className="text-muted">
               created at:
-              {moment(review.createdAt).format('Do MMMM YYYY HH:mm')}
+              {moment(review.createdAt).format('Do MMMM YYYY - HH:mm')}
             </small>
           </div>
         </div>
@@ -127,16 +119,17 @@ class Review extends Component {
                   {
                     this.displayReviews()
                   }
-                  <button style={{
-                    float: 'right',
-                    padding: '8px',
-                    backgroundColor: '#15b78d',
-                    color: 'white',
-                    borderRadius: '5px',
-                    outline: 'none'
-                  }}>
+                  {this.props.count > 5 ?
+                    <button style={{
+                      float: 'right',
+                      padding: '8px',
+                      backgroundColor: '#15b78d',
+                      color: 'white',
+                      borderRadius: '5px',
+                      outline: 'none'
+                    }} onClick={this.props.moreReviews}>
                     Load More
-                  </button>
+                    </button> : '' }
                   <form
                     action="#"
                     method="post"
@@ -171,11 +164,14 @@ class Review extends Component {
 Review.propTypes = {
   id: PropTypes.number,
   addReviewAction: PropTypes.func.isRequired,
-  reviews: PropTypes.array
+  reviews: PropTypes.array,
+  moreReviews: PropTypes.func,
+  count: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
-  reviews: state.ReviewsReducer.reviews
+  reviews: state.ReviewsReducer.reviews,
+  count: state.ReviewsReducer.count
 });
 
 export default connect(

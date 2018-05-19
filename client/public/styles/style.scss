@@ -10,6 +10,7 @@ body {
     margin: 0;
     box-sizing: border-box;
     padding: 0;
+    min-height: 100vh;
     font-family: 'Philosopher', sans-serif;
     background-image: url('/images/app-background.png');  
 }
@@ -167,7 +168,6 @@ body {
         height: 7%;
         width: 10%
     }
-   
 }
 
 .input-box { 
@@ -511,7 +511,7 @@ body {
                    line-height: 1.8em;
                }
                span{
-                   font-size: ($size * 3- 7);
+                   font-size: ($size * 2 - 2);
                    font-weight: bolder;
                    text-transform: uppercase;
                }
@@ -583,43 +583,59 @@ body {
 
 //pagination
 .page-link {
-    background-color: $backgroundcolor1;
-    color: rgb(255, 255, 255);
-    border-radius: 10px;
-}
-
-.page-link:hover, .page-link:focus {
-    background-color: none !important;
-    color:  $backgroundcolor1;
-}
-.pagination {
-    border: 1px solid $backgroundcolor1;
-    font-size: 20px;
-    list-style: none;
-
-    li {
-        margin: $margin * 2;
-        cursor: pointer;
-        position: relative;
-        line-height: 1.25rem;
-        display: block;
-        list-style: none;
-        padding: 0 5px;
-        outline: none;
-        text-decoration: none;
-    }
-    .active {
-        background-color: $backgroundcolor1 !important;
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: $backgroundcolor1;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .page-link:focus, .page-link:hover {
+    color: #000000;
+    text-decoration: none;
+    background-color: #e9ecef;
+    border-color: #ddd;
+  }
+  
+  .pagination li {
+      position: relative;
+      display: block;
+      padding: .5rem .75rem;
+      margin: auto 0;
+      line-height: 1.25;
+      color: gray;
+      background-color: $backgroundcolor1;
+      border: 1px solid #ddd;
+      cursor: pointer;
+  }
+  
+  .pagination li.active {
+    background-color: gray !important;
+    a {
         outline: none !important;
-        line-height: 1.25rem !important;
-        list-style-type: none !important;
-        color:white !important;
     }
-}
+  }
+  
+  .pagination li a {
+    color: #fff !important;
+  }
+  
+  .pagination {
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+    margin-top: 25px;
+  }
 
 // user profile
 .user-profile {
-    min-height: calc(100vh - 58px);
+    min-height: calc(100vh - 158px);
 }
 .data-key {
     font-size: ($size * 2 - 3);
@@ -668,13 +684,29 @@ a {
     border-radius: 4px;
     .text {
         color: black;
-        font-size: ($size*2);
+        font-size: ($size * 2 - 2);
         padding: 2%;
     }
     .views {
-        margin-top: 10%;
-        margin-bottom: 0;
+        position: relative;
+        margin-top: 2%;
+        margin-bottom: 0%;
+    }
+    .image {
+        width: auto;
+        background-color: rgba(0,0,0,0.5);
+        border-radius: 4px;
+        height: 300px;
+        padding-left: 0;
+        padding-right: 0;
     } 
+    .business-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+
+    }
 }
 
 .card-container {
@@ -683,10 +715,19 @@ a {
     box-shadow: 0 0 20px rgba(0, 0, 0, .5);
     border-radius: 20px;
     margin: 2% auto;
+    min-height: calc(100vh - 58px);
+}
+
+.profile-container {
+    background-color: #fff;
+    padding: 5%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+    border-radius: 20px;
+    margin: 10% auto;
 }
 
 .button-container {
-    margin-top: 2%;
+    margin: 5% 0;
     a:hover {
         color: #fff;
         text-decoration: none;
@@ -697,7 +738,7 @@ a {
     background-color: $backgroundcolor1;
     padding: 1.5%;
     border-radius: $radius;
-    color: white;
+    color:white;
     text-decoration: none;
 }
 
@@ -732,8 +773,36 @@ a {
 
 .custom-select {
     width: 100%;
+    cursor: pointer;
 }
 
 button {
     cursor: pointer;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.page-not-found {
+    min-height: calc(100vh - 160px);
+    padding-top: 15%;
+    text-align: center;
+    margin: auto;
+    position: relative;
+}
+
+.word-wrap {
+    word-wrap: break-word;
+}
+
+.ellipse {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

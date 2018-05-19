@@ -7,7 +7,7 @@ import {
 } from '../middlewares/validation';
 import review from '../controllers/ReviewController';
 
-const { createReview, getAllReviews } = review;
+const { createReview, getAllReview } = review;
 
 const reviewRouter = express.Router();
 reviewRouter.route('/:businessId/reviews')
@@ -16,6 +16,6 @@ reviewRouter.route('/:businessId/reviews')
     verifyBusinessIdExist,
     checkValidIdParams, createReview
   )
-  .get(isLoggedIn, verifyUserIdExist, verifyBusinessIdExist, getAllReviews);
+  .get(isLoggedIn, verifyUserIdExist, verifyBusinessIdExist, getAllReview);
 
 export default reviewRouter;

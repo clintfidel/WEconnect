@@ -80,7 +80,7 @@ class UserProfile extends Component {
         <NavBar/>
         <div>
           <div className="container user-profile">
-            <div className="card-container">
+            <div className="profile-container">
               <h2 className="panel-title">My profile</h2>
               <hr/>
               <div>

@@ -6,7 +6,6 @@ import {
   editUserProfileAction,
   imageUploadAction
 } from '../../actions/AuthAction';
-import Loader from '../presentational/common/Loader';
 
 /**
  * @class ViewBusiness
@@ -111,13 +110,13 @@ class EditUserProfile extends Component {
         .then((message) => {
           $(".modal-backdrop").remove();
           $('.modal').hide();
-          this.setState({
-            loader: false
-          });
           toastrOption();
           toastr.success(message);
         })
         .catch((message) => {
+          this.setState({
+            loader: false
+          });
           toastrOption();
           toastr.error(message);
         });
@@ -134,13 +133,13 @@ class EditUserProfile extends Component {
             .then((message) => {
               $(".modal-backdrop").remove();
               $('.modal').hide();
-              this.setState({
-                loader: false
-              });
               toastrOption();
               toastr.success(message);
             })
             .catch((message) => {
+              this.setState({
+                loader: false
+              });
               toastrOption();
               toastr.error(message);
             });
@@ -244,7 +243,7 @@ class EditUserProfile extends Component {
                         id="exampleFormControlFile1"/>
                       {
                         this.state.loader ?
-                          <Loader size={'60px'}/> :
+                          <i className="fa fa-circle-o-notch fa-spin" /> :
                           null
                       }
                     </div>

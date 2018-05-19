@@ -1,6 +1,5 @@
 import {
   SET_CURRENT_USER,
-  USER_LOGOUT,
   USER_PROFILE,
   EDIT_USER_PROFILE,
   IMAGE_UPLOAD
@@ -27,18 +26,11 @@ const AuthReducer = (state = initialState, action) => {
   case SET_CURRENT_USER:
     return { ...state, user: action.user, authenticated: action.authenticated };
   case USER_PROFILE:
-    return { ...state, user: action.profile, authenticated: true };
+    return { ...state, user: action.profile };
   case IMAGE_UPLOAD:
     return { ...state, imageUrl: action.imageUrl };
   case EDIT_USER_PROFILE:
-    return { ...state, user: action.newProfile, authenticate: true };
-  case USER_LOGOUT:
-    return {
-      ...state,
-      user: action.user,
-      authenticated: false,
-      message: 'you have successfully Logged out'
-    };
+    return { ...state, user: action.newProfile };
   default:
     return state;
   }

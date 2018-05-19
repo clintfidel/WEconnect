@@ -8,7 +8,7 @@ import {
   EDIT_USER_PROFILE,
   IMAGE_UPLOAD
 } from './types';
-import toastrOption from '../utils/toastrOption';
+// import toastrOption from '../utils/toastrOption';
 
 
 /**
@@ -109,8 +109,7 @@ export const logoutAction = () => (dispatch) => {
   setAuthorization(false);
   dispatch({
     type: USER_LOGOUT,
-    user: {}
+    user: {},
+    authenticated: false
   });
-  toastrOption();
-  toastr.success('You have logged out successfully');
 };

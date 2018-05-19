@@ -1,13 +1,20 @@
 import axios from 'axios';
-import { GET_ALL_REVIEW, ADD_REVIEW } from './types';
+import { GET_ALL_REVIEW, ADD_REVIEW, LOAD_MORE_REVIEWS } from './types';
 
-export const allReviewAction = (businessId) => (dispatch) =>
-  axios.get(`/api/v1/businesses/${businessId}/reviews`)
+export const allReviewAction = (businessId, page) => (dispatch) =>
+  axios.get(`/api/v1/businesses/${businessId}/reviews?pageNum=${page}`)
     .then((response) => {
-      dispatch({
-        type: GET_ALL_REVIEW,
-        reviews: response.data.allReviews
-      });
+      if (page === 1) {
+        dispatch({
+          type: GET_ALL_REVIEW,
+          reviews: response.data.reviews
+        });
+      } else {
+        dispatch({
+          type: LOAD_MORE_REVIEWS,
+          reviews: response.data.reviews
+        });
+      }
     })
     .catch(error => Promise.reject(error.response.data.message));
 

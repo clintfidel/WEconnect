@@ -5,7 +5,7 @@ import omit from 'lodash/omit';
 import database from '../models';
 
 dotenv.config();
-const secret = process.env.secretKey;
+const secret = process.env.SECRET_KEY;
 
 const { User } = database;
 /**
@@ -34,11 +34,10 @@ class UserController {
             activeUser.dataValues,
             ['password']
           );
-          const expiresIn = { exp: Math.floor(Date.now() / 1000) + (60 * 60) };
-          const token = jwt.sign(
-            { currentUser, expiresIn },
-            secret
-          );
+          const token = jwt.sign({
+            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+            currentUser
+          }, secret);
 
           return res.status(201).send({
             message: 'Signed up successfully',
@@ -83,11 +82,10 @@ class UserController {
             user.dataValues,
             ['password', 'createdAt', 'updatedAt']
           );
-          const expireIn = { exp: Math.floor(Date.now() / 1000) + (60 * 60) };
-          const token = jwt.sign(
-            { expireIn, currentUser },
-            secret
-          );
+          const token = jwt.sign({
+            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+            currentUser
+          }, secret);
           return res.status(200)
             .json({
               message: 'Logged In Successfully',
