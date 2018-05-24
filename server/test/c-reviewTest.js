@@ -3,8 +3,8 @@ import supertest from 'supertest';
 import app from '../../server';
 
 let token;
-let businessId;
-let businessId2;
+let businessId = +2;
+let businessId2 = +10;
 
 const wrongId = Number(10);
 
@@ -31,7 +31,7 @@ describe('Review: ', () => {
       .post('/api/v1/businesses/')
       .send({
         name: 'testing',
-        details: 'test user',
+        details: 'Old English lufu "love, affection, friendliness," from Proto-Germanic *lubo (cf. Old High German liubi "joy," German Liebe "love;" Old Norse, Old Frisian, Dutch lof; German Lob "praise;" Old Saxon liof, Old Frisian liaf, Dutch lief, Old High German liob, German lieb, Gothic liufs "dear, beloved").',
         location: 'Lagos',
         categoryId: 1,
         token: `${token}`
@@ -51,7 +51,7 @@ describe('Review: ', () => {
       .post('/api/v1/businesses/')
       .send({
         name: '9mobile',
-        details: 'this is a new business',
+        details: 'Old English lufu "love, affection, friendliness," from Proto-Germanic *lubo (cf. Old High German liubi "joy," German Liebe "love;" Old Norse, Old Frisian, Dutch lof; German Lob "praise;" Old Saxon liof, Old Frisian liaf, Dutch lief, Old High German liob, German lieb, Gothic liufs "dear, beloved").',
         location: 'wakanda',
         categoryId: 3,
         token: `${token}`
@@ -68,7 +68,7 @@ describe('Review: ', () => {
   });
   it('should not create a new review for invalid business id', (done) => {
     supertest(app)
-      .post(`/api/v1/businesses/${wrongId}/reviews/`)
+      .post(`/api/v1/businesses/${wrongId}/reviews/?pageNum=1`)
       .send({
         comments: 'lovely app',
         token: `${token}`
@@ -79,6 +79,21 @@ describe('Review: ', () => {
           return done(err);
         }
         expect(res.body.message).toBe('No business with that Id found');
+        done();
+      });
+  });
+  it('should return No review for business with no review', (done) => {
+    supertest(app)
+      .get(`/api/v1/businesses/${businessId2}/reviews?pageNum=1`)
+      .send({
+        token: `${token}`
+      })
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.reviews.rows).toBe(res.body.reviews.rows);
         done();
       });
   });
@@ -98,9 +113,9 @@ describe('Review: ', () => {
         done();
       });
   });
-  it('should not get review for invalid business id', (done) => {
+  it('should No business found for this page', (done) => {
     supertest(app)
-      .get(`/api/v1/businesses/${wrongId}/reviews`)
+      .get(`/api/v1/businesses/${businessId}/reviews?pageNum=2`)
       .send({
         token: `${token}`
       })
@@ -109,28 +124,13 @@ describe('Review: ', () => {
         if (err) {
           return done(err);
         }
-        expect(res.body.message).toBe('No business Found');
-        done();
-      });
-  });
-  it('should no review for business with no review', (done) => {
-    supertest(app)
-      .get(`/api/v1/businesses/${businessId2}/reviews`)
-      .send({
-        token: `${token}`
-      })
-      .expect(404)
-      .end((err, res) => {
-        if (err) {
-          return done(err);
-        }
-        expect(res.body.message).toBe('No review found for this business');
+        expect(res.body.message).toBe('Sorry no business found for this page');
         done();
       });
   });
   it('should get all reviews for a business', (done) => {
     supertest(app)
-      .get(`/api/v1/businesses/${businessId}/reviews`)
+      .get(`/api/v1/businesses/${businessId}/reviews?pageNum=1`)
       .send({
         token: `${token}`
       })

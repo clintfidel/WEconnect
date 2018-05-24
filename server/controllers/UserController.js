@@ -167,23 +167,16 @@ class UserController {
       .findOne({
         where: { id: id }
       })
-      .then((user) => {
-        if (!user) {
-          return res.status(404).json({
-            message: 'user does not exist'
-          });
+      .then((user) => res.status(200).json({
+        status: "success",
+        data: {
+          id: user.id,
+          username: user.username,
+          fullname: user.fullname,
+          email: user.email,
+          image: user.image
         }
-        return res.status(200).json({
-          status: "success",
-          data: {
-            id: user.id,
-            username: user.username,
-            fullname: user.fullname,
-            email: user.email,
-            image: user.image
-          }
-        });
-      })
+      }))
       .catch(() => res.status(500).json({
         message: 'Internal sever Error'
       }));

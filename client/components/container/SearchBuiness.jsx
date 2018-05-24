@@ -184,7 +184,7 @@ class SearchBuiness extends Component {
             </div>
             <div className="col-sm-2">
               <button
-                className="search-button"
+                className="reset-button"
                 onClick={this.onClick}>
                 Reset
               </button>

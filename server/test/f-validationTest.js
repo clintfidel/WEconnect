@@ -21,7 +21,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body[0].error)
+          expect(res.body.message)
             .toBe('Please provide a username with atleast 5 characters.');
           done();
         });
@@ -35,12 +35,13 @@ describe('WEconnect API: ', () => {
           password: 'clint2018',
           email: 'test1@gmail.com'
         })
+        
         .expect(409)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body[0].error).toBe('Your Username is required');
+          expect(res.body.message).toBe('Your Username is required');
           done();
         });
     });
@@ -58,7 +59,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body[0].error).toBe('Your Email Address is required');
+          expect(res.body.message).toBe('Your Email Address is required');
           done();
         });
     });
@@ -76,7 +77,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body[0].error).toBe('Provide a valid Email Address');
+          expect(res.body.message).toBe('Provide a valid Email Address');
           done();
         });
     });
@@ -94,7 +95,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body[0].error).toBe('Your Password is required');
+          expect(res.body.message).toBe('Your Password is required');
           done();
         });
     });
@@ -102,7 +103,7 @@ describe('WEconnect API: ', () => {
       supertest(app)
         .post('/api/v1/auth/signup')
         .send({
-          fullname: 'test',
+          fullname: 'Mr test',
           username: 'testme',
           password: 'clint',
           email: 'test1@gmail.com'
@@ -112,7 +113,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body[0].error)
+          expect(res.body.message)
             .toBe('Provide a valid password with minimum of 8 characters');
           done();
         });
@@ -121,7 +122,7 @@ describe('WEconnect API: ', () => {
       supertest(app)
         .post('/api/v1/auth/signup')
         .send({
-          fullname: 'test  again',
+          fullname: ' test again',
           username: 'testme',
           password: 'clint2018',
           email: 'test1@gmail.com'
@@ -131,11 +132,11 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Invalid fullname! Pls check details');
+          expect(res.body.message).toBe('Invalid fullname!');
           done();
         });
     });
-    it('should not create a User with password containing space as firs character ', (done) => {
+    it('should not create a User with password containing space as first character ', (done) => {
       supertest(app)
         .post('/api/v1/auth/signup')
         .send({
@@ -149,7 +150,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Invalid Password! Pls check that password first character is a letter or password does not contain or start with a space');
+          expect(res.body.message).toBe('Invalid password!');
           done();
         });
     });
@@ -167,7 +168,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Invalid Username! Pls check details');
+          expect(res.body.message).toBe('Invalid Username!');
           done();
         });
     });
@@ -192,8 +193,8 @@ describe('WEconnect API: ', () => {
       supertest(app)
         .post('/api/v1/businesses/')
         .send({
-          name: ' Business1',
-          details: 'change test Business',
+          name: ' Business',
+          details: 'Old English lufu "love, affection, friendliness," from Proto-Germanic *lubo (cf. Old High German liubi "joy," German Liebe "love;" Old Norse, Old Frisian, Dutch lof; German Lob "praise;" Old Saxon liof, Old Frisian liaf, Dutch lief, Old High German liob, German lieb, Gothic liufs "dear, beloved").',
           location: 'Abuja',
           categoryId: 1,
           token: `${token}`
@@ -203,7 +204,7 @@ describe('WEconnect API: ', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Invalid character in Business Name! Pls check details');
+          expect(res.body.message).toBe('Invalid character in Business Name!');
           done();
         });
     });
@@ -214,7 +215,7 @@ describe('WEconnect API: ', () => {
         .post('/api/v1/businesses')
         .send({
           name: 'Another testing',
-          details: 'test user',
+          details: 'Old English lufu "love, affection, friendliness," from Proto-Germanic *lubo (cf. Old High German liubi "joy," German Liebe "love;" Old Norse, Old Frisian, Dutch lof; German Lob "praise;" Old Saxon liof, Old Frisian liaf, Dutch lief, Old High German liob, German lieb, Gothic liufs "dear, beloved").',
           location: 'Lagos',
           categoryId: 1,
           token: `${token}`
@@ -258,18 +259,108 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
+    it('search for business by location and category', (done) => {
+      supertest(app)
+        .get('/api/v1/businesses?location=lagos&category=food')
+        .send({
+          token: `${token}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Business Found!');
+          done();
+        });
+    });
+    it('search for user business by location and category', (done) => {
+      supertest(app)
+        .get('/api/v1/businesses/user?location=lagos&category=food')
+        .send({
+          token: `${token}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Business Found!');
+          done();
+        });
+    });
+    it('search for user business by name', (done) => {
+      supertest(app)
+        .get('/api/v1/businesses/user?name=Another testing')
+        .send({
+          token: `${token}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Business Found!');
+          done();
+        });
+    });
+    it('search for user business by name', (done) => {
+      supertest(app)
+        .get('/api/v1/businesses?name=Another testing')
+        .send({
+          token: `${token}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Business Found!');
+          done();
+        });
+    });
+    it('search for user business by location', (done) => {
+      supertest(app)
+        .get('/api/v1/businesses/user?location=lagos')
+        .send({
+          token: `${token}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Business Found!');
+          done();
+        });
+    });
+    it('search for user business by category', (done) => {
+      supertest(app)
+        .get('/api/v1/businesses/user?category=food')
+        .send({
+          token: `${token}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Business Found!');
+          done();
+        });
+    });
     it('should return error message for business not seen ', (done) => {
       supertest(app)
         .get('/api/v1/businesses?location=Jerico')
         .send({
           token: `${token}`
         })
-        .expect(404)
+        .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('No match Business found!');
+          expect(res.body.businesses.rows).toBe(res.body.businesses.rows);
           done();
         });
     });
@@ -279,12 +370,12 @@ describe('WEconnect API: ', () => {
         .send({
           token: `${token}`
         })
-        .expect(404)
+        .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('No match Business found!');
+          expect(res.body.businesses.rows).toBe(res.body.businesses.rows);
           done();
         });
     });

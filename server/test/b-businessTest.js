@@ -3,8 +3,8 @@ import supertest from 'supertest';
 import app from '../../server';
 
 let userToken;
-let businessId;
-const wrongId = parseInt('7', 10);
+let businessId = +2;
+const wrongId = '7';
 describe('WEconnect API: ', () => {
   describe('Business: ', () => {
     it('should log existing user in  ', (done) => {
@@ -44,10 +44,10 @@ describe('WEconnect API: ', () => {
     });
     it('should create new Business profile', (done) => {
       supertest(app)
-        .post('/api/v1/businesses')
+        .post('/api/v1/businesses/')
         .send({
-          name: 'Another testing',
-          details: 'test user',
+          name: 'New salary',
+          details: 'Old English lufu "love, affection, friendliness," from Proto-Germanic *lubo (cf. Old High German liubi "joy," German Liebe "love;" Old Norse, Old Frisian, Dutch lof; German Lob "praise;" Old Saxon liof, Old Frisian liaf, Dutch lief, Old High German liob, German lieb, Gothic liufs "dear, beloved").',
           location: 'Lagos',
           categoryId: 1,
           token: `${userToken}`
@@ -59,6 +59,25 @@ describe('WEconnect API: ', () => {
           }
           businessId = Number(res.body.businessProfile.id);
           expect(res.body.message).toBe('Business created successfully');
+          done();
+        });
+    });
+    it('should not create new Business profile with invalid category id', (done) => {
+      supertest(app)
+        .post('/api/v1/businesses')
+        .send({
+          name: 'One More Salary',
+          details: 'Old English lufu "love, affection, friendliness," from Proto-Germanic *lubo (cf. Old High German liubi "joy," German Liebe "love;" Old Norse, Old Frisian, Dutch lof; German Lob "praise;" Old Saxon liof, Old Frisian liaf, Dutch lief, Old High German liob, German lieb, Gothic liufs "dear, beloved").',
+          location: 'Lagos',
+          categoryId: 'boy',
+          token: `${userToken}`
+        })
+        .expect(409)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('category Id has to be numeric value');
           done();
         });
     });
@@ -93,22 +112,56 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should get all Businesses ', (done) => {
+    it('should not be able to get user business for unavailabe page', (done) => {
       supertest(app)
-        .get('/api/v1/businesses/')
+        .get('/api/v1/businesses/user?pageNum=5')
         .send({
           token: `${userToken}`
         })
-        .expect(200)
+        .expect(404)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(res.body.status).toBe('Success');
-          expect(res.body);
+          expect(res.body.message).toBe('Sorry no business found for this page');
           done();
         });
     });
+    it('should not be able get business for unavailabe page', (done) => {
+      supertest(app)
+        .get('/api/v1/businesses/?pageNum=4')
+        .send({
+          token: `${userToken}`
+        })
+        .expect(404)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Sorry no business found for this page');
+          done();
+        });
+    });
+    it('should not create new business profile with invalid category id', (done) => {
+      supertest(app)
+        .post('/api/v1/businesses/')
+        .send({
+          name: 'One salary',
+          details: 'Old English lufu "love, affection, friendliness," from Proto-Germanic *lubo (cf. Old High German liubi "joy," German Liebe "love;" Old Norse, Old Frisian, Dutch lof; German Lob "praise;" Old Saxon liof, Old Frisian liaf, Dutch lief, Old High German liob, German lieb, Gothic liufs "dear,beloved").',
+          location: 'Lagos',
+          categoryId: 60,
+          token: `${userToken}`
+        })
+        .expect(404)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('No category with that Id found! pls select from 1-7');
+          done();
+        });
+    });
+    
     it('should be able to get business by page', (done) => {
       supertest(app)
         .get('/api/v1/businesses?pageNum=1')
@@ -121,22 +174,6 @@ describe('WEconnect API: ', () => {
             return done(err);
           }
           expect(res.body);
-          done();
-        });
-    });
-    it('should not be able to get business', (done) => {
-      supertest(app)
-        .get('/api/v1/businesses?pageNum=2')
-        .send({
-          token: `${userToken}`
-        })
-        .expect(404)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-
-          expect(res.body.message).toBe('Sorry no business found for this page');
           done();
         });
     });
@@ -257,19 +294,18 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
-    it('should not be able to get business', (done) => {
+    it('should be able to get user business by page', (done) => {
       supertest(app)
-        .get('/api/v1/businesses?pageNum=1')
+        .get('/api/v1/businesses/user?pageNum=1')
         .send({
           token: `${userToken}`
         })
-        .expect(404)
+        .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-
-          expect(res.body.message).toBe('No Business found');
+          expect(res.body);
           done();
         });
     });

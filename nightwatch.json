@@ -1,0 +1,32 @@
+{
+    "src_folders" : ["e2e-tests"],
+    "output_folder" : "e2e_reports",
+    "selenium" : {
+        "start_process" : true,
+        "server_path" : "./bin/selenium-server-standalone-3.12.0.jar",
+        "port" : 4444,
+        "log_path" : "",
+        "cli_args" : {
+          "webdriver.chrome.driver" : "./bin/chromedriver"
+        }
+      },
+      "test_settings" : {
+        "default" : {
+         "launch_url" : "http://localhost",
+         "selenium_port" : 4444,
+         "selenium_host" : "localhost",
+         "silent" : true,
+         "screenshots" : {
+          "enabled" : true,
+          "path" : "screenshots",
+          "on_failure" : true
+         },
+         "desiredCapabilities" : {
+          "browserName" : "chrome",
+          "javascriptEnabled": true,
+          "acceptSslCerts": true
+         }
+      }
+    }
+   }
+  

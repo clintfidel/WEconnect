@@ -44,7 +44,16 @@ class Signup extends Component {
     this.onFocus = this.onFocus.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  /**
+   * @description - redirect registered user to all-budiness page
+   *
+   * @return {void} no return or void
+   */
+  componentWillMount() {
+    if (localStorage.token) {
+      this.props.history.push('/all-business');
+    }
+  }
   /**
    * @description - handles the onchange event
    *
