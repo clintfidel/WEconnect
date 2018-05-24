@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { NavBar } from '../presentational/common/NavBar';
+import NavBar from '../presentational/common/NavBar';
 import Footer from '../presentational/common/Footer';
 import toastrOption from '../../utils/toastrOption';
+import locations from '../../mockData';
 import
 {
   addBusinessAction,
@@ -21,15 +22,7 @@ import
  */
 class RegisterBusiness extends Component {
   static defaultProps = {
-    locations: [
-      'ABIA', 'ADAMAWA', 'AKWA IBOM', 'ANAMBRA',
-      'BAUCHI', 'BAYELSA', 'BENUE', 'BORNO',
-      'CROSS RIVER', 'DELTA', 'EBONYI',
-      'EDO', 'EKITI', 'ENUGU', 'FCT-ABUJA', 'GOMBE',
-      'IMO', 'JIGAWA', 'KADUNA', 'KANO', 'KATSINA',
-      'KEBBI', 'KOGI', 'KWARA', 'LAGOS', 'NASSARAWA', 'NIGER', 'OGUN', 'ONDO',
-      'OSUN', 'OYO', 'PLATEAU', 'RIVERS', 'SOKOTO', 'TARABA', 'YOBE', 'ZAMFARA'
-    ]
+    locations
   }
   /**
    * constructor - contains the constructor
@@ -50,6 +43,8 @@ class RegisterBusiness extends Component {
         location: '',
         categoryId: '',
         redirectUser: false,
+        disableBtn: false,
+        loader: false
       },
       image: '',
       imageUrl: ''
@@ -118,6 +113,10 @@ class RegisterBusiness extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setState({
+      disableBtn: true,
+      loader: true
+    });
     if (!this.state.image) {
       this.props.addBusinessAction(this.state.businessDetails)
         .then((message) => {
@@ -128,6 +127,10 @@ class RegisterBusiness extends Component {
           }, 3000);
         })
         .catch((message) => {
+          this.setState({
+            disableBtn: false,
+            loader: false
+          });
           toastrOption();
           toastr.error(message);
         });
@@ -150,6 +153,10 @@ class RegisterBusiness extends Component {
               }, 3000);
             })
             .catch((message) => {
+              this.setState({
+                disableBtn: false,
+                loader: false
+              });
               toastrOption();
               toastr.error(message);
             });
@@ -261,8 +268,10 @@ class RegisterBusiness extends Component {
                             required />
                         </div>
                       </div>
-                      <button type="submit" className="register-button">
-                    Send
+                      <button type="submit"
+                        disabled={this.state.disableBtn}
+                        className="btn register-button">
+                        {this.state.loader ? <i className="fa fa-circle-o-notch fa-spin" /> : 'Send'}
                       </button>
                     </form>
                   </div>

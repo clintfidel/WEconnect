@@ -49,7 +49,7 @@ const BuisnessReducer = (state = initialState, action) => {
   case GET_ALL_CATEGORY:
     return { ...state, categories: action.categories };
   case ADD_BUSINESS:
-    return { ...state, businesses: [...state.businesses, action.userBusiness] };
+    return { ...state, businesses: [...state.businesses, ...action.userBusiness] };
   case VIEW_BUSINESS:
     return { ...state, business: action.business };
   case DELETE_BUSINESS: {

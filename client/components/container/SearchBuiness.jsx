@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import locations from '../../mockData';
 import {
   searchBusinessAction,
   searchUserBusinessAction,
@@ -16,15 +17,7 @@ import {
  */
 class SearchBuiness extends Component {
   static defaultProps = {
-    locations: [
-      'ABIA', 'ADAMAWA', 'AKWA IBOM', 'ANAMBRA',
-      'BAUCHI', 'BAYELSA', 'BENUE', 'BORNO',
-      'CROSS RIVER', 'DELTA', 'EBONYI',
-      'EDO', 'EKITI', 'ENUGU', 'FCT-ABUJA', 'GOMBE',
-      'IMO', 'JIGAWA', 'KADUNA', 'KANO', 'KATSINA',
-      'KEBBI', 'KOGI', 'KWARA', 'LAGOS', 'NASSARAWA', 'NIGER', 'OGUN', 'ONDO',
-      'OSUN', 'OYO', 'PLATEAU', 'RIVERS', 'SOKOTO', 'TARABA', 'YOBE', 'ZAMFARA'
-    ]
+    locations
   }
   /**
    * constructor - contains the constructor
@@ -41,7 +34,8 @@ class SearchBuiness extends Component {
     this.state = {
       name: '',
       location: '',
-      category: ''
+      category: '',
+      disableBtn: false
     };
     this.baseState = this.state;
     this.handleSearch = this.handleSearch.bind(this);
@@ -69,6 +63,19 @@ class SearchBuiness extends Component {
    * @return {void}
    */
   handleSearch(event) {
+    if (event.target.name === 'name') {
+      if (event.target.value === '') {
+        this.setState({
+          disableBtn: false,
+          name: ''
+        });
+      } else {
+        this.setState({
+          disableBtn: true
+        });
+      }
+    }
+
     const locationPath = this.props.location.pathname;
     event.preventDefault();
     const { value } = event.target;
@@ -78,6 +85,7 @@ class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchBusinessAction(
+          this.state.name,
           this.state.location,
           this.state.category
         ));
@@ -88,27 +96,29 @@ class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchUserBusinessAction(
+          this.state.name,
           this.state.location,
           this.state.category
         ));
     }
-    if (value === "Select From...") {
+    if (value === "Select From..." && locationPath === "/userbusiness") {
       this.setState({
         [event.target.name]: ''
       }, () => {
-        if (this.state.location === "" &&
-       this.state.category === "" &&
-       locationPath === "/all-business") {
-          this.props.getAllBusinessAction(1);
-        }
-        if (this.state.location === "" &&
-       this.state.category === "" &&
-       locationPath === "/userbusiness") {
-          this.props.getAllUserBusinessAction(1);
-        }
+        this.props.getAllUserBusinessAction(1);
       });
+    } else if (value === "Select From..." && locationPath === "/all-business") {
+      this.props.getAllBusinessAction(1);
+    }
+    if (value === "" &&
+    locationPath === "/all-business") {
+      this.props.getAllBusinessAction(1);
+    } else if (value === "" &&
+    locationPath === "/userbusiness") {
+      this.props.getAllUserBusinessAction(1);
     }
   }
+
 
   /**
    * @description render - renders the class component
@@ -134,6 +144,7 @@ class SearchBuiness extends Component {
                 type="select"
                 className="custom-select"
                 name="location"
+                disabled={this.state.disableBtn}
                 value={this.state.location}
                 onChange={this.handleSearch}
                 required>
@@ -155,6 +166,7 @@ class SearchBuiness extends Component {
                 type="select"
                 className="custom-select"
                 name="category"
+                disabled={this.state.disableBtn}
                 value={this.state.category}
                 onChange= {this.handleSearch}
                 required>

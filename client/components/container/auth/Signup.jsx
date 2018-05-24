@@ -35,7 +35,8 @@ class Signup extends Component {
       passwordError: '',
       passwordConfirmError: '',
       redirectUser: false,
-      disableBtn: false
+      disableBtn: false,
+      loader: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -65,7 +66,7 @@ class Signup extends Component {
         return false;
       } else {
         this.setState({
-          disableBtn: false
+          disableBtn: false,
         });
       }
     }
@@ -184,7 +185,10 @@ class Signup extends Component {
       toastrOption();
       return toastr.error('Invalid Input');
     }
-    this.setState({ disableBtn: true });
+    this.setState({
+      disableBtn: true,
+      loader: true
+    });
     this.props.registerAction(this.state)
       .then((message) => {
         toastrOption();
@@ -194,6 +198,10 @@ class Signup extends Component {
         }, 3000);
       })
       .catch(message => {
+        this.setState({
+          disableBtn: false,
+          loader: false
+        });
         toastrOption();
         toastr.error(message);
       });
@@ -278,14 +286,14 @@ class Signup extends Component {
                     name="submit"
                     disabled={this.state.disableBtn}
                   >
-                  Sign Up
+                    {this.state.loader ? <i className="fa fa-circle-o-notch fa-spin" /> : 'Sign Up'}
 
                   </button>
                 </form>
                 <div className="create-account">
                   <p>
                     <Link to="/login"> Registered Already? Log In
-                    <span>Here</span>
+                    <span> Here</span>
                     </Link>
                   </p>
                 </div>

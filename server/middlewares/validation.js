@@ -103,9 +103,9 @@ export const checkBusinessInput = (req, res, next) => {
     details: {
       notEmpty: true,
       isLength: {
-        options: [{ min: 5, max: 500 }],
+        options: [{ min: 49, max: 500 }],
         errorMessage:
-         'characters should be more than 5 and not greater than 500'
+         'Buisness details should be up 50 characters long'
       },
       errorMessage:
        'Provide a detailed info of your business not more than 500 characters'
@@ -178,7 +178,7 @@ export const checkReviewsInput = (req, res, next) => {
     const allErrors = [];
     errors.forEach((error) => {
       allErrors.push({
-        error: error.msg
+        message: error.msg
       });
     });
 
@@ -387,6 +387,11 @@ export const checkBusinessInvalidDetails = (req, res, next) => {
     return res.status(406).json({
       status: false,
       message: 'Invalid character in Business Details!'
+    });
+  } else if (details.length < 6) {
+    return res.status(406).json({
+      status: false,
+      message: 'Details should be more than 5 characters'
     });
   }
   if (!location) { return next(); }

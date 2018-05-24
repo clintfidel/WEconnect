@@ -5,7 +5,7 @@ import dummyDb from '../dummyModels/index';
 
 dotenv.config();
 
-// const secret = process.env.secretKey;
+// const secret = process.env.SECRET_KEY;
 const { Users } = dummyDb;
 
 /**
@@ -36,7 +36,7 @@ class UserController {
     };
     Users.push(addedUser);
     const expiresIn = { exp: '1hr' };
-    const token = jwt.sign({ addedUser, expiresIn }, process.env.secretKey);
+    const token = jwt.sign({ addedUser, expiresIn }, process.env.SECRET_KEY);
     res.status(201).json({
       message: 'signed up successfully',
       token
@@ -66,7 +66,7 @@ class UserController {
         }
         const value = Users[i];
         const expiresIn = { exp: '1hr' };
-        const token = jwt.sign({ value, expiresIn }, process.env.secretKey);
+        const token = jwt.sign({ value, expiresIn }, process.env.SECRET_KEY);
         return res.status(200).json({
           message: 'logged in successfully',
           token
@@ -122,7 +122,7 @@ class UserController {
         Users[i].password = password;
         user = Users[i];
         const expiresIn = { exp: '1hr' };
-        const token = jwt.sign({ user, expiresIn }, process.env.secretKey);
+        const token = jwt.sign({ user, expiresIn }, process.env.SECRET_KEY);
         return res.status(200).json({
           message: 'user profile updated successfully',
           token

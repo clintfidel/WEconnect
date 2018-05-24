@@ -6,7 +6,6 @@ const ViewUserProfile = ({
   fullname, email, username, noOfBusiness, image
 }) => (
   <div>
-    {/* <div className="panel-body">" */}
     <div className="row">
       <div className="col-sm-4">
         <div align="center">

@@ -110,10 +110,10 @@ class AllBusiness extends Component {
       return (
         <ReactPaginate
           previousLabel={
-            <i className="page-link">Previous</i>
+            <i className="fas fa-angle-double-left" />
           }
           nextLabel={
-            <i className="page-link">Next</i>
+            <i className="fas fa-angle-double-right" />
           }
           breakLabel={<a href="">...</a>}
           breakClassName={'break-me'}

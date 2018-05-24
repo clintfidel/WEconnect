@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import toastrOption from '../../../utils/toastrOption';
 import { logoutAction } from '../../../actions/AuthAction';
 
 /**
@@ -11,6 +12,29 @@ import { logoutAction } from '../../../actions/AuthAction';
  *
  */
 export class NavBar extends Component {
+/**
+   * constructor - contains the constructor
+   *
+   * @param  {object} props the properties of the class component
+   *
+   * @return {void} no return or void
+   *
+   */
+  constructor(props) {
+    super(props);
+    this.logout = this.logout.bind(this);
+  }
+
+  /**
+   * @description - handles the logout event
+   *
+   * @param  {object} event -the event for the content field
+   *
+   * @return {void}
+   */
+  logout() {
+    this.props.logoutAction();
+  }
   /**
    * @description render - renders the class component
    *
@@ -69,8 +93,9 @@ export class NavBar extends Component {
                   View profile
                 </Link>
                 <Link
-                  onClick={this.props.logoutAction}
-                  className="nav-link" to="/">Log out
+                  onClick={this.logout}
+                  to="/"
+                  className="nav-link">Log out
                 </Link>
               </div>
             </li>

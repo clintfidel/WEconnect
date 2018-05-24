@@ -25,7 +25,9 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      redirectUser: false
+      redirectUser: false,
+      loader: false,
+      disableBtn: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -64,15 +66,23 @@ class Login extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setState({
+      disableBtn: true,
+      loader: true
+    });
     this.props.loginAction(this.state)
       .then(() => {
-        toastrOption();
-        toastr.success('Welcome Back!');
         setTimeout(() => {
           this.setState({ redirectUser: true });
+          toastrOption();
+          toastr.success('Welcome Back!');
         }, 3000);
       })
       .catch(message => {
+        this.setState({
+          disableBtn: false,
+          loader: false
+        });
         toastrOption();
         toastr.error(message);
       });
@@ -112,10 +122,12 @@ class Login extends Component {
                     placeholder="password"
                     required/>
                   <button
+                    className="btn"
                     type="submit"
                     name="submit"
+                    disabled={this.state.disableBtn}
                   >
-                Login
+                    {this.state.loader ? <i className="fa fa-circle-o-notch fa-spin" /> : 'Login'}
                   </button>
                 </form>
                 <div className="create-account">
