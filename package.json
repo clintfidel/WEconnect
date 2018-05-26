@@ -12,7 +12,10 @@
     "seed": "sequelize db:seed:all",
     "preserver:test": "sequelize db:migrate:undo:all --env localTest && sequelize db:migrate --env localTest && sequelize db:seed:all --env localTest",
     "server:test": "NODE_ENV=localTest nyc --reporter=html --reporter=text mocha --exit --timeout 15000 --compilers js:babel-register server/test || true",
-    "pretest": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test",
+    "pree2e:test": "npm run preserver:test",
+    "e2e:test": "nightwatch ./e2e-tests/*.test.js",
+    "pretest": "npm run preserver:test",
+    "start-server:e2e": "NODE_ENV=localTest babel-node server.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --timeout 15000 --compilers js:babel-register server/test || true",
     "lint": "eslint ./ || true"
   },
@@ -45,6 +48,7 @@
     "eslint-plugin-import": "^2.9.0",
     "mocha": "^5.0.2",
     "mocha-lcov-reporter": "^1.3.0",
+    "nightwatch": "^0.9.21",
     "nodemon": "^1.17.1",
     "webpack-cli": "^2.0.14"
   },

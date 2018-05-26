@@ -250,8 +250,10 @@ class RegisterBusiness extends Component {
                           <span className="input-group-addon" />
                           <input type="file"
                             className="form-control-file"
+                            id="upload-business"
                             onChange={this.imageUpload}
                             name="image"
+                            accept=".jpg, .png, .jpeg"
                           />
                         </div>
                       </div>

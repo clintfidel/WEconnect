@@ -38,12 +38,12 @@ class HomePage extends PureComponent {
               <ul className="user">
                 <li>
                   <Link to="/signup">
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" className="signup">Sign Up</button>
                   </Link>
                 </li>
                 <li>
                   <Link to="/login">
-                    <button type="submit">Login</button>
+                    <button type="submit" className="login">Login</button>
                   </Link>
                 </li>
               </ul>

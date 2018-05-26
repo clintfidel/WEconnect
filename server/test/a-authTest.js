@@ -209,5 +209,20 @@ describe('WEconnect API: ', () => {
           done();
         });
     });
+    it('should get user details', (done) => {
+      supertest(app)
+        .get('/api/v1/auth')
+        .send({
+          token: `${token}`
+        })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.status).toBe('success');
+          done();
+        });
+    });
   });
 });

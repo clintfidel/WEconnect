@@ -158,7 +158,7 @@ class BusinessController {
       }
       Business
         .findAndCountAll({
-          order: [['views', req.query.order || 'DESC']],
+          order: [['id', 'DESC']],
           include: [
             {
               model: Category,
@@ -261,7 +261,7 @@ class BusinessController {
           where: {
             userId: id
           },
-          order: [['views', req.query.order || 'DESC']],
+          order: [['id', 'DESC']],
           include: [
             {
               model: Category,
@@ -357,9 +357,6 @@ class BusinessController {
             Categories: allCategory
           });
         }
-        return res.status(404).json({
-          message: 'No category found'
-        });
       })
       .catch(() => res.status(500).send({
         message: 'Internal server error'

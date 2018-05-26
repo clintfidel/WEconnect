@@ -14,7 +14,7 @@ import PageNotFound from '../components/presentational/common/PageNotFound';
 const Routes = () => (
   <Router>
     <Switch>
-      <Route exact path="/" component={Authenticate(Homepage)} />
+      <Route exact path="/" component={Homepage} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={Signup} />
       <Route exact path="/myprofile" component={Authenticate(UserProfile)} />

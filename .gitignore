@@ -5,3 +5,8 @@ node_modules
 .nyc_output
 coverage
 npm-debug.log
+e2e_reports
+bin
+selenium-debug.log
+.DS_Store
+screenshots

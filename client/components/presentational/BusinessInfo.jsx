@@ -22,7 +22,7 @@ const BusinessInfo = ({
         }
         <div className="overlay">
           <div className="text-center">
-            <span className="word-wrap">{name}</span>
+            <span className="word-wrap" id="business-name">{name}</span>
           </div>
 
         </div>
@@ -45,14 +45,14 @@ const BusinessInfo = ({
           <div className="business-content">
             <h5>
               <span>Name:</span> {name}</h5>
-            <h5>
+            <h5 id="business-location">
               <span>Location:</span> {location}</h5>
-            <h5>
+            <h5 id="business-category">
               <span>Category:</span> {category}</h5>
 
             <h5>
               <span>Details</span>:
-              <p className="word-wrap">
+              <p className="word-wrap" id="business-details">
                 {details}
               </p>
             </h5>
@@ -61,10 +61,12 @@ const BusinessInfo = ({
             <div className="icon-Images">
               <img src="/images/edit-icon-2375785_1280.png"
                 alt="edit Icon" data-toggle="modal"
+                id="edit-business"
                 data-target="#editModal"
                 title="edit business"/>
               <img src="/images/delete-icon.png"
                 alt="delete Icon"
+                id="delete-business"
                 title="delete business"
                 onClick={deleteHandler}/>
             </div> : ''

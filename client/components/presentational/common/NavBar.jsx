@@ -76,10 +76,10 @@ export class NavBar extends Component {
                 My-business
               </Link>
             </li>
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown"
+              id="navbarDropdownMenuLink">
               <a
                 className="nav-link dropdown-toggle link"
-                id="navbarDropdownMenuLink"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false">
@@ -95,6 +95,7 @@ export class NavBar extends Component {
                 <Link
                   onClick={this.logout}
                   to="/"
+                  id="logout"
                   className="nav-link">Log out
                 </Link>
               </div>

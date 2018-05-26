@@ -41,40 +41,40 @@ class ReviewController {
       });
   }
 
-  /**
-   * @description - User gets all review for a business
-   *
-   * @param  {object} req - request
-   *
-   * @param  {object} res - response
-   *
-   * @return {Object} - Success message
-   *
-   * ROUTE: Get:/api/v1/business/:businessId/reviews
-   */
-  static getAllReviews(req, res) {
-    Review
-      .findAll({
-        where: {
-          businessId: req.params.businessId
-        },
-        include: [
-          {
-            model: User,
-            attributes: ['username']
-          }
-        ]
-      })
-      .then((reviews) => {
-        res.status(200).send({
-          status: 'success',
-          allReviews: reviews
-        });
-      })
-      .catch(() => res.status(500).send({
-        message: 'Internal server Error'
-      }));
-  }
+  // /**
+  //  * @description - User gets all review for a business
+  //  *
+  //  * @param  {object} req - request
+  //  *
+  //  * @param  {object} res - response
+  //  *
+  //  * @return {Object} - Success message
+  //  *
+  //  * ROUTE: Get:/api/v1/business/:businessId/reviews
+  //  */
+  // static getAllReviews(req, res) {
+  //   Review
+  //     .findAll({
+  //       where: {
+  //         businessId: req.params.businessId
+  //       },
+  //       include: [
+  //         {
+  //           model: User,
+  //           attributes: ['username']
+  //         }
+  //       ]
+  //     })
+  //     .then((reviews) => {
+  //       res.status(200).send({
+  //         status: 'success',
+  //         allReviews: reviews
+  //       });
+  //     })
+  //     .catch(() => res.status(500).send({
+  //       message: 'Internal server Error'
+  //     }));
+  // }
 
   /**
    * @description - User gets all review for a business
@@ -125,7 +125,10 @@ class ReviewController {
             return res.status(404).send({ message: message });
           }
           return res.status(200).send({
-            reviews, count: reviews.count, pages
+            status: 'success',
+            reviews,
+            count: reviews.count,
+            pages
           });
         })
         .catch((error) => {
