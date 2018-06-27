@@ -13,9 +13,9 @@ import SearchBusiness from '../container/SearchBuiness';
 import Loader from '../presentational/common/Loader';
 
 /**
- * @class Signup
+ * @class AllBusiness
  *
- * @classdesc registers user
+ * @classdesc Get All Business
  *
  */
 class AllBusiness extends Component {
@@ -127,7 +127,6 @@ class AllBusiness extends Component {
             subContainerClassName={"pages pagination"}
             activeClassName={'active'}
           />
-
         </div>
       );
     }

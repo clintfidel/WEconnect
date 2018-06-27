@@ -7,7 +7,7 @@ import {
 } from '../middlewares/validation';
 import review from '../controllers/ReviewController';
 
-const { createReview, getAllReview } = review;
+const { createReview, updateReview, getAllReview } = review;
 
 const reviewRouter = express.Router();
 reviewRouter.route('/:businessId/reviews')

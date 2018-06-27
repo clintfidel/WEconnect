@@ -30,10 +30,9 @@ class UserController {
     User.create(req.userInput)
       .then((activeUser) => {
         if (activeUser) {
-          const currentUser = omit(
-            activeUser.dataValues,
-            ['password']
-          );
+          const currentUser = {
+            id: activeUser.id
+          };
           const token = jwt.sign({
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
             currentUser
@@ -78,10 +77,9 @@ class UserController {
       .then((user) => {
         if (user &&
           bcrypt.compareSync(req.body.password, user.password)) {
-          const currentUser = omit(
-            user.dataValues,
-            ['password', 'createdAt', 'updatedAt']
-          );
+          const currentUser = {
+            id: user.id
+          };
           const token = jwt.sign({
             exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
             currentUser
@@ -90,8 +88,7 @@ class UserController {
             .json({
               message: 'Logged In Successfully',
               data: {
-                token,
-                userId: user.id
+                token
               }
             });
         }

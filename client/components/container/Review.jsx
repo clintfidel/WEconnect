@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import ReactStars from 'react-stars';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import toastrOption from '../../utils/toastrOption';
 import { addReviewAction } from '../../actions/ReviewsAction';
+import { rateBusiness } from '../../actions/BusinessAction';
+
+/* eslint-disable */
 
 /**
  * @class Signup
@@ -26,6 +30,7 @@ class Review extends Component {
       loader: false,
       redirectUser: false,
       comments: '',
+      rate: 0,
       disableBtn: true
     };
     this.onChange = this.onChange.bind(this);
@@ -66,12 +71,22 @@ class Review extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.addReviewAction(this.props.id, this.state);
+    this.props.addReviewAction(this.props.id, this.state)
+    .catch((message) => {
+      toastrOption();
+        toastr.error(message);
+    })
     this.setState({
-      comments: ''
+      comments: '',
+      rate: ''
     });
   }
 
+  ratingChanged = (newRating) => {
+    this.setState(() => (
+      { rate: newRating }
+    ));
+  }
   /**
    * @description displayReviews - renders business reviews
    *
@@ -95,6 +110,12 @@ class Review extends Component {
               created at:
               {moment(review.createdAt).format('Do MMMM YYYY - HH:mm')}
             </small>
+            <ReactStars
+            count={5}
+            size={17}
+            edit={false}
+            value={Number(review.rate)}
+          /> 
           </div>
         </div>
       ))
@@ -128,29 +149,35 @@ class Review extends Component {
                       borderRadius: '5px',
                       outline: 'none'
                     }} onClick={this.props.moreReviews}>
-                    Load More
-                    </button> : '' }
+                      Load More
+                    </button> : ''}
                   <form
                     action="#"
                     method="post"
                     role="form"
                     onSubmit={this.onSubmit}>
                     <textarea
-                      style={{
-                        outline: 'none'
-                      }}
                       name="comments"
                       value={this.state.comments}
-                      onChange= {this.onChange}
-                      required/>
-
+                      onChange={this.onChange}
+                      required />
+                      <div>
+                      <ReactStars
+                        count={5}
+                        onChange={this.ratingChanged}
+                        size={20}
+                        color2={'#ffd700'}
+                        value={this.state.rate}
+                      />
+                    </div>
                     <button
                       type="submit"
                       disabled={this.state.disableBtn}
                       className="btn send-button">
-                  Add review
+                      Add review
                     </button>
                   </form>
+                
                 </div>
               </div>
             </div>
@@ -176,5 +203,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { addReviewAction }
+  { addReviewAction, rateBusiness }
 )(Review);

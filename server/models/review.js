@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'businessId'
       }
     },
+    rate: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
     comments: {
       type: DataTypes.TEXT,
       allowNull: false,
