@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Reviews', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('Ratings', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -15,9 +15,6 @@ module.exports = {
     rate: {
       type: Sequelize.INTEGER
     },
-    comments: {
-      type: Sequelize.TEXT
-    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
@@ -27,5 +24,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: queryInterface => queryInterface.dropTable('Reviews')
+  down: queryInterface => queryInterface.dropTable('Ratings')
 };

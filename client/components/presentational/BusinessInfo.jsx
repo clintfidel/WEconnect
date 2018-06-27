@@ -27,18 +27,6 @@ const BusinessInfo = ({
 
         </div>
       </div>
-      <div className="row grouped-buttons">
-        <div className="bus-info">
-          <span>
-            <a href="#" className="active" id="my-Info">Business-Info</a>
-          </span>
-        </div>
-        <div className="bus-reviews">
-          <span>
-            <a href="#reviews" className="active">Reviews</a>
-          </span>
-        </div>
-      </div>
       <div className="content-display">
         <div className="bus-info-details" style={{ display: "block" }}>
           <h3>Business-Info</h3>
@@ -70,7 +58,6 @@ const BusinessInfo = ({
                 title="delete business"
                 onClick={deleteHandler}/>
             </div> : ''
-
           }
           <EditModal
             id={+id}/>

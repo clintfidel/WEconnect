@@ -5,7 +5,7 @@ import database from '../models/';
 dotenv.config();
 
 const {
-  User, Business, Category
+  User, Business, Category, Review
 } = database;
 
 const checkDigits = /((\d)+)/gi;
@@ -190,7 +190,8 @@ export const checkReviewsInput = (req, res, next) => {
   req.reviewInput = {
     comments: req.body.comments,
     userId: id,
-    businessId: req.params.businessId
+    businessId: req.params.businessId,
+    rate: req.body.rate
   };
 
   next();
@@ -540,6 +541,26 @@ export const verifyUserIdExist = (req, res, next) => {
     .catch(error => res.status(500).send(error.errors));
 };
 
+export const checkReviewExist = (req, res, next) => {
+  const { id } = req.decoded.currentUser;
+  Review
+    .findOne({
+      where: {
+        $and: [
+          { userId: id },
+          { businessId: req.params.businessId }
+        ]
+      }
+    })
+    .then((review) => {
+      if (review) {
+        return res.status(404).send({
+          message: 'You cannot review this business more than once'
+        });
+      } else next();
+    });
+};
+
 /**
      * @description - Ensures user selects a category that is in the database
      *
@@ -574,3 +595,10 @@ export const checkCategoryId = (req, res, next) => {
     });
 };
 
+export const createRate = (rate, res) => {
+  const result = ['Bad', 'Satisfactory', 'Good', 'Very Good', 'Great'];
+  res.status(200).json({
+    message: `you rated this article ${result[rate - 1]}`,
+    rate
+  });
+};

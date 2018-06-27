@@ -8,7 +8,8 @@ import {
   EDIT_BUSINESS,
   SEARCH_BUSINESS,
   SEARCH_USER_BUSINESS,
-  IMAGE_UPLOAD
+  IMAGE_UPLOAD,
+  RATE_BUSINESS
 } from '../actions/types';
 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
   categories: [],
   business: {},
   count: 0,
-  imageUrl: ''
+  imageUrl: '',
+  rate: 0
 };
 
 /**
@@ -73,6 +75,10 @@ const BuisnessReducer = (state = initialState, action) => {
       ...state,
       userBusiness: action.result.rows,
       count: action.result.count
+    };
+  case RATE_BUSINESS:
+    return {
+      ...state, rate: action.rate
     };
   default:
     return state;

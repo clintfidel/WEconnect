@@ -1,7 +1,7 @@
 
 import database from '../models';
 
-const { Review, User } = database;
+const { Review, User, Rating } = database;
 /**
  * @class ReviewController
  *
@@ -41,40 +41,34 @@ class ReviewController {
       });
   }
 
-  // /**
-  //  * @description - User gets all review for a business
-  //  *
-  //  * @param  {object} req - request
-  //  *
-  //  * @param  {object} res - response
-  //  *
-  //  * @return {Object} - Success message
-  //  *
-  //  * ROUTE: Get:/api/v1/business/:businessId/reviews
-  //  */
-  // static getAllReviews(req, res) {
-  //   Review
-  //     .findAll({
-  //       where: {
-  //         businessId: req.params.businessId
-  //       },
-  //       include: [
-  //         {
-  //           model: User,
-  //           attributes: ['username']
-  //         }
-  //       ]
-  //     })
-  //     .then((reviews) => {
-  //       res.status(200).send({
-  //         status: 'success',
-  //         allReviews: reviews
-  //       });
-  //     })
-  //     .catch(() => res.status(500).send({
-  //       message: 'Internal server Error'
-  //     }));
-  // }
+  /**
+   * @description - User updtaes review to business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: Post:/api/v1/business/:businessId/reviews
+   */
+  static updateReview(req, res) {
+    Review
+      .findOne({
+        id: req.params.businessId
+      })
+      .then(editReview => editReview
+        .update({
+          comments: req.body.comments || editReview.comments,
+          rate: req.body.rate || editReview.rate
+        })
+        .then((review) => {
+          res.status(200).json({
+            message: 'You have successfully updated this review',
+            review
+          });
+        }));
+  }
 
   /**
    * @description - User gets all review for a business
@@ -103,13 +97,14 @@ class ReviewController {
       }
       Review
         .findAndCountAll({
+          order: [['createdAt', 'DESC']],
           where: {
             businessId: req.params.businessId
           },
           include: [
             {
               model: User,
-              attributes: ['username']
+              attributes: ['username'],
             }
           ],
           limit,

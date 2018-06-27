@@ -19,7 +19,7 @@ const ReviewReducer = (state = initialState, action) => {
       count: action.reviews.count
     };
   case ADD_REVIEW:
-    return { ...state, reviews: [...state.reviews, action.reviews] };
+    return { ...state, reviews: [action.reviews, ...state.reviews.slice(0, 4)] };
   case LOAD_MORE_REVIEWS: {
     const count = action.reviews.count - state.reviews.length;
     const moreReviews = [...state.reviews, ...action.reviews.rows];

@@ -12,6 +12,7 @@ import {
   SEARCH_BUSINESS,
   SEARCH_USER_BUSINESS,
   IMAGE_UPLOAD,
+  RATE_BUSINESS
 } from './types';
 
 /**
@@ -154,7 +155,6 @@ export const editBusinessAction = (businessId, businessDetails) => (dispatch) =>
       return response.data.message;
     })
     .catch(error => Promise.reject(error.response.data.message));
-
 export const imageUploadAction = (image) => {
   const uploadPreset = process.env.UPLOAD_PRESET;
   const cloudApi = process.env.CLOUD_API;
@@ -186,3 +186,14 @@ export const searchUserBusinessAction =
      .then((response) =>
        dispatch(searchUserBusiness(response.data.businesses)));
  };
+
+export const rateBusiness = (businessId, rate) => (dispatch) => {
+  axios.post(`/api/v1/businesses/${businessId}`, rate)
+    .then((response) => {
+      dispatch({
+        type: RATE_BUSINESS,
+        rate: response.data.rate
+      });
+    })
+    .catch(error => Promise.reject(error.response.data.message));
+};

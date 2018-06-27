@@ -9,6 +9,8 @@ import webpackConfig from './webpack.config.dev';
 import UserRouter from './server/routes/userRoutes';
 import BusinessRouter from './server/routes/businessRoutes';
 import ReviewRouter from './server/routes/reviewRoutes';
+import RatingsRouter from './server/routes/ratingsRoutes';
+
 
 const app = express();
 if (process.env.NODE_ENV !== 'production') {
@@ -23,6 +25,7 @@ app.use(validator());
 app.use('/api/v1/auth', UserRouter);
 app.use('/api/v1/businesses', BusinessRouter);
 app.use('/api/v1/businesses', ReviewRouter);
+// app.use('/api/v1/businesses', RatingsRouter);
 
 
 app.get('/api/v1', (req, res) => {
