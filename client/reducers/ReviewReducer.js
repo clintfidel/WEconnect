@@ -1,7 +1,8 @@
 import {
   GET_ALL_REVIEW,
   ADD_REVIEW,
-  LOAD_MORE_REVIEWS
+  LOAD_MORE_REVIEWS,
+  UPDATE_REVIEW
 } from '../actions/types';
 
 const initialState = {
@@ -19,7 +20,7 @@ const ReviewReducer = (state = initialState, action) => {
       count: action.reviews.count
     };
   case ADD_REVIEW:
-    return { ...state, reviews: [action.reviews, ...state.reviews.slice(0, 4)] };
+    return { ...state, reviews: [action.reviews, ...state.reviews] };
   case LOAD_MORE_REVIEWS: {
     const count = action.reviews.count - state.reviews.length;
     const moreReviews = [...state.reviews, ...action.reviews.rows];
@@ -28,6 +29,12 @@ const ReviewReducer = (state = initialState, action) => {
       count: count
     };
   }
+  case UPDATE_REVIEW:
+  let updateedReview = [];
+  state.reviews.map(review =>
+    (review.id === action.reviews.id ?
+      updateedReview.push(action.reviews) : updateedReview.push(review)));
+  return { ...state, reviews: updateedReview };
 
   default:
     return state;

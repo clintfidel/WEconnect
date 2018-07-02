@@ -560,7 +560,7 @@ body {
       
       .comment-contents {
         position: relative;
-        background: #e4e3e3;
+        background: #f1f1f1;
         color: #000000;
         padding: 15px;
         padding-bottom: 10px;
@@ -705,7 +705,7 @@ a {
         width: auto;
         background-color: rgba(0,0,0,0.5);
         border-radius: 4px;
-        height: 300px;
+        height: 365px;
         padding-left: 0;
         padding-right: 0;
     } 
@@ -814,4 +814,35 @@ button {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.bus-rating {
+    margin-bottom: 4%
+}
+.business-stars {
+    display: flex;
+}
+.rating-num {
+    padding: 0 2%;
+}
+
+.edit-review {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.editReview-textarea {
+    margin-top: 0 !important;
+    margin-bottom: 1% !important;
+    border: 1px solid rgb(124, 121, 121);
+}
+.edit-button {
+    margin-left: 1%;
+    background-color: #15b78d;
+    color: #fff;
+    width: 10%
+}
+.edit-stars {
+    margin-bottom: 1%
 }

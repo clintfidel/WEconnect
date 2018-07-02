@@ -9,7 +9,7 @@ import webpackConfig from './webpack.config.dev';
 import UserRouter from './server/routes/userRoutes';
 import BusinessRouter from './server/routes/businessRoutes';
 import ReviewRouter from './server/routes/reviewRoutes';
-import RatingsRouter from './server/routes/ratingsRoutes';
+// import RatingsRouter from './server/routes/ratingsRoutes';
 
 
 const app = express();

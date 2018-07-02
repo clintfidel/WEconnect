@@ -61,6 +61,7 @@ class AllBusiness extends Component {
    */
   renderAllBusiness() {
     const allBusiness = this.props.businesses;
+    let calculateAverage = 0;
     if (allBusiness.length < 1) {
       return (
         <div style={{ textAlign: 'center', paddingTop: 50 }}>
@@ -69,19 +70,31 @@ class AllBusiness extends Component {
       );
     }
     return (
-      allBusiness.map((business) => (
-        <Businesses
-          name={business.name}
-          details={business.details}
-          location={business.location}
-          categoryId={business.categoryId}
-          views={business.views}
-          userId={business.userId}
-          id={business.id}
-          key={business.id}
-          owner={business.User.username}
-          image={business.image}/>
-      ))
+      allBusiness.map((business) => {
+        if (business.Reviews.length === 0) {
+          calculateAverage = 'No rating';
+        } else {
+          const reviews = [];
+          business.Reviews.map((review) => reviews.push(review["rate"]));
+          const sum = reviews.reduce((addedvalue, currentValue) => addedvalue + currentValue);
+          calculateAverage = Number(sum / business.Reviews.length).toFixed(1);
+        }
+        return (
+          <Businesses
+            name={business.name}
+            details={business.details}
+            location={business.location}
+            categoryId={business.categoryId}
+            views={business.views}
+            userId={business.userId}
+            id={business.id}
+            key={business.id}
+            averageRating={calculateAverage}
+            owner={business.User.username}
+            image={business.image}
+          />
+        );
+      })
     );
   }
 

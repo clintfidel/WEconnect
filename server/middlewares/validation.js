@@ -171,7 +171,12 @@ export const checkReviewsInput = (req, res, next) => {
       },
       errorMessage: 'Your comment is required'
     },
-
+    rate: {
+      isInt: {
+        options: { gt: 0, lt: 6 },
+        errorMessage: "please rate from 1-5"
+      }
+    }
   });
   const errors = req.validationErrors();
   if (errors) {

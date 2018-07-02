@@ -191,7 +191,8 @@ const mapStateToProps = (state) => ({
   business: state.BusinessReducer.business,
   auth: state.AuthReducer.user.currentUser,
   isAuthenticated: state.AuthReducer.authenticated,
-  categories: state.BusinessReducer.categories
+  categories: state.BusinessReducer.categories,
+  averageRating: state.BusinessReducer.averageRating
 
 });
 export default connect(
