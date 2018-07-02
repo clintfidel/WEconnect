@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import toastrOption from '../../utils/toastrOption';
-import { addReviewAction } from '../../actions/ReviewsAction';
-import { rateBusiness } from '../../actions/BusinessAction';
+import { addReviewAction, updateReviewAction } from '../../actions/ReviewsAction';
+// import { rateBusiness } from '../../actions/BusinessAction';
 
 /* eslint-disable */
 
@@ -31,11 +31,19 @@ class Review extends Component {
       redirectUser: false,
       comments: '',
       rate: 0,
-      disableBtn: true
+      reviewId: '',
+      disableBtn: true,
+      toggleEdit: false
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.displayReviews = this.displayReviews.bind(this);
+    this.toggleEditOnClick = this.toggleEditOnClick.bind(this);
+    this.closeToggleEdit = this.closeToggleEdit.bind(this);
+    this.updateReview = this.updateReview.bind(this);
+
+
+
   }
 
   /**
@@ -72,20 +80,54 @@ class Review extends Component {
   onSubmit(event) {
     event.preventDefault();
     this.props.addReviewAction(this.props.id, this.state)
-    .catch((message) => {
-      toastrOption();
+      .catch((message) => {
+        toastrOption();
         toastr.error(message);
-    })
+      })
     this.setState({
       comments: '',
       rate: ''
     });
   }
 
+  /**
+  * @description - updates review
+  *
+  * @param  {object} event the event for the content field
+  *
+  * @return {void}
+  */
+  updateReview(event) {
+    event.preventDefault();
+    this.props.updateReviewAction(this.state.reviewId, this.state)
+    .then(() => {
+      this.setState({
+        comments: '',
+        rate: '',
+        toggleEdit: false
+      })
+    })
+      .catch((message) => {
+        toastrOption();
+        toastr.error(message);
+      })
+  }
+
   ratingChanged = (newRating) => {
     this.setState(() => (
       { rate: newRating }
     ));
+  }
+
+  toggleEditOnClick(reviewId) {
+    this.setState({
+      toggleEdit: !this.state.toggleEdit, reviewId
+    })
+  }
+  closeToggleEdit() {
+    this.setState({
+      toggleEdit: false
+    })
   }
   /**
    * @description displayReviews - renders business reviews
@@ -99,26 +141,72 @@ class Review extends Component {
       return (<div className="comment-contents">No reviews found!</div>);
     }
     return (
-      allReviews.map((review) => (
-        <div key={review.id}>
-          <div className="comment-contents">
-            <a href="#" className="comment-author" title="Comment Author">
-              <h4>{review.User.username}</h4>
-            </a>
-            <p className="word-wrap">{review.comments}</p>
-            <small className="text-muted">
-              created at:
-              {moment(review.createdAt).format('Do MMMM YYYY - HH:mm')}
-            </small>
-            <ReactStars
+      allReviews.map((review) => {
+        const reviewBox = <div className="comment-contents">
+      <i onClick={() => this.toggleEditOnClick(review.id)}
+        className="fas fa-edit edit-review">
+      </i>
+      <a href="#" className="comment-author" title="Comment Author">
+        <h4>{review.User.username}</h4>
+      </a>
+      <p className="word-wrap">{review.comments}</p>
+      <small className="text-muted">
+      {review.createdAt === review.updatedAt ? `created at: ${moment(review.createdAt).format('Do MMMM YYYY - HH:mm')}`: `updated at: ${moment(review.updatedAt).format('Do MMMM YYYY - HH:mm')}`}
+      </small>
+      <ReactStars
+        count={5}
+        size={17}
+        edit={false}
+        value={Number(review.rate)}
+      />
+    </div>;
+    const reviewEditForm = <div className="comment-contents" key={review.id}>
+      <form
+        action="#"
+        method="post"
+        role="form"
+        onSubmit={this.updateReview}>
+        <textarea
+          className="editReview-textarea"
+          name="comments"
+          defaultValue={this.props.reviews.comments}
+          onChange={this.onChange}
+          required />
+        <div className="edit-stars">
+          <ReactStars
             count={5}
-            size={17}
-            edit={false}
-            value={Number(review.rate)}
-          /> 
-          </div>
+            defaultValue={this.props.reviews.rate}
+            onChange={this.ratingChanged}
+            size={15}
+            half={false}
+            color2={'#ffd700'}
+            value={this.state.rate}
+          />
         </div>
-      ))
+        <button
+          onClick={this.closeToggleEdit}
+          type="button"
+          className="btn">
+          cancel
+  </button>
+        <button
+          type="submit"
+          className="btn edit-button">
+          save
+  </button>
+      </form>
+    </div>
+        if (this.state.toggleEdit && this.state.reviewId === review.id) {
+          return (<div key={review.id}>
+        {console.log(this.state.reviewId, '=====>')}
+        {reviewEditForm} 
+        </div>)
+        } else {
+          return (<div key={review.id}>
+            {reviewBox}
+          </div>)
+        }
+      })
     );
   }
 
@@ -137,9 +225,11 @@ class Review extends Component {
             <div className="row">
               <div className="col">
                 <div className="post-form">
-                  {
-                    this.displayReviews()
-                  }
+                    <div>
+                      {
+                        this.displayReviews()
+                      }
+                    </div>
                   {this.props.count > 5 ?
                     <button style={{
                       float: 'right',
@@ -151,33 +241,39 @@ class Review extends Component {
                     }} onClick={this.props.moreReviews}>
                       Load More
                     </button> : ''}
-                  <form
-                    action="#"
-                    method="post"
-                    role="form"
-                    onSubmit={this.onSubmit}>
-                    <textarea
-                      name="comments"
-                      value={this.state.comments}
-                      onChange={this.onChange}
-                      required />
-                      <div>
-                      <ReactStars
-                        count={5}
-                        onChange={this.ratingChanged}
-                        size={20}
-                        color2={'#ffd700'}
-                        value={this.state.rate}
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      disabled={this.state.disableBtn}
-                      className="btn send-button">
-                      Add review
+                  {
+                    
+                    this.state.toggleEdit ? '' :
+                      <form
+                        action="#"
+                        method="post"
+                        role="form"
+                        onSubmit={this.onSubmit}>
+                        {console.log(this.props.reviews.comments, '===>')}
+                        <textarea
+                          name="comments"
+                          value={this.state.comments}
+                          onChange={this.onChange}
+                          required />
+                        <div>
+                          <ReactStars
+                            count={5}
+                            onChange={this.ratingChanged}
+                            size={20}
+                            color2={'#ffd700'}
+                            half={false}
+                            value={this.state.rate}
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          disabled={this.state.disableBtn}
+                          className="btn send-button">
+                          Add review
                     </button>
-                  </form>
-                
+                      </form>
+                  }
+
                 </div>
               </div>
             </div>
@@ -198,10 +294,11 @@ Review.propTypes = {
 
 const mapStateToProps = (state) => ({
   reviews: state.ReviewsReducer.reviews,
-  count: state.ReviewsReducer.count
+  count: state.ReviewsReducer.count,
+  auth: state.AuthReducer.user
 });
 
 export default connect(
   mapStateToProps,
-  { addReviewAction, rateBusiness }
+  { addReviewAction, updateReviewAction }
 )(Review);

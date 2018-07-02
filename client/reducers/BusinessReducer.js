@@ -9,7 +9,7 @@ import {
   SEARCH_BUSINESS,
   SEARCH_USER_BUSINESS,
   IMAGE_UPLOAD,
-  RATE_BUSINESS
+  GET_AVERAGE_RATING
 } from '../actions/types';
 
 const initialState = {
@@ -20,7 +20,7 @@ const initialState = {
   business: {},
   count: 0,
   imageUrl: '',
-  rate: 0
+  avereageRating: 0
 };
 
 /**
@@ -76,9 +76,9 @@ const BuisnessReducer = (state = initialState, action) => {
       userBusiness: action.result.rows,
       count: action.result.count
     };
-  case RATE_BUSINESS:
+  case GET_AVERAGE_RATING:
     return {
-      ...state, rate: action.rate
+      ...state, averageRating: action.average
     };
   default:
     return state;

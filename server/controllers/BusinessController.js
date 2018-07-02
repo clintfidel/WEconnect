@@ -1,8 +1,9 @@
 import omit from 'lodash/omit';
 import database from '../models';
+import sequelize from 'sequelize';
 
 const {
-  Business, Category
+  Business, Category, Review
 } =
 database;
 /**
@@ -167,6 +168,10 @@ class BusinessController {
             {
               model: database.User,
               attributes: ['username']
+            },
+            {
+              model: database.Review,
+              attributes: ['rate']
             }
           ],
           limit,
@@ -175,6 +180,7 @@ class BusinessController {
         .then((businesses) => {
           const pages = Math.ceil(businesses.count / limit);
           if (businesses.count < 1) {
+            console.log(businesses.count);
             return res.status(200).send({
               businesses
             });
@@ -270,6 +276,13 @@ class BusinessController {
             {
               model: database.User,
               attributes: ['username']
+            },
+            {
+              model: database.Review,
+              attributes: ['rate']
+              // attributes: [
+              //   [sequelize.fn('AVG', sequelize.col('rate')), 'avgRatings']
+              // ]
             }
           ],
           limit,

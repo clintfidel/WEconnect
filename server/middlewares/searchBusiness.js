@@ -43,6 +43,10 @@ export const searchBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 
@@ -62,6 +66,10 @@ export const searchBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 
@@ -81,6 +89,10 @@ export const searchBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 
@@ -100,6 +112,10 @@ export const searchBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 
@@ -153,6 +169,10 @@ export const searchUserBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 
@@ -177,6 +197,10 @@ export const searchUserBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 
@@ -227,6 +251,10 @@ export const searchUserBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 

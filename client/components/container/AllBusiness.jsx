@@ -7,7 +7,9 @@ import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
 import {
   getAllBusinessAction,
-  getAllCategoryAction
+  getAllCategoryAction,
+  getAverageRating
+
 } from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
 import Loader from '../presentational/common/Loader';
@@ -62,6 +64,7 @@ class AllBusiness extends Component {
    */
   renderAllBusiness() {
     const allBusiness = this.props.businesses;
+    let calculateAverage;
     if (allBusiness.length < 1) {
       return (<div className="not-found"
         style={{ textAlign: 'center', paddingTop: 50 }}>
@@ -69,19 +72,31 @@ class AllBusiness extends Component {
       </div>);
     }
     return (
-      allBusiness.map((business) => (
-        <Businesses
-          name={business.name}
-          details={business.details}
-          location={business.location}
-          categoryId={business.categoryId}
-          views={business.views}
-          userId={business.userId}
-          id={business.id}
-          key={business.id}
-          owner={business.User.username}
-          image={business.image}/>
-      ))
+      allBusiness.map((business) => {
+        if (business.Reviews.length === 0) {
+          calculateAverage = 'No rating!';
+        } else {
+          const reviews = [];
+          business.Reviews.map((review) => reviews.push(review["rate"]));
+          const sum = reviews.reduce((addedvalue, currentValue) => addedvalue + currentValue);
+          calculateAverage = Number(sum / business.Reviews.length).toFixed(1);
+        }
+        return (
+          <Businesses
+            name={business.name}
+            details={business.details}
+            location={business.location}
+            categoryId={business.categoryId}
+            views={business.views}
+            userId={business.userId}
+            id={business.id}
+            key={business.id}
+            averageRating={calculateAverage}
+            owner={business.User.username}
+            image={business.image}
+          />
+        );
+      })
     );
   }
 
@@ -167,13 +182,20 @@ AllBusiness.propTypes = {
   getAllBusinessAction: PropTypes.func.isRequired,
   getAllCategoryAction: PropTypes.func.isRequired,
   businesses: PropTypes.array,
+  getAverageRating: PropTypes.func.isRequired,
   count: PropTypes.number
 };
 const mapStateToProps = (state) => ({
   businesses: state.BusinessReducer.businesses,
-  count: state.BusinessReducer.count
+  count: state.BusinessReducer.count,
+  averageRating: state.BusinessReducer.averageRating
 });
 export default connect(
   mapStateToProps,
-  { getAllBusinessAction, getAllCategoryAction }
+  {
+    getAllBusinessAction,
+    getAllCategoryAction,
+    getAverageRating
+
+  }
 )(AllBusiness);

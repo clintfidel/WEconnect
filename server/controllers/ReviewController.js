@@ -1,7 +1,7 @@
 
 import database from '../models';
 
-const { Review, User, Rating } = database;
+const { Review, User } = database;
 /**
  * @class ReviewController
  *
@@ -53,21 +53,40 @@ class ReviewController {
    * ROUTE: Post:/api/v1/business/:businessId/reviews
    */
   static updateReview(req, res) {
+    const { id } = req.decoded.currentUser;
     Review
       .findOne({
-        id: req.params.businessId
+        where: {
+          id: req.params.reviewId
+        }
       })
-      .then(editReview => editReview
-        .update({
-          comments: req.body.comments || editReview.comments,
-          rate: req.body.rate || editReview.rate
-        })
-        .then((review) => {
-          res.status(200).json({
-            message: 'You have successfully updated this review',
-            review
+      .then((editReview) => {
+        if (!editReview) {
+          return res.status(400).json({
+            message: 'review Id not found'
           });
-        }));
+        }
+        editReview
+          .update({
+            comments: req.body.comments || editReview.comments,
+            rate: req.body.rate || editReview.rate,
+            userId: id
+          })
+          .then((includeReview) => {
+            includeReview.reload({
+              include: [{
+                model: database.User,
+                attributes: ['username']
+              }]
+            })
+              .then((review) => {
+                res.status(200).json({
+                  message: 'You have successfully updated this review',
+                  review
+                });
+              });
+          });
+      });
   }
 
   /**
@@ -132,6 +151,72 @@ class ReviewController {
           });
         });
     }
+  }
+  /**
+   * @description - User add a new business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: GET: /api/v1/business/rate/:businessId
+   */
+  static getAverageRatings(req, res) {
+    Review
+      .findAndCountAll({
+        where: {
+          businessId: req.params.businessId
+        }
+      })
+      .then((averageRating) => {
+        if (averageRating) {
+          const sum = averageRating.rows.reduce((addedvalue, currentValue) => addedvalue + currentValue.rate, 0);
+          const calculateAverage = sum / averageRating.rows.length;
+          return res.status(200).send({
+            message: 'average rating',
+            averageRating: Number(calculateAverage.toFixed(1)),
+          });
+        } else {
+          return res.status(200).send(averageRating);
+        }
+      })
+      .catch(() => {
+        res.status(500).send('Internal server Error');
+      });
+  }
+
+  /**
+   * @description - User add a new business
+   *
+   * @param  {object} req - request
+   *
+   * @param  {object} res - response
+   *
+   * @return {Object} - Success message
+   *
+   * ROUTE: GET: /api/v1/business/rate/:businessId
+   */
+  static getAllRatingsPerNumber(req, res) {
+    const result = [];
+    const rates = [5, 4, 3, 2, 1];
+    rates.forEach(async (value) => {
+      const numberOfPeople = await Review
+        .findAll({
+          where: {
+            rate: value,
+            businessId: req.params.businessId
+          }
+        });
+      result.push({
+        value,
+        rateNumber: numberOfPeople.length
+      });
+      if (value === 1) {
+        return res.status(200).json(result);
+      }
+    });
   }
 }
 

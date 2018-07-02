@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactStars from 'react-stars';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextTruncate from 'react-text-truncate';
 
 const Businesses = ({
-  name, details, id, image, views, owner
+  name, details, id, image, views, owner,
+  averageRating
 }) => (
   <div className="container">
     <div className="row card-wrapper">
@@ -27,6 +29,18 @@ const Businesses = ({
           <Link to={`/view-business/${id}`}
             className="view-button">view more</Link>
         </div>
+        <div>
+          <h5>Average Rating:</h5>
+          <div className="business-stars">
+            <ReactStars
+              count={5}
+              size={13}
+              edit={false}
+              value={Number(averageRating)}
+            />
+            <p className="rating-num"> {averageRating} </p>
+          </div>
+        </div>
         <hr/>
         <div className="row views">
           <div className="col-sm-5">
@@ -48,6 +62,7 @@ Businesses.propTypes = {
   image: PropTypes.string,
   views: PropTypes.number,
   owner: PropTypes.string,
+  averageRating: PropTypes.number,
 };
 
 export default Businesses;
