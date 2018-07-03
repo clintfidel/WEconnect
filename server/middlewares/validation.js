@@ -581,12 +581,6 @@ export const checkReviewExist = (req, res, next) => {
 export const checkCategoryId = (req, res, next) => {
   const { categoryId } = req.body;
   if (!categoryId) { return next(); }
-  if (categoryId === 'string') {
-    return res.status(406).json({
-      status: false,
-      message: 'Invalid category Input'
-    });
-  }
   Category
     .findById(categoryId)
     .then((category) => {
@@ -598,12 +592,4 @@ export const checkCategoryId = (req, res, next) => {
       }
       return next();
     });
-};
-
-export const createRate = (rate, res) => {
-  const result = ['Bad', 'Satisfactory', 'Good', 'Very Good', 'Great'];
-  res.status(200).json({
-    message: `you rated this article ${result[rate - 1]}`,
-    rate
-  });
 };
