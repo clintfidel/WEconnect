@@ -11,8 +11,6 @@ const {
   createReview,
   updateReview,
   getAllReview,
-  getAverageRatings,
-  getAllRatingsPerNumber
 } = review;
 
 const reviewRouter = express.Router();
@@ -32,10 +30,5 @@ reviewRouter.route('/:reviewId/reviews')
     checkReviewsInput,
     updateReview
   );
-reviewRouter.route('/:businessId/rate')
-  .get(isLoggedIn, getAverageRatings);
-
-reviewRouter.route('/:businessId/ratevalue')
-  .get(isLoggedIn, getAllRatingsPerNumber);
 
 export default reviewRouter;

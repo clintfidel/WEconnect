@@ -5,6 +5,7 @@ import app from '../../server';
 let token;
 let businessId = +2;
 let businessId2 = +10;
+let reviewId = 1;
 
 const wrongId = Number(10);
 
@@ -68,9 +69,10 @@ describe('Review: ', () => {
   });
   it('should not create a new review for invalid business id', (done) => {
     supertest(app)
-      .post(`/api/v1/businesses/${wrongId}/reviews/?pageNum=1`)
+      .post(`/api/v1/businesses/${wrongId}/reviews/`)
       .send({
         comments: 'lovely app',
+        rate: 1,
         token: `${token}`
       })
       .expect(404)
@@ -102,6 +104,7 @@ describe('Review: ', () => {
       .post(`/api/v1/businesses/${businessId}/reviews/`)
       .send({
         comments: 'I am amazed at the idea',
+        rate: 4,
         token: `${token}`
       })
       .expect(201)
@@ -110,6 +113,40 @@ describe('Review: ', () => {
           return done(err);
         }
         expect(res.body.message).toBe('You have successfully reviewed this business');
+        done();
+      });
+  });
+  it('should update review for business', (done) => {
+    supertest(app)
+      .put(`/api/v1/businesses/${reviewId}/reviews`)
+      .send({
+        comments: 'great business',
+        rate: 5,
+        token: `${token}`
+      })
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('You have successfully updated this review');
+        done();
+      });
+  });
+  it('should not update review for invalid review Id ', (done) => {
+    supertest(app)
+      .put(`/api/v1/businesses/${businessId2}/reviews`)
+      .send({
+        comments: 'great business',
+        rate: 5,
+        token: `${token}`
+      })
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('review Id not found');
         done();
       });
   });
