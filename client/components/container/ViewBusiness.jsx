@@ -157,7 +157,6 @@ class ViewBusiness extends Component {
    */
   render() {
     return (
-      //change redirect page back to 404 not found page
       this.state.redirectUser ?
         <Redirect to="/*" /> :
         <div>

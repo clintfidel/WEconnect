@@ -40,6 +40,13 @@ export function imageUpload(imageUrl) {
   };
 }
 
+/**
+ * @description Request to the  API to register a user
+ *
+ * @param {object} userDetails - business id
+ *
+ * @return {object} dispatch object
+ */
 export const registerAction = userDetails => dispatch => axios
   .post('/api/v1/auth/signup', userDetails)
   .then((response) => {
@@ -52,6 +59,13 @@ export const registerAction = userDetails => dispatch => axios
   })
   .catch(error => Promise.reject(error.response.data.message));
 
+/**
+ * @description Request to the  API to log in a user
+ *
+ * @param {object} userDetails - business id
+ *
+ * @return {object} dispatch object
+ */
 export const loginAction = userDetails => dispatch => axios
   .post('/api/v1/auth/login', userDetails)
   .then((response) => {
@@ -64,6 +78,13 @@ export const loginAction = userDetails => dispatch => axios
   })
   .catch(error => Promise.reject(error.response.data.message));
 
+/**
+ * @description Request to the  API to edit a users profile
+ *
+ * @param {object} userDetails - business id
+ *
+ * @return {object} dispatch object
+ */
 export const editUserProfileAction = (userDetails) => (dispatch) =>
   axios.put('/api/v1/auth/editprofile', userDetails)
     .then((response) => {
@@ -75,6 +96,11 @@ export const editUserProfileAction = (userDetails) => (dispatch) =>
     })
     .catch(error => Promise.reject(error.response.data.message));
 
+/**
+ * @description Request to the  API to get all users
+ *
+ * @return {object} dispatch object
+ */
 export const userProfileAction = () => (dispatch) =>
   axios.get('api/v1/auth/')
     .then((response) => {
@@ -85,6 +111,14 @@ export const userProfileAction = () => (dispatch) =>
     })
     .catch(error => Promise.reject(error.response.data.message));
 
+
+/**
+ * @description Request to the clodinary API to upload users Image
+ *
+ * @param {string} image
+ *
+ * @return {object} dispatch object
+ */
 export const imageUploadAction = (image) => {
   const uploadPreset = process.env.UPLOAD_PRESET;
   const cloudApi = process.env.CLOUD_API;
@@ -104,6 +138,11 @@ export const imageUploadAction = (image) => {
     });
 };
 
+/**
+ * @description Request to the  API to log out a user
+ *
+ * @return {object} dispatch object
+ */
 export const logoutAction = () => (dispatch) => {
   localStorage.removeItem('token');
   setAuthorization(false);

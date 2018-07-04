@@ -171,9 +171,16 @@ class RegisterBusiness extends Component {
    *
    */
   render() {
+    const { onChange, onSubmit, imageUpload } = this;
+    const {
+      disableBtn,
+      loader,
+      redirectUser,
+      imageUrl
+    } = this.state;
     const allcategories = this.props.categories;
     return (
-      this.state.redirectUser ?
+      redirectUser ?
         <Redirect to="/userbusiness" /> :
         <div className="background">
           <NavBar />
@@ -187,13 +194,13 @@ class RegisterBusiness extends Component {
                       action="#"
                       method="post"
                       role="form"
-                      onSubmit= {this.onSubmit}>
+                      onSubmit= {onSubmit}>
                       <div className="form-group">
                         <div className="input-group">
                           <span className="input-group-addon" />
                           <input
                             type="text"
-                            onChange={this.onChange}
+                            onChange={onChange}
                             name="name"
                             placeholder="Business Name"
                             className="form-control"
@@ -209,7 +216,7 @@ class RegisterBusiness extends Component {
                             className="custom-select
                           form-control"
                             name="location"
-                            onChange= {this.onChange}
+                            onChange= {onChange}
                             required>
                             <option>Choose location</option>
                             {this.props.locations.map((location, index) => (
@@ -231,7 +238,7 @@ class RegisterBusiness extends Component {
                             className="custom-select
                             form-control"
                             name="categoryId"
-                            onChange= {this.onChange}
+                            onChange= {onChange}
                             required>
                             <option>Choose category</option>
                             {allcategories.map((category) =>
@@ -251,7 +258,7 @@ class RegisterBusiness extends Component {
                           <input type="file"
                             className="form-control-file"
                             id="upload-business"
-                            onChange={this.imageUpload}
+                            onChange={imageUpload}
                             name="image"
                             accept=".jpg, .png, .jpeg"
                           />
@@ -262,7 +269,7 @@ class RegisterBusiness extends Component {
                           <span className="input-group-addon" />
                           <textarea
                             name="details"
-                            onChange={this.onChange}
+                            onChange={onChange}
                             placeholder="Business-Details"
                             rows="6"
                             className="form-control"
@@ -271,9 +278,10 @@ class RegisterBusiness extends Component {
                         </div>
                       </div>
                       <button type="submit"
-                        disabled={this.state.disableBtn}
+                        disabled={disableBtn}
                         className="btn register-button">
-                        {this.state.loader ? <i className="fa fa-circle-o-notch fa-spin" /> : 'Send'}
+                        {loader ? <i className="fa fa-circle-o-notch fa-spin" /> :
+                          'Send'}
                       </button>
                     </form>
                   </div>
@@ -282,12 +290,12 @@ class RegisterBusiness extends Component {
               <div className="col-sm-6">
                 <div className="image-wrapper">
                   {
-                    !this.state.imageUrl ?
+                    !imageUrl ?
                       <img alt="User Pic" src="/images/placeholder.png"
                         className="img-fluid"/> :
                       <img alt="User Pic"
                         src=
-                          {this.state.imageUrl}
+                          {imageUrl}
                         className="img-fluid mb-2 mt-2"/>
                   }
                 </div>

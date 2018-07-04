@@ -223,8 +223,20 @@ class Signup extends Component {
    *
    */
   render() {
+    const {
+      onChange, onSubmit, onFocus, onBlur
+    } = this;
+    const {
+      disableBtn,
+      loader,
+      redirectUser,
+      fullnameError,
+      usernameError,
+      passwordError,
+      passwordConfirmError
+    } = this.state;
     return (
-      this.state.redirectUser ?
+      redirectUser ?
         <Redirect to= "/all-business"/> :
         <div>
           <div className="login-body">
@@ -239,63 +251,64 @@ class Signup extends Component {
                   action="#"
                   method="post"
                   role="form"
-                  onSubmit={this.onSubmit}>
+                  onSubmit={onSubmit}>
 
                   <input type="text"
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     name="fullname"
                     placeholder="Fullname"
                     required />
                   <div style={{ color: 'red' }}>
-                    {this.state.fullnameError}
+                    {fullnameError}
                   </div>
                   <input type="text"
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     name="username"
                     placeholder="username"
                     required />
                   <div style={{ color: 'red' }}>
-                    {this.state.usernameError}
+                    {usernameError}
                   </div>
                   <input type="email"
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     name="email"
                     placeholder="email"
                     required />
                   <input type="password"
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     name="password"
                     placeholder="password"
                     id="signup-password"
                     required />
                   <div style={{ color: 'red' }}>
-                    {this.state.passwordError}
+                    {passwordError}
                   </div>
                   <input type="password"
-                    onChange={this.onChange}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
+                    onChange={onChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     name="passwordConfirm"
                     placeholder="connfirm-password"
                     required />
                   <div style={{ color: 'red' }}>
-                    {this.state.passwordConfirmError}
+                    {passwordConfirmError}
                   </div>
                   <button
                     className="btn"
                     type="submit"
                     name="submit"
-                    disabled={this.state.disableBtn}
+                    disabled={disableBtn}
                   >
-                    {this.state.loader ? <i className="fa fa-circle-o-notch fa-spin" /> : 'Sign Up'}
+                    {loader ? <i className="fa fa-circle-o-notch fa-spin" /> :
+                      'Sign Up'}
 
                   </button>
                 </form>
