@@ -34,6 +34,7 @@ class EditModal extends Component {
     this.state = {
       redirectUser: false,
       image: '',
+      loader: false,
       imageUrl: '',
       businessDetails: {
         name: this.props.business.name,
@@ -105,11 +106,13 @@ class EditModal extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setState({
+      loader: true
+    });
     if (!this.state.image) {
       this.props.editBusinessAction(this.props.id, this.state.businessDetails)
         .then((message) => {
-          $(".modal-backdrop").remove();
-          $('.modal').hide();
+          document.getElementsByClassName('modal-backdrop')[0].style.display = "none";
           toastrOption();
           toastr.success(message);
         })
@@ -131,8 +134,7 @@ class EditModal extends Component {
             this.state.businessDetails
           )
             .then((message) => {
-              $(".modal-backdrop").remove();
-              $('.modal').hide();
+              document.getElementsByClassName('modal-backdrop')[0].style.display = "none";
               toastrOption();
               toastr.success(message);
             })
@@ -152,150 +154,157 @@ class EditModal extends Component {
    *
    */
   render() {
+    const { businessDetails, loader, imageUrl } = this.state;
+    const { onChange, onSubmit, imageUpload } = this;
     return (
-      <div>
-        <div className="modal"
-          id="editModal"
-          tabIndex="-1" role="dialog"
-          aria-labelledby="exampleModalVerticalLabel"
-          aria-hidden="true">
-          <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h3 className="modal-title"
-                  id="exampleModalVerticalLabel">Edit Business Profile</h3>
-                <button type="button" className="close"
-                  data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="panel-body">
-                  <form
-                    action=""
-                    method=""
-                    role="form"
-                    onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Name:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <input type="text"
-                          name="name"
-                          onChange={this.onChange}
-                          defaultValue={this.state.businessDetails.name}
-                          placeholder="Business Name"
-                          className="form-control"
-                          autoFocus="autofocus"
-                          required/>
-                      </div>
+      <div className="modal"
+        id="editModal"
+        tabIndex="-1" role="dialog"
+        aria-labelledby="exampleModalVerticalLabel"
+        aria-hidden="true">
+        <div className="modal-dialog modal-lg" id="editModal" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3 className="modal-title"
+                id="exampleModalVerticalLabel">Edit Business Profile</h3>
+              <button type="button" className="close"
+                data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="panel-body">
+                <form
+                  action=""
+                  method=""
+                  role="form"
+                  onSubmit={onSubmit}>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Business Name:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <input type="text"
+                        name="name"
+                        onChange={onChange}
+                        defaultValue={businessDetails.name}
+                        placeholder="Business Name"
+                        className="form-control"
+                        autoFocus="autofocus"
+                        required/>
                     </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Location:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <select type="select"
-                          name="location"
-                          onChange={this.onChange}
-                          defaultValue={this.state.businessDetails.location}
-                          placeholder="category"
-                          className="form-control"
-                          required>
-                          {this.props.locations.map((location, index) => (
-                            <option
-                              key={index}
-                              value={location}
-                              id={`${location}`}>
-                              {location}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Business Location:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <select type="select"
+                        name="location"
+                        onChange={onChange}
+                        defaultValue={businessDetails.location}
+                        placeholder="category"
+                        className="form-control"
+                        required>
+                        {this.props.locations.map((location, index) => (
+                          <option
+                            key={index}
+                            value={location}
+                            id={`${location}`}>
+                            {location}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Category:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <select type="select"
-                          name="categoryId"
-                          onChange={this.onChange}
-                          defaultValue={this.state.businessDetails.categoryId}
-                          placeholder="category"
-                          className="form-control"
-                          required>
-                          {this.props.categories.map((editCategory) =>
-                            (<option key={editCategory.id}
-                              value={editCategory.id}
-                              id={`${editCategory.category}`}>
-                              {editCategory.category}
-                            </option>))
-                          }
-                        </select>
-                      </div>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Business Category:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <select type="select"
+                        name="categoryId"
+                        onChange={onChange}
+                        defaultValue={businessDetails.categoryId}
+                        placeholder="category"
+                        className="form-control"
+                        required>
+                        {this.props.categories.map((editCategory) =>
+                          (<option key={editCategory.id}
+                            value={editCategory.id}
+                            id={`${editCategory.category}`}>
+                            {editCategory.category}
+                          </option>))
+                        }
+                      </select>
                     </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Picture:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <input type="file"
-                          name="image"
-                          onChange={this.imageUpload}
-                          accept=".jpg, .png, .jpeg"
-                          className="form-control-file"
-                          id="exampleFormControlFile1"/>
-                      </div>
-                    </div>
-                    <div>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Picture:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <input type="file"
+                        name="image"
+                        onChange={imageUpload}
+                        accept=".jpg, .png, .jpeg"
+                        className="form-control-file"
+                        id="exampleFormControlFile1"/>
                       {
-                        this.state.imageUrl ?
-                          <img alt="User Pic" src={this.state.imageUrl}
-                            className="img-fluid mb-2 mt-2"/> :
-                          <img alt="User Pic"
-                            src={!this.state.businessDetails.image ?
-                              "/images/placeholder.png" :
-                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_800/${this.state.businessDetails.image}`}
-                            className="img-fluid mb-2 mt-2"/>
+                        loader ?
+                          <i className="fa fa-circle-o-notch fa-spin" /> :
+                          null
                       }
                     </div>
-                    <div className="form-group">
-                      <label
-                        className="col-lg-3 col-form-label form-control-label">
-                        <strong>Business Details:</strong>
-                      </label>
-                      <div className="input-group">
-                        <span className="input-group-addon" />
-                        <textarea
-                          name="details"
-                          onChange={this.onChange}
-                          defaultValue={this.state.businessDetails.details}
-                          placeholder="Business-Details"
-                          rows="10" className="form-control"
-                          type="text"
-                          required />
-                      </div>
+                  </div>
+                  <div>
+                    {
+                      imageUrl ?
+                        <img alt="User Pic" src={imageUrl}
+                          className="img-fluid mb-2 mt-2"/> :
+                        <img alt="User Pic"
+                          src={!businessDetails.image ?
+                            "/images/placeholder.png" :
+                            `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_800/${businessDetails.image}`}
+                          className="img-fluid mb-2 mt-2"/>
+                    }
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="col-lg-3 col-form-label form-control-label">
+                      <strong>Business Details:</strong>
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-addon" />
+                      <textarea
+                        name="details"
+                        onChange={onChange}
+                        defaultValue={businessDetails.details}
+                        placeholder="Business-Details"
+                        rows="10" className="form-control"
+                        type="text"
+                        required />
                     </div>
-                    <div className="modal-footer">
-                      <button type="button"
-                        className="btn btn-secondary"
-                        data-dismiss="modal">Close</button>
-                      <button type="submit"
-                        id="modal-button"
-                        className="btn btn-primary">Save changes</button>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button"
+                      id="closeModal"
+                      className="btn btn-secondary"
+                      data-dismiss="modal">Close
+                    </button>
+                    <button type="submit"
+                      id="modal-button"
+                      className="btn btn-primary">Save changes</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     },
     location: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
       required: true
     },

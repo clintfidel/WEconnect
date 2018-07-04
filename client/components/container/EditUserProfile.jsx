@@ -154,6 +154,8 @@ class EditUserProfile extends Component {
    *
    */
   render() {
+    const { userTemplate, loader, imageUrl } = this.state;
+    const { onChange, onSubmit, imageUpload } = this;
     return (
       <div className="modal"
         id="editModal"
@@ -176,7 +178,7 @@ class EditUserProfile extends Component {
                   action="#"
                   method="post"
                   role="form"
-                  onSubmit={this.onSubmit}>
+                  onSubmit={onSubmit}>
                   <div className="form-group">
                     <label
                       className="col-lg-3 col-form-label form-control-label">
@@ -186,8 +188,8 @@ class EditUserProfile extends Component {
                       <span className="input-group-addon" />
                       <input type="text"
                         name="fullname"
-                        onChange={this.onChange}
-                        value={this.state.userTemplate.fullname}
+                        onChange={onChange}
+                        value={userTemplate.fullname}
                         placeholder="fullname"
                         className="form-control"
                         autoFocus="autofocus"
@@ -203,8 +205,8 @@ class EditUserProfile extends Component {
                       <span className="input-group-addon" />
                       <input type="text"
                         name="username"
-                        onChange={this.onChange}
-                        value={this.state.userTemplate.username}
+                        onChange={onChange}
+                        value={userTemplate.username}
                         placeholder="userame"
                         className="form-control"
                         autoFocus="autofocus"
@@ -220,8 +222,8 @@ class EditUserProfile extends Component {
                       <span className="input-group-addon" />
                       <input type="email"
                         name="email"
-                        onChange={this.onChange}
-                        value={this.state.userTemplate.email}
+                        onChange={onChange}
+                        value={userTemplate.email}
                         placeholder="email"
                         className="form-control"
                         autoFocus="autofocus"
@@ -237,12 +239,12 @@ class EditUserProfile extends Component {
                       <span className="input-group-addon" />
                       <input type="file"
                         name="image"
-                        onChange={this.imageUpload}
+                        onChange={imageUpload}
                         accept=".jpg, .png, .jpeg"
                         className="form-control-file"
                         id="exampleFormControlFile1"/>
                       {
-                        this.state.loader ?
+                        loader ?
                           <i className="fa fa-circle-o-notch fa-spin" /> :
                           null
                       }
@@ -250,14 +252,14 @@ class EditUserProfile extends Component {
                   </div>
                   <div className="img-wrapper">
                     {
-                      this.state.imageUrl ?
-                        <img alt="User Pic" src={this.state.imageUrl}
+                      imageUrl ?
+                        <img alt="User Pic" src={imageUrl}
                           className="img-fluid user-img"/> :
                         <img alt="User Pic"
                           src= {
-                            !this.state.userTemplate.image ?
+                            !userTemplate.image ?
                               "/images/placeholder.png" :
-                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${this.state.userTemplate.image}`
+                              `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/c_fill,h_300,w_300/${userTemplate.image}`
                           }
                           className="img-fluid user-img"/>
                     }

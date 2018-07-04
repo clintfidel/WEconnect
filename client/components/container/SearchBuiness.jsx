@@ -78,6 +78,7 @@ class SearchBuiness extends Component {
 
     const locationPath = this.props.location.pathname;
     event.preventDefault();
+    const { name, location, category } = this.state;
     const { value } = event.target;
     if (event.target.value !== '' &&
     locationPath === "/all-business") {
@@ -85,9 +86,9 @@ class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchBusinessAction(
-          this.state.name,
-          this.state.location,
-          this.state.category
+          name,
+          location,
+          category
         ));
     }
     if (event.target.value !== '' &&
@@ -96,9 +97,9 @@ class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchUserBusinessAction(
-          this.state.name,
-          this.state.location,
-          this.state.category
+          name,
+          location,
+          category
         ));
     }
     if (value === "Select From..." && locationPath === "/userbusiness") {
@@ -127,6 +128,10 @@ class SearchBuiness extends Component {
    *
    */
   render() {
+    const { onClick, handleSearch } = this;
+    const {
+      disableBtn,
+    } = this.state;
     return (
       <div className="container">
         <div className="contain-form">
@@ -136,7 +141,7 @@ class SearchBuiness extends Component {
                 className="search-input"
                 type="text"
                 name="name"
-                onChange={this.handleSearch}
+                onChange={handleSearch}
                 placeholder="search business by name...." />
             </div>
             <div className="col-sm-3">
@@ -144,9 +149,9 @@ class SearchBuiness extends Component {
                 type="select"
                 className="custom-select"
                 name="location"
-                disabled={this.state.disableBtn}
+                disabled={disableBtn}
                 value={this.state.location}
-                onChange={this.handleSearch}
+                onChange={handleSearch}
                 required>
                 <option value="Select From...">
               Choose location
@@ -166,9 +171,9 @@ class SearchBuiness extends Component {
                 type="select"
                 className="custom-select"
                 name="category"
-                disabled={this.state.disableBtn}
+                disabled={disableBtn}
                 value={this.state.category}
-                onChange= {this.handleSearch}
+                onChange= {handleSearch}
                 required>
                 <option value="Select From...">
                   Choose category
@@ -185,7 +190,7 @@ class SearchBuiness extends Component {
             <div className="col-sm-2">
               <button
                 className="reset-button"
-                onClick={this.onClick}>
+                onClick={onClick}>
                 Reset
               </button>
             </div>

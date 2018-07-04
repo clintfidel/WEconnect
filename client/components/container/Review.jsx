@@ -136,6 +136,19 @@ class Review extends Component {
    *
    */
   displayReviews() {
+    const { 
+      onChange,
+      updateReview,
+      ratingChanged,
+      closeToggleEdit
+     } = this;
+     const { 
+      disableBtn,
+      toggleEdit,
+      comments,
+      rate
+      } = this.state;
+      const { reviews } = this.props
     const allReviews = this.props.reviews;
     if (allReviews.length === 0) {
       return (<div className="comment-contents">No reviews found!</div>);
@@ -165,26 +178,26 @@ class Review extends Component {
         action="#"
         method="post"
         role="form"
-        onSubmit={this.updateReview}>
+        onSubmit={updateReview}>
         <textarea
           className="editReview-textarea"
           name="comments"
-          defaultValue={this.props.reviews.comments}
-          onChange={this.onChange}
+          defaultValue={reviews.comments}
+          onChange={onChange}
           required />
         <div className="edit-stars">
           <ReactStars
             count={5}
-            defaultValue={this.props.reviews.rate}
-            onChange={this.ratingChanged}
+            defaultValue={reviews.rate}
+            onChange={ratingChanged}
             size={15}
             half={false}
             color2={'#ffd700'}
-            value={this.state.rate}
+            value={rate}
           />
         </div>
         <button
-          onClick={this.closeToggleEdit}
+          onClick={closeToggleEdit}
           type="button"
           className="btn">
           cancel
@@ -196,9 +209,8 @@ class Review extends Component {
   </button>
       </form>
     </div>
-        if (this.state.toggleEdit && this.state.reviewId === review.id) {
+        if (toggleEdit && this.state.reviewId === review.id) {
           return (<div key={review.id}>
-        {console.log(this.state.reviewId, '=====>')}
         {reviewEditForm} 
         </div>)
         } else {
@@ -217,6 +229,17 @@ class Review extends Component {
    *
    */
   render() {
+    const { 
+      onChange,
+      onSubmit,
+      ratingChanged
+     } = this;
+     const { 
+       disableBtn,
+       toggleEdit,
+       comments,
+       rate
+       } = this.state;
     return (
       <div>
         <div className="bus-info-reviews">
@@ -243,31 +266,30 @@ class Review extends Component {
                     </button> : ''}
                   {
                     
-                    this.state.toggleEdit ? '' :
+                    toggleEdit ? '' :
                       <form
                         action="#"
                         method="post"
                         role="form"
-                        onSubmit={this.onSubmit}>
-                        {console.log(this.props.reviews.comments, '===>')}
+                        onSubmit={onSubmit}>
                         <textarea
                           name="comments"
-                          value={this.state.comments}
-                          onChange={this.onChange}
+                          value={comments}
+                          onChange={onChange}
                           required />
                         <div>
                           <ReactStars
                             count={5}
-                            onChange={this.ratingChanged}
+                            onChange={ratingChanged}
                             size={20}
                             color2={'#ffd700'}
                             half={false}
-                            value={this.state.rate}
+                            value={rate}
                           />
                         </div>
                         <button
                           type="submit"
-                          disabled={this.state.disableBtn}
+                          disabled={disableBtn}
                           className="btn send-button">
                           Add review
                     </button>

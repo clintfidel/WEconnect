@@ -94,8 +94,10 @@ class Login extends Component {
    *
    */
   render() {
+    const { onChange, onSubmit } = this;
+    const { disableBtn, loader, redirectUser } = this.state;
     return (
-      this.state.redirectUser ?
+      redirectUser ?
         <Redirect to= "/all-business" /> :
         <div>
           <div className="login-body">
@@ -110,14 +112,14 @@ class Login extends Component {
                   action="#"
                   method="post"
                   role="form"
-                  onSubmit={this.onSubmit}>
+                  onSubmit={onSubmit}>
                   <input type="text"
-                    onChange={this.onChange}
+                    onChange={onChange}
                     name= "username"
                     placeholder="username/email"
                     required/>
                   <input type="password"
-                    onChange={this.onChange}
+                    onChange={onChange}
                     name= "password"
                     placeholder="password"
                     required/>
@@ -125,9 +127,10 @@ class Login extends Component {
                     className="btn"
                     type="submit"
                     name="submit"
-                    disabled={this.state.disableBtn}
+                    disabled={disableBtn}
                   >
-                    {this.state.loader ? <i className="fa fa-circle-o-notch fa-spin" /> : 'Login'}
+                    {loader ? <i className="fa fa-circle-o-notch fa-spin" /> :
+                      'Login'}
                   </button>
                 </form>
                 <div className="create-account">

@@ -182,7 +182,6 @@ AllBusiness.propTypes = {
   getAllBusinessAction: PropTypes.func.isRequired,
   getAllCategoryAction: PropTypes.func.isRequired,
   businesses: PropTypes.array,
-  getAverageRating: PropTypes.func.isRequired,
   count: PropTypes.number
 };
 const mapStateToProps = (state) => ({
