@@ -12,7 +12,6 @@ import {
   SEARCH_BUSINESS,
   SEARCH_USER_BUSINESS,
   IMAGE_UPLOAD,
-  GET_AVERAGE_RATING
 } from './types';
 
 /**
@@ -241,7 +240,7 @@ export const imageUploadAction = (image) => {
 export const searchBusinessAction =
  (name, location, category) => (dispatch) => {
    const url = searchQuery(name, location, category, '/api/v1/businesses');
-   axios.get(url)
+   return axios.get(url)
      .then((response) => dispatch(searchBusiness(response.data.businesses)));
  };
 
@@ -259,7 +258,7 @@ export const searchBusinessAction =
 export const searchUserBusinessAction =
  (name, location, category) => (dispatch) => {
    const url = searchQuery(name, location, category, '/api/v1/businesses/user');
-   axios.get(url)
+   return axios.get(url)
      .then((response) =>
        dispatch(searchUserBusiness(response.data.businesses)));
  };

@@ -102,7 +102,7 @@ export const editUserProfileAction = (userDetails) => (dispatch) =>
  * @return {object} dispatch object
  */
 export const userProfileAction = () => (dispatch) =>
-  axios.get('api/v1/auth/')
+  axios.get('/api/v1/auth')
     .then((response) => {
       dispatch({
         type: USER_PROFILE,
