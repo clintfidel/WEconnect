@@ -238,4 +238,28 @@ describe('Business actions', () => {
       }
     );
   });
+  describe('save image to cloudinary action creator', () => {
+    it(
+      'creates SAVE_PROFILE_IMAGE when edit profile action is successful',
+      async (done) => {
+        process.env.CLOUD_API = 'https://api.cloudinary.com/v1_1/clintfidel/eghdjdjf/upload';
+        const request = process.env.CLOUD_API;
+        const { imageResponse, uploadImage } = mockData;
+        moxios.stubRequest(request, {
+          status: 200,
+          response: imageResponse
+        });
+        const expectedActions = [{
+          type: IMAGE_UPLOAD,
+          imageUrl: imageResponse.public_id
+        }];
+        const store = mockStore({});
+        await store.dispatch(imageUploadAction(uploadImage))
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+          });
+        done();
+      }
+    );
+  });
 });

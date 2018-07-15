@@ -15,7 +15,7 @@ import {
  * @classdesc registers user
  *
  */
-class SearchBuiness extends Component {
+export class SearchBuiness extends Component {
   static defaultProps = {
     locations
   }
@@ -140,6 +140,7 @@ class SearchBuiness extends Component {
               <input
                 className="search-input"
                 type="text"
+                id="search-by-name"
                 name="name"
                 onChange={handleSearch}
                 placeholder="search business by name...." />
@@ -148,6 +149,7 @@ class SearchBuiness extends Component {
               <select
                 type="select"
                 className="custom-select"
+                id="location"
                 name="location"
                 disabled={disableBtn}
                 value={this.state.location}

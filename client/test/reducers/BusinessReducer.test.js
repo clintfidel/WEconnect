@@ -15,6 +15,18 @@ import {
 } from '../../actions/types';
 
 describe('Business Reducer', () => {
+  it('should return the initial state', () => {
+    const initialState = {
+      message: '',
+      businesses: [],
+      userBusiness: [],
+      categories: [],
+      business: {},
+      count: 0,
+      imageUrl: ''
+    };
+    expect(BusinessReducer(undefined, initialState)).toEqual(initialState);
+  });
   it('should get all user business when passed with GET_ALL_USER_BUSINESSES', () => {
     const initialState = {
       businesses: [],
@@ -160,5 +172,30 @@ describe('Business Reducer', () => {
     expect(newState.userBusiness[0].details).toEqual("andela business is awesome");
     expect(newState.userBusiness[0].categoryId).toEqual(4);
     expect(newState.userBusiness[0].location).toEqual("LAGOS");
+  });
+  it('should save profile image when passed with SAVE_PROFILE_IMAGE', () => {
+    const initialState = {
+      imageUrl: ''
+    };
+    const url = 'ghddvvydvvyvvdvubvduvvyyuevytvvyvvv';
+
+    const action = {
+      type: IMAGE_UPLOAD,
+      imageUrl: url,
+    };
+    const newState = BusinessReducer(initialState, action);
+    expect(newState.imageUrl).toEqual('ghddvvydvvyvvdvubvduvvyyuevytvvyvvv');
+  });
+  it('should return initial state for invalid action type', () => {
+    const initialState = {
+      business: {}
+    };
+    const { viewBusinessResponse } = MockData;
+    const action = {
+      type: 'TEST',
+      business: viewBusinessResponse.business
+    };
+    const newState = BusinessReducer(initialState, action);
+    expect(newState.business).toEqual({});
   });
 });

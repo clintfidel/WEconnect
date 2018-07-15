@@ -30,11 +30,11 @@ const ReviewReducer = (state = initialState, action) => {
     };
   }
   case UPDATE_REVIEW:
-  let updateedReview = [];
+  let updatedReview = [];
   state.reviews.map(review =>
     (review.id === action.reviews.id ?
-      updateedReview.push(action.reviews) : updateedReview.push(review)));
-  return { ...state, reviews: updateedReview };
+      updatedReview.push(action.reviews) : updatedReview.push(review)));
+  return { ...state, reviews: updatedReview };
 
   default:
     return state;

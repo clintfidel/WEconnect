@@ -66,6 +66,11 @@ class ReviewController {
             message: 'review Id not found'
           });
         }
+        if (editReview.userId !== id) {
+          return res.status(400).json({
+            message: 'you cannot edit this review'
+          });
+        }
         editReview
           .update({
             comments: req.body.comments || editReview.comments,

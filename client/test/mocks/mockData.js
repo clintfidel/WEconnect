@@ -140,6 +140,46 @@ const mockData = {
       ]
     }
   },
+  BusinessDetailsWithoutReview: [
+    {
+      id: 3,
+      name: "Andela Business",
+      image: "jdnwyjyoiarkt47hdjjdghmxbia",
+      details: "andela business is awesome",
+      location: "LAGOS",
+      categoryId: 4,
+      views: 12,
+      userId: 1,
+      createdAt: "2018-07-03T12:20:05.584Z",
+      updatedAt: "2018-07-04T12:27:12.066Z",
+      Category: {
+        category: "science and tech"
+      },
+      User: {
+        username: "clintrk"
+      },
+      Reviews: []
+    },
+    {
+      id: 3,
+      name: "Andela Business Two",
+      image: "jdnwyjyoiarkt47mxbia",
+      details: "andela business is great",
+      location: "KANO",
+      categoryId: 6,
+      views: 19,
+      userId: 1,
+      createdAt: "2018-07-03T12:20:05.584Z",
+      updatedAt: "2018-07-04T12:27:12.066Z",
+      Category: {
+        category: "Food"
+      },
+      User: {
+        username: "clintfidel"
+      },
+      Reviews: []
+    },
+  ],
   allCategories: {
     status: "Success",
     Categories: [
@@ -218,6 +258,13 @@ const mockData = {
     categoryId: 5,
     details: 'andela business is great',
     image: 'jfjubvubbbbbgbbdhbfhuyf'
+  },
+  editedBusinessDetails2: {
+    name: 'Andela Card business',
+    location: 'KANO',
+    categoryId: 5,
+    details: 'andela business is great',
+    image: 'null'
   },
   businessId: {
     businessId: 1
@@ -342,6 +389,11 @@ const mockData = {
     comments: 'very good business',
     rate: 5
   },
+  newReviewDetails: {
+    comments: 'very good business',
+    rate: 5,
+    id: 2
+  },
   addReviewResponse: {
     message: "You have successfully reviewed this business",
     Review: {
@@ -364,6 +416,11 @@ const mockData = {
     comments: 'nice nice',
     rate: 3
   },
+  newEditedReview: {
+    comments: 'nice nice',
+    rate: 3,
+    id: 1
+  },
   editedReviewResponse: {
     message: "You have successfully updated this review",
     review: {
@@ -378,7 +435,32 @@ const mockData = {
         username: "clintrk"
       }
     }
-  }
+  },
+  imageResponse: {
+    bytes: 58762,
+    created_at: "2018-01-15T18:30:03Z",
+    etag: "5e60d0b985e448a2d19dd7b3183448d3",
+    format: "jpg",
+    height: 300,
+    original_filename: "171761",
+    placeholder: false,
+    public_id: "gbjvdghvdvhgvhgdvhd",
+    resource_type: "image",
+    secure_url: "https://res.cloudinary.com/v1_1/clintfidel/image/upload/v1516041003/gbjvdghvdvhgvhgdvhd.jpg",
+    signature: "ec119873ac7388df8ab37c0c7e2a23c0a6107a14",
+    tags: [],
+    type: "upload",
+    url: "http://res.cloudinary.com/ruqoyah/image/upload/v1516041003/gbjvdghvdvhgvhgdvhd.jpg",
+    version: 1516041003,
+    width: 300
+  },
+  uploadImage: {
+    name: "clintfidel.jpg",
+    lastModified: 1515159157000,
+    size: 226679,
+    type: "image/jpg",
+    webkitRelativePath: ''
+  },
 };
 
 export default mockData;

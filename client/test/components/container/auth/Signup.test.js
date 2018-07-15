@@ -1,19 +1,13 @@
 import React from 'react';
 import expect from 'expect';
 import $ from 'jquery';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import ConnectedSignup,
-{ Signup } from '../../../../components/container/auth/Signup';
+import { Signup } from '../../../../components/container/auth/Signup';
 import mockData from '../../../mocks/mockData';
 import mockLocalStorage from '../../../mocks/mockLocalStorage';
 
 configure({ adapter: new Adapter() });
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 
 window.localStorage = mockLocalStorage.setItem("token", "dek3dcndx.sejhdbsfd");
 
@@ -121,7 +115,7 @@ describe('Component: Signup', () => {
       form.simulate('submit', event);
     });
 
-    it('should signup user when user details is set to the state', () => {
+    it('should signup user when user details is set to the state', (done) => {
       const event = {
         preventDefault: jest.fn()
       };
@@ -130,10 +124,23 @@ describe('Component: Signup', () => {
       wrapper.setState(userInput);
 
       form.simulate('submit', event);
+      setTimeout(() => {
+        wrapper.setState({ redirectUser: true });
+        done();
+      }, 3000);
     });
   });
 
   describe('onFocus()', () => {
+    it('should clear fullname error when input box is targeted', () => {
+      const wrapper = setup();
+      const event = {
+        target: { name: 'fullname', value: 'clint' }
+      };
+      wrapper.instance().onFocus(event);
+      expect(wrapper.instance().state.fullnameError).toBe('');
+    });
+
     it('should clear username error when input box is targeted', () => {
       const wrapper = setup();
       const event = {
@@ -172,6 +179,31 @@ describe('Component: Signup', () => {
   });
 
   describe('onBlur()', () => {
+    it('should set fullnameError for invalid input', () => {
+      const wrapper = setup();
+      const event = {
+        target: {
+          name: 'fullname',
+          value: 'clin'
+        }
+      };
+      wrapper.instance().onBlur(event);
+      expect(wrapper.instance().state.fullnameError)
+        .toEqual('Username should be more than 5 characters');
+    });
+
+    it('should set fullnameError to be empty for valid input', () => {
+      const wrapper = setup();
+      const event = {
+        target: {
+          name: 'fullname',
+          value: 'clintfidel'
+        }
+      };
+      wrapper.instance().onBlur(event);
+      expect(wrapper.instance().state.fullnameError)
+        .toEqual('');
+    });
     it('should set usernameError for invalid input', () => {
       const wrapper = setup();
       const event = {
@@ -235,14 +267,6 @@ describe('Component: Signup', () => {
       wrapper.instance().onBlur(event);
       expect(wrapper.instance().state.passwordConfirmError)
         .toEqual('password do not match!');
-    });
-  });
-
-  describe('Connected Signup component', () => {
-    it('tests that the component successfully rendered', () => {
-      const store = mockStore({});
-      const wrapper = shallow(<ConnectedSignup store={store} />);
-      expect(wrapper.length).toBe(1);
     });
   });
 });

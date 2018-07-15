@@ -7,8 +7,7 @@ import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
 import {
   getAllBusinessAction,
-  getAllCategoryAction,
-  getAverageRating
+  getAllCategoryAction
 
 } from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
@@ -20,7 +19,7 @@ import Loader from '../presentational/common/Loader';
  * @classdesc Get All Business
  *
  */
-class AllBusiness extends Component {
+export class AllBusiness extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -186,15 +185,12 @@ AllBusiness.propTypes = {
 };
 const mapStateToProps = (state) => ({
   businesses: state.BusinessReducer.businesses,
-  count: state.BusinessReducer.count,
-  averageRating: state.BusinessReducer.averageRating
+  count: state.BusinessReducer.count
 });
 export default connect(
   mapStateToProps,
   {
     getAllBusinessAction,
-    getAllCategoryAction,
-    getAverageRating
-
+    getAllCategoryAction
   }
 )(AllBusiness);

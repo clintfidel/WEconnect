@@ -18,7 +18,7 @@ import Loader from '../presentational/common/Loader';
  * @classdesc registers user
  *
  */
-class AllBusiness extends Component {
+export class UserBusiness extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -176,7 +176,7 @@ class AllBusiness extends Component {
   }
 }
 
-AllBusiness.propTypes = {
+UserBusiness.propTypes = {
   getAllUserBusinessAction: PropTypes.func.isRequired,
   getAllCategoryAction: PropTypes.func.isRequired,
   businesses: PropTypes.array,
@@ -192,4 +192,4 @@ export default connect(
     getAllUserBusinessAction,
     getAllCategoryAction
   }
-)(AllBusiness);
+)(UserBusiness);

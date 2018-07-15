@@ -8,6 +8,15 @@ import {
 } from '../../actions/types';
 
 describe('Auth Reducer', () => {
+  it('should return the initial state', () => {
+    const initialState = {
+      user: {},
+      authenticated: false,
+      message: '',
+      imageUrl: ''
+    };
+    expect(AuthReducer(undefined, initialState)).toEqual(initialState);
+  });
   it('should set the current user when passed with SET_CURRENT_USER', () => {
     const initialState = {
       authenticated: false,
@@ -82,5 +91,37 @@ describe('Auth Reducer', () => {
     expect(newState.user.fullname).toEqual("Fidelis Clinton");
     expect(newState.user.email).toEqual("clinton@gmail.com");
     expect(newState.user.image).toEqual("fuy1cchtqwgozpqhrily");
+  });
+  it('should save profile image when passed with SAVE_PROFILE_IMAGE', () => {
+    const initialState = {
+      imageUrl: ''
+    };
+    const url = 'ghddvvydvvyvvdvubvduvvyyuevytvvyvvv';
+
+    const action = {
+      type: IMAGE_UPLOAD,
+      imageUrl: url,
+    };
+    const newState = AuthReducer(initialState, action);
+    expect(newState.imageUrl).toEqual('ghddvvydvvyvvdvubvduvvyyuevytvvyvvv');
+  });
+  it('should return initial state for invalid action type', () => {
+    const initialState = {
+      authenticated: false,
+      user: {
+        currentUser: {}
+      }
+    };
+    const action = {
+      type: 'TEST',
+      user: {
+        currentUser: {
+          id: 1
+        }
+      }
+    };
+    const newState = AuthReducer(initialState, action);
+    expect(newState.authenticated).toEqual(false);
+    expect(newState.user.currentUser).toEqual({});
   });
 });

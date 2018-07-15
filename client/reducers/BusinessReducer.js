@@ -19,8 +19,7 @@ const initialState = {
   categories: [],
   business: {},
   count: 0,
-  imageUrl: '',
-  avereageRating: 0
+  imageUrl: ''
 };
 
 /**
@@ -75,10 +74,6 @@ const BuisnessReducer = (state = initialState, action) => {
       ...state,
       userBusiness: action.result.rows,
       count: action.result.count
-    };
-  case GET_AVERAGE_RATING:
-    return {
-      ...state, averageRating: action.average
     };
   default:
     return state;
