@@ -13,7 +13,7 @@ import {
  * @classdesc User Profile
  *
  */
-class EditUserProfile extends Component {
+export class EditUserProfile extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -108,6 +108,9 @@ class EditUserProfile extends Component {
     if (!this.state.image) {
       this.props.editUserProfileAction(this.state.userTemplate)
         .then((message) => {
+          this.setState({
+            loader: false
+          });
           $(".modal-backdrop").remove();
           $('.modal').hide();
           toastrOption();
@@ -178,6 +181,7 @@ class EditUserProfile extends Component {
                   action="#"
                   method="post"
                   role="form"
+                  className="edit-profile"
                   onSubmit={onSubmit}>
                   <div className="form-group">
                     <label
@@ -188,6 +192,7 @@ class EditUserProfile extends Component {
                       <span className="input-group-addon" />
                       <input type="text"
                         name="fullname"
+                        id="edit-fullname"
                         onChange={onChange}
                         value={userTemplate.fullname}
                         placeholder="fullname"

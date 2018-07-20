@@ -20,7 +20,7 @@ import
  * @classdesc registers user
  *
  */
-class RegisterBusiness extends Component {
+export class RegisterBusiness extends Component {
   static defaultProps = {
     locations
   }
@@ -194,6 +194,7 @@ class RegisterBusiness extends Component {
                       action="#"
                       method="post"
                       role="form"
+                      className="add-business"
                       onSubmit= {onSubmit}>
                       <div className="form-group">
                         <div className="input-group">
@@ -202,6 +203,7 @@ class RegisterBusiness extends Component {
                             type="text"
                             onChange={onChange}
                             name="name"
+                            id="business-name"
                             placeholder="Business Name"
                             className="form-control"
                             autoFocus="autofocus"

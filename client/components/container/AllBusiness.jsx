@@ -64,7 +64,7 @@ export class AllBusiness extends Component {
   renderAllBusiness() {
     const allBusiness = this.props.businesses;
     let calculateAverage;
-    if (allBusiness.length < 1) {
+    if (allBusiness.length === 0) {
       return (<div className="not-found"
         style={{ textAlign: 'center', paddingTop: 50 }}>
         <h2>No Business found!!</h2>
@@ -72,7 +72,7 @@ export class AllBusiness extends Component {
     }
     return (
       allBusiness.map((business) => {
-        if (business.Reviews.length === 0) {
+        if (business.Reviews && business.Reviews.length === 0) {
           calculateAverage = 'No rating!';
         } else {
           const reviews = [];

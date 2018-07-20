@@ -107,7 +107,8 @@ export class EditModal extends Component {
     if (!this.state.image) {
       this.props.editBusinessAction(this.props.id, this.state.businessDetails)
         .then((message) => {
-          document.getElementsByClassName('modal-backdrop')[0].style.display = "none";
+          const modal = document.getElementsByClassName('modal-backdrop')[0];
+          modal.remove();
           toastrOption();
           toastr.success(message);
         })
@@ -129,7 +130,8 @@ export class EditModal extends Component {
             this.state.businessDetails
           )
             .then((message) => {
-              document.getElementsByClassName('modal-backdrop')[0].style.display = "none";
+              const modal = document.getElementsByClassName('modal-backdrop')[0];
+              modal.remove();
               toastrOption();
               toastr.success(message);
             })

@@ -1,8 +1,8 @@
 const userDetails = {
-  username: 'clintfidel',
+  username: 'clintfidel12',
   editedUsername: 'clinty',
-  fullName: 'Clint Fidelis',
-  email: 'clinton@gmail.com',
+  fullname: 'Clint Fidelis',
+  email: 'clintfidel2@gmail.com',
   password: 'clinty123',
   cpassword: 'clinty123'
 };

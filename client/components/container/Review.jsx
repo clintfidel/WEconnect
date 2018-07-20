@@ -193,6 +193,7 @@ export class Review extends Component {
             action="#"
             method="post"
             role="form"
+            className="update-review"
             onSubmit={updateReview}>
             <textarea
               className="editReview-textarea"
@@ -202,6 +203,7 @@ export class Review extends Component {
               required />
             <div className="edit-stars">
               <ReactStars
+                className="edit-5stars"
                 count={5}
                 defaultValue={reviews.rate}
                 onChange={ratingChanged}
@@ -294,8 +296,9 @@ export class Review extends Component {
                           value={comments}
                           onChange={onChange}
                           required />
-                        <div>
+                        <div className="5-stars">
                           <ReactStars
+                            className="5-stars"
                             count={5}
                             onChange={ratingChanged}
                             size={20}

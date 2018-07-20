@@ -226,6 +226,10 @@ export const searchUserBusiness = (req, res, next) => {
         {
           model: Category,
           attributes: ['category']
+        },
+        {
+          model: database.Review,
+          attributes: ['rate']
         }
         ],
 

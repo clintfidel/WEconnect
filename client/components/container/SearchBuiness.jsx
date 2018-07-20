@@ -78,7 +78,6 @@ export class SearchBuiness extends Component {
 
     const locationPath = this.props.location.pathname;
     event.preventDefault();
-    const { name, location, category } = this.state;
     const { value } = event.target;
     if (event.target.value !== '' &&
     locationPath === "/all-business") {
@@ -86,9 +85,9 @@ export class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchBusinessAction(
-          name,
-          location,
-          category
+          this.state.name,
+          this.state.location,
+          this.state.category
         ));
     }
     if (event.target.value !== '' &&
@@ -97,9 +96,9 @@ export class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchUserBusinessAction(
-          name,
-          location,
-          category
+          this.state.name,
+          this.state.location,
+          this.state.category
         ));
     }
     if (value === "Select From..." && locationPath === "/userbusiness") {

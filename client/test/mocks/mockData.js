@@ -232,7 +232,10 @@ const mockData = {
     location: 'LAGOS',
     categoryId: 4,
     details: 'andela business is awesome',
-    image: 'nknkffknsjibfinkbffshjbf'
+    image: 'nknkffknsjibfinkbffshjbf',
+    Category: "fashion",
+    views: 4,
+    userId: 1
   },
   businessResponse: {
     message: "Business created successfully",
@@ -460,6 +463,14 @@ const mockData = {
     size: 226679,
     type: "image/jpg",
     webkitRelativePath: ''
+  },
+  userTemplate: {
+    fullname: 'clint fidel',
+    email: 'clint@gmail.com',
+    username: 'clintfidel',
+    id: 1,
+    image: 'clint.png',
+    imageUrl: 'http://image.png'
   },
 };
 

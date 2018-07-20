@@ -21,7 +21,7 @@ import { allReviewAction } from '../../actions/ReviewsAction';
  * @classdesc user view one Buisness
  *
  */
-class ViewBusiness extends Component {
+export class ViewBusiness extends Component {
   /**
    * constructor - contains the constructor
    *

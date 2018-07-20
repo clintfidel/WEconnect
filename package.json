@@ -16,7 +16,7 @@
     "pree2e:test": "npm run preserver:test",
     "e2e:test": "nightwatch ./e2e-tests/*.test.js",
     "pretest": "npm run preserver:test",
-    "start-server:e2e": "NODE_ENV=localTest babel-node server.js",
+    "start-server:e2e": "NODE_ENV=test babel-node server.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --timeout 15000 --compilers js:babel-register server/test || true",
     "lint": "eslint ./ || true"
   },
