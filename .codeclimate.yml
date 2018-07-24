@@ -1,6 +1,8 @@
 version: "2"
 exclude_paths:
 - "template"
+- "client/test/"
+- "coverage"
 checks:
  return-statements:
    enabled: false

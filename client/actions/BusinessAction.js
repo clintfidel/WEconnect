@@ -12,7 +12,6 @@ import {
   SEARCH_BUSINESS,
   SEARCH_USER_BUSINESS,
   IMAGE_UPLOAD,
-  GET_AVERAGE_RATING
 } from './types';
 
 /**
@@ -71,11 +70,11 @@ export function searchUserBusiness(result) {
 export function searchQuery(name, location, category, url) {
   let queryParams = '?';
   queryParams =
-    !name ? queryParams : `${queryParams}name=${name}&`;
+    !name ? queryParams : `${queryParams}name=${name}`;
   queryParams =
-    !location ? queryParams : `${queryParams}location=${location}&`;
+    !location ? queryParams : `${queryParams}location=${location}`;
   queryParams =
-    !category ? queryParams : `${queryParams}category=${category}`;
+    !category ? queryParams : `${queryParams}category=${category}&`;
   url = `${url}${queryParams}`;
   return url;
 }
@@ -241,8 +240,11 @@ export const imageUploadAction = (image) => {
 export const searchBusinessAction =
  (name, location, category) => (dispatch) => {
    const url = searchQuery(name, location, category, '/api/v1/businesses');
-   axios.get(url)
-     .then((response) => dispatch(searchBusiness(response.data.businesses)));
+   return axios.get(url)
+     .then((response) => {
+       console.log(response, '----->');
+       dispatch(searchBusiness(response.data.businesses));
+     });
  };
 
 /**
@@ -259,7 +261,9 @@ export const searchBusinessAction =
 export const searchUserBusinessAction =
  (name, location, category) => (dispatch) => {
    const url = searchQuery(name, location, category, '/api/v1/businesses/user');
-   axios.get(url)
-     .then((response) =>
-       dispatch(searchUserBusiness(response.data.businesses)));
+   return axios.get(url)
+     .then((response) => {
+      //  console.log(response, '----->');
+       dispatch(searchUserBusiness(response.data.businesses));
+     });
  };

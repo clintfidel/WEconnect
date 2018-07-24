@@ -21,7 +21,7 @@ import { allReviewAction } from '../../actions/ReviewsAction';
  * @classdesc user view one Buisness
  *
  */
-class ViewBusiness extends Component {
+export class ViewBusiness extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -191,7 +191,6 @@ const mapStateToProps = (state) => ({
   auth: state.AuthReducer.user.currentUser,
   isAuthenticated: state.AuthReducer.authenticated,
   categories: state.BusinessReducer.categories,
-  averageRating: state.BusinessReducer.averageRating
 
 });
 export default connect(

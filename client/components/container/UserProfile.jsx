@@ -14,7 +14,7 @@ import { getAllUserBusinessAction } from '../../actions/BusinessAction';
  * @classdesc User Profile
  *
  */
-class UserProfile extends Component {
+export class UserProfile extends Component {
   /**
    * constructor - contains the constructor
    *

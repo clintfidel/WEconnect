@@ -12,10 +12,11 @@
     "seed": "sequelize db:seed:all",
     "preserver:test": "sequelize db:migrate:undo:all --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test",
     "server:test": "NODE_ENV=localTest nyc --reporter=html --reporter=text mocha --exit --timeout 15000 --compilers js:babel-register server/test || true",
+    "client:test": "jest --coverage",
     "pree2e:test": "npm run preserver:test",
     "e2e:test": "nightwatch ./e2e-tests/*.test.js",
     "pretest": "npm run preserver:test",
-    "start-server:e2e": "NODE_ENV=localTest babel-node server.js",
+    "start-server:e2e": "NODE_ENV=test babel-node server.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --timeout 15000 --compilers js:babel-register server/test || true",
     "lint": "eslint ./ || true"
   },
@@ -23,6 +24,13 @@
     "exclude": [
       "server/test/**.js"
     ]
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/client/test/**/*.test.js?(x)"
+    ],
+    "verbose": true,
+    "collectCoverage": true
   },
   "engines": {
     "node": "8.10.0",
@@ -43,6 +51,8 @@
     "babel-eslint": "^8.2.2",
     "chai": "^4.1.2",
     "codeclimate-test-reporter": "^0.5.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.18.2",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
@@ -51,6 +61,7 @@
     "moxios": "^0.4.0",
     "nightwatch": "^0.9.21",
     "nodemon": "^1.17.1",
+    "react-test-renderer": "^16.4.1",
     "redux-mock-store": "^1.5.3",
     "webpack-cli": "^2.0.14"
   },
@@ -84,6 +95,7 @@
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
     "html-webpack-plugin": "^3.1.0",
+    "jest": "^23.3.0",
     "jquery": "^3.3.1",
     "jsonwebtoken": "^8.2.0",
     "jwt-decode": "^2.2.0",
@@ -97,6 +109,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
+    "react-content-loader": "^3.1.2",
     "react-dom": "^16.2.0",
     "react-js-pagination": "^3.0.2",
     "react-paginate": "^5.2.2",

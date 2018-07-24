@@ -52,7 +52,6 @@ const ViewUserProfile = ({
         <EditUserProfile />
       </div>
     </div>
-    {/* </div> */}
   </div>
 
 );

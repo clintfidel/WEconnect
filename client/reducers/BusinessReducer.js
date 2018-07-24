@@ -19,8 +19,7 @@ const initialState = {
   categories: [],
   business: {},
   count: 0,
-  imageUrl: '',
-  avereageRating: 0
+  imageUrl: ''
 };
 
 /**
@@ -51,7 +50,7 @@ const BuisnessReducer = (state = initialState, action) => {
   case GET_ALL_CATEGORY:
     return { ...state, categories: action.categories };
   case ADD_BUSINESS:
-    return { ...state, businesses: [...state.businesses, ...action.userBusiness] };
+    return { ...state, businesses: [...state.businesses, action.userBusiness] };
   case VIEW_BUSINESS:
     return { ...state, business: action.business };
   case DELETE_BUSINESS: {
@@ -75,10 +74,6 @@ const BuisnessReducer = (state = initialState, action) => {
       ...state,
       userBusiness: action.result.rows,
       count: action.result.count
-    };
-  case GET_AVERAGE_RATING:
-    return {
-      ...state, averageRating: action.average
     };
   default:
     return state;

@@ -14,8 +14,7 @@ class HomePage extends PureComponent {
    * @return {void} no return or void
    */
   componentWillMount() {
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (localStorage.token) {
       this.props.history.push('/all-business');
     }
   }

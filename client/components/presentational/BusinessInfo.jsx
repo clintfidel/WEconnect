@@ -57,7 +57,7 @@ const BusinessInfo = ({
                 id="delete-business"
                 title="delete business"
                 onClick={deleteHandler}/>
-            </div> : ''
+            </div> : null
           }
           <EditModal
             id={+id}/>

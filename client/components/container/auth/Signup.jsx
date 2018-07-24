@@ -13,7 +13,7 @@ import { registerAction } from '../../../actions/AuthAction';
  * @classdesc registers user
  *
  */
-class Signup extends Component {
+export class Signup extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -248,12 +248,14 @@ class Signup extends Component {
               </div>
               <div className="input-box">
                 <form
+                  className="signup-form"
                   action="#"
                   method="post"
                   role="form"
                   onSubmit={onSubmit}>
 
                   <input type="text"
+                    id="signup-fullName"
                     onChange={onChange}
                     onFocus={onFocus}
                     onBlur={onBlur}
@@ -264,6 +266,7 @@ class Signup extends Component {
                     {fullnameError}
                   </div>
                   <input type="text"
+                    id="signup-username"
                     onChange={onChange}
                     onFocus={onFocus}
                     onBlur={onBlur}
@@ -274,6 +277,7 @@ class Signup extends Component {
                     {usernameError}
                   </div>
                   <input type="email"
+                    id="signup-email"
                     onChange={onChange}
                     onFocus={onFocus}
                     onBlur={onBlur}
@@ -281,17 +285,18 @@ class Signup extends Component {
                     placeholder="email"
                     required />
                   <input type="password"
+                    id="signup-password"
                     onChange={onChange}
                     onFocus={onFocus}
                     onBlur={onBlur}
                     name="password"
                     placeholder="password"
-                    id="signup-password"
                     required />
                   <div style={{ color: 'red' }}>
                     {passwordError}
                   </div>
                   <input type="password"
+                    id="signup-cpassword"
                     onChange={onChange}
                     onFocus={onFocus}
                     onBlur={onBlur}

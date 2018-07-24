@@ -4,18 +4,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import toastrOption from '../../utils/toastrOption';
-import { addReviewAction, updateReviewAction } from '../../actions/ReviewsAction';
-// import { rateBusiness } from '../../actions/BusinessAction';
-
-/* eslint-disable */
+import {
+  addReviewAction,
+  updateReviewAction
+} from '../../actions/ReviewsAction';
 
 /**
- * @class Signup
+ * @class Review
  *
  * @classdesc user post review
  *
  */
-class Review extends Component {
+export class Review extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -41,9 +41,6 @@ class Review extends Component {
     this.toggleEditOnClick = this.toggleEditOnClick.bind(this);
     this.closeToggleEdit = this.closeToggleEdit.bind(this);
     this.updateReview = this.updateReview.bind(this);
-
-
-
   }
 
   /**
@@ -83,7 +80,7 @@ class Review extends Component {
       .catch((message) => {
         toastrOption();
         toastr.error(message);
-      })
+      });
     this.setState({
       comments: '',
       rate: ''
@@ -100,35 +97,56 @@ class Review extends Component {
   updateReview(event) {
     event.preventDefault();
     this.props.updateReviewAction(this.state.reviewId, this.state)
-    .then(() => {
-      this.setState({
-        comments: '',
-        rate: '',
-        toggleEdit: false
+      .then(() => {
+        this.setState({
+          comments: '',
+          rate: '',
+          toggleEdit: false
+        });
       })
-    })
       .catch((message) => {
         toastrOption();
         toastr.error(message);
-      })
+      });
   }
 
+  /**
+   * @description - handles user ratings
+   *
+   * @param  {Number} newRating
+   *
+   * @return {void}
+   */
   ratingChanged = (newRating) => {
     this.setState(() => (
       { rate: newRating }
     ));
   }
 
+  /**
+   * @description - handles edit toggling
+   *
+   * @param  {Number} reviewId
+   *
+   * @return {void}
+   */
   toggleEditOnClick(reviewId) {
     this.setState({
       toggleEdit: !this.state.toggleEdit, reviewId
-    })
+    });
   }
+
+  /**
+   * @description - handles edit toggling
+   *
+   * @return {void}
+   */
   closeToggleEdit() {
     this.setState({
       toggleEdit: false
-    })
+    });
   }
+
   /**
    * @description displayReviews - renders business reviews
    *
@@ -136,87 +154,86 @@ class Review extends Component {
    *
    */
   displayReviews() {
-    const { 
+    const {
       onChange,
       updateReview,
       ratingChanged,
       closeToggleEdit
-     } = this;
-     const { 
-      disableBtn,
+    } = this;
+    const {
       toggleEdit,
-      comments,
       rate
-      } = this.state;
-      const { reviews } = this.props
+    } = this.state;
+    const { reviews } = this.props;
     const allReviews = this.props.reviews;
     if (allReviews.length === 0) {
       return (<div className="comment-contents">No reviews found!</div>);
     }
     return (
       allReviews.map((review) => {
-        const reviewBox = <div className="comment-contents">
-      <i onClick={() => this.toggleEditOnClick(review.id)}
-        className="fas fa-edit edit-review">
-      </i>
-      <a href="#" className="comment-author" title="Comment Author">
-        <h4>{review.User.username}</h4>
-      </a>
-      <p className="word-wrap">{review.comments}</p>
-      <small className="text-muted">
-      {review.createdAt === review.updatedAt ? `created at: ${moment(review.createdAt).format('Do MMMM YYYY - HH:mm')}`: `updated at: ${moment(review.updatedAt).format('Do MMMM YYYY - HH:mm')}`}
-      </small>
-      <ReactStars
-        count={5}
-        size={17}
-        edit={false}
-        value={Number(review.rate)}
-      />
-    </div>;
-    const reviewEditForm = <div className="comment-contents" key={review.id}>
-      <form
-        action="#"
-        method="post"
-        role="form"
-        onSubmit={updateReview}>
-        <textarea
-          className="editReview-textarea"
-          name="comments"
-          defaultValue={reviews.comments}
-          onChange={onChange}
-          required />
-        <div className="edit-stars">
+        const reviewBox = (<div className="comment-contents">
+          <i onClick={() => this.toggleEditOnClick(review.id)}
+            className="fas fa-edit edit-review" />
+          <a href="#" className="comment-author" title="Comment Author">
+            <h4>{review.User.username}</h4>
+          </a>
+          <p className="word-wrap">{review.comments}</p>
+          <small className="text-muted">
+            {review.createdAt === review.updatedAt ? `created at: ${moment(review.createdAt).format('Do MMMM YYYY - HH:mm')}` : `updated at: ${moment(review.updatedAt).format('Do MMMM YYYY - HH:mm')}`}
+          </small>
           <ReactStars
             count={5}
-            defaultValue={reviews.rate}
-            onChange={ratingChanged}
-            size={15}
-            half={false}
-            color2={'#ffd700'}
-            value={rate}
+            size={17}
+            edit={false}
+            value={Number(review.rate)}
           />
-        </div>
-        <button
-          onClick={closeToggleEdit}
-          type="button"
-          className="btn">
+        </div>);
+        const reviewEditForm = (<div className="comment-contents" key={review.id}>
+          <form
+            action="#"
+            method="post"
+            role="form"
+            className="update-review"
+            onSubmit={updateReview}>
+            <textarea
+              className="editReview-textarea"
+              name="comments"
+              defaultValue={reviews.comments}
+              onChange={onChange}
+              required />
+            <div className="edit-stars">
+              <ReactStars
+                className="edit-5stars"
+                count={5}
+                defaultValue={reviews.rate}
+                onChange={ratingChanged}
+                size={15}
+                half={false}
+                color2={'#ffd700'}
+                value={rate}
+              />
+            </div>
+            <button
+              onClick={closeToggleEdit}
+              type="button"
+              className="btn">
           cancel
-  </button>
-        <button
-          type="submit"
-          className="btn edit-button">
+            </button>
+            <button
+              type="submit"
+              className="btn edit-button">
           save
-  </button>
-      </form>
-    </div>
+            </button>
+          </form>
+        </div>);
         if (toggleEdit && this.state.reviewId === review.id) {
           return (<div key={review.id}>
-        {reviewEditForm} 
-        </div>)
+            {reviewEditForm}
+          </div>);
         } else {
           return (<div key={review.id}>
             {reviewBox}
-          </div>)
+          </div>);
         }
       })
     );
@@ -229,17 +246,17 @@ class Review extends Component {
    *
    */
   render() {
-    const { 
+    const {
       onChange,
       onSubmit,
       ratingChanged
-     } = this;
-     const { 
-       disableBtn,
-       toggleEdit,
-       comments,
-       rate
-       } = this.state;
+    } = this;
+    const {
+      disableBtn,
+      toggleEdit,
+      comments,
+      rate
+    } = this.state;
     return (
       <div>
         <div className="bus-info-reviews">
@@ -248,11 +265,11 @@ class Review extends Component {
             <div className="row">
               <div className="col">
                 <div className="post-form">
-                    <div>
-                      {
-                        this.displayReviews()
-                      }
-                    </div>
+                  <div>
+                    {
+                      this.displayReviews()
+                    }
+                  </div>
                   {this.props.count > 5 ?
                     <button style={{
                       float: 'right',
@@ -265,20 +282,23 @@ class Review extends Component {
                       Load More
                     </button> : ''}
                   {
-                    
+
                     toggleEdit ? '' :
                       <form
                         action="#"
                         method="post"
                         role="form"
+                        className="review-form"
                         onSubmit={onSubmit}>
                         <textarea
                           name="comments"
+                          id="comment-input"
                           value={comments}
                           onChange={onChange}
                           required />
-                        <div>
+                        <div className="5-stars">
                           <ReactStars
+                            className="5-stars"
                             count={5}
                             onChange={ratingChanged}
                             size={20}
@@ -292,7 +312,7 @@ class Review extends Component {
                           disabled={disableBtn}
                           className="btn send-button">
                           Add review
-                    </button>
+                        </button>
                       </form>
                   }
 

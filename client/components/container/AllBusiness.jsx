@@ -7,8 +7,7 @@ import Businesses from '../presentational/Businesses';
 import Footer from '../presentational/common/Footer';
 import {
   getAllBusinessAction,
-  getAllCategoryAction,
-  getAverageRating
+  getAllCategoryAction
 
 } from '../../actions/BusinessAction';
 import SearchBusiness from '../container/SearchBuiness';
@@ -20,7 +19,7 @@ import Loader from '../presentational/common/Loader';
  * @classdesc Get All Business
  *
  */
-class AllBusiness extends Component {
+export class AllBusiness extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -65,7 +64,7 @@ class AllBusiness extends Component {
   renderAllBusiness() {
     const allBusiness = this.props.businesses;
     let calculateAverage;
-    if (allBusiness.length < 1) {
+    if (allBusiness.length === 0) {
       return (<div className="not-found"
         style={{ textAlign: 'center', paddingTop: 50 }}>
         <h2>No Business found!!</h2>
@@ -73,7 +72,7 @@ class AllBusiness extends Component {
     }
     return (
       allBusiness.map((business) => {
-        if (business.Reviews.length === 0) {
+        if (business.Reviews && business.Reviews.length === 0) {
           calculateAverage = 'No rating!';
         } else {
           const reviews = [];
@@ -186,15 +185,12 @@ AllBusiness.propTypes = {
 };
 const mapStateToProps = (state) => ({
   businesses: state.BusinessReducer.businesses,
-  count: state.BusinessReducer.count,
-  averageRating: state.BusinessReducer.averageRating
+  count: state.BusinessReducer.count
 });
 export default connect(
   mapStateToProps,
   {
     getAllBusinessAction,
-    getAllCategoryAction,
-    getAverageRating
-
+    getAllCategoryAction
   }
 )(AllBusiness);

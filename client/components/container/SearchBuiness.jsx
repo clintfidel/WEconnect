@@ -15,7 +15,7 @@ import {
  * @classdesc registers user
  *
  */
-class SearchBuiness extends Component {
+export class SearchBuiness extends Component {
   static defaultProps = {
     locations
   }
@@ -78,7 +78,6 @@ class SearchBuiness extends Component {
 
     const locationPath = this.props.location.pathname;
     event.preventDefault();
-    const { name, location, category } = this.state;
     const { value } = event.target;
     if (event.target.value !== '' &&
     locationPath === "/all-business") {
@@ -86,9 +85,9 @@ class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchBusinessAction(
-          name,
-          location,
-          category
+          this.state.name,
+          this.state.location,
+          this.state.category
         ));
     }
     if (event.target.value !== '' &&
@@ -97,9 +96,9 @@ class SearchBuiness extends Component {
         [event.target.name]: event.target.value
       }, () =>
         this.props.searchUserBusinessAction(
-          name,
-          location,
-          category
+          this.state.name,
+          this.state.location,
+          this.state.category
         ));
     }
     if (value === "Select From..." && locationPath === "/userbusiness") {
@@ -140,6 +139,7 @@ class SearchBuiness extends Component {
               <input
                 className="search-input"
                 type="text"
+                id="search-by-name"
                 name="name"
                 onChange={handleSearch}
                 placeholder="search business by name...." />
@@ -148,6 +148,7 @@ class SearchBuiness extends Component {
               <select
                 type="select"
                 className="custom-select"
+                id="location"
                 name="location"
                 disabled={disableBtn}
                 value={this.state.location}

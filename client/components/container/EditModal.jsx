@@ -15,7 +15,7 @@ import locations from '../../mockData';
  * @classdesc registers user
  *
  */
-class EditModal extends Component {
+export class EditModal extends Component {
   static defaultProps = {
     locations
   }
@@ -58,11 +58,6 @@ class EditModal extends Component {
    * @return {void}
    */
   onChange(event) {
-    if (event.target.value === "Select From...") {
-      toastrOption();
-      toastr.error('Please make a valid selection');
-      return false;
-    }
     const { businessDetails } = this.state;
     businessDetails[event.target.name] = event.target.value;
     this.setState({
@@ -112,7 +107,8 @@ class EditModal extends Component {
     if (!this.state.image) {
       this.props.editBusinessAction(this.props.id, this.state.businessDetails)
         .then((message) => {
-          document.getElementsByClassName('modal-backdrop')[0].style.display = "none";
+          const modal = document.getElementsByClassName('modal-backdrop')[0];
+          modal.remove();
           toastrOption();
           toastr.success(message);
         })
@@ -134,7 +130,8 @@ class EditModal extends Component {
             this.state.businessDetails
           )
             .then((message) => {
-              document.getElementsByClassName('modal-backdrop')[0].style.display = "none";
+              const modal = document.getElementsByClassName('modal-backdrop')[0];
+              modal.remove();
               toastrOption();
               toastr.success(message);
             })
@@ -178,6 +175,7 @@ class EditModal extends Component {
                   action=""
                   method=""
                   role="form"
+                  className="edit-form"
                   onSubmit={onSubmit}>
                   <div className="form-group">
                     <label
@@ -188,6 +186,7 @@ class EditModal extends Component {
                       <span className="input-group-addon" />
                       <input type="text"
                         name="name"
+                        id="business-name"
                         onChange={onChange}
                         defaultValue={businessDetails.name}
                         placeholder="Business Name"
@@ -286,6 +285,7 @@ class EditModal extends Component {
                       <span className="input-group-addon" />
                       <textarea
                         name="details"
+                        id="business-details"
                         onChange={onChange}
                         defaultValue={businessDetails.details}
                         placeholder="Business-Details"

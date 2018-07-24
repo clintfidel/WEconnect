@@ -10,15 +10,15 @@ module.exports = {
       .url('http://localhost:5600')
       .waitForElementVisible('body', 5000)
       .click('button.signup')
-      .setValue('input[name=fullname]', userDetails.fullName)
+      .setValue('input[name=fullname]', userDetails.fullname)
       .setValue('input[name=username]', userDetails.username)
       .setValue('input[name=email]', userDetails.email)
       .setValue('input[name=password]', userDetails.password)
       .setValue('input[name=passwordConfirm]', userDetails.cpassword)
       .click('button.btn')
-      .waitForElementVisible('.toast-message', 4000)
+      .waitForElementVisible('.toast-message', 5000)
       .click('button.toast-close-button')
-      .waitForElementVisible('#navbarDropdownMenuLink', 5000)
+      .waitForElementVisible('#navbarDropdownMenuLink', 10000)
       .click('#navbarDropdownMenuLink')
       .click('#logout');
   },
@@ -184,10 +184,10 @@ module.exports = {
       .waitForElementVisible('.view-button', 5000)
       .click('.view-button')
       .waitForElementVisible('.business-image', 5000)
-      .assert.containsText('#business-name', businessDetails.name)
-      .assert.containsText('#business-location', 'ADAMAWA')
-      .assert.containsText('#business-category', 'fashion')
-      .assert.containsText('#business-details', businessDetails.details);
+      .assert.containsText('#business-name', businessDetails3.name)
+      .assert.containsText('#business-location', 'BORNO')
+      .assert.containsText('#business-category', 'entertainment')
+      .assert.containsText('#business-details', businessDetails3.details);
   },
   'users should be able to review business':
   (browser) => {
@@ -195,9 +195,27 @@ module.exports = {
       .url('http://localhost:5600/view-business/2')
       .waitForElementVisible('textarea[name=comments]', 5000)
       .setValue('textarea[name=comments]', 'Nice Business')
+      .waitForElementVisible('.5-stars', 5000)
+      .setValue('.5-stars', 3)
       .pause(2000)
       .waitForElementVisible('.send-button', 5000)
       .click('.send-button')
+      .pause(2000);
+  },
+  'users should be able to edit review':
+  (browser) => {
+    browser
+      .url('http://localhost:5600/view-business/2')
+      .waitForElementVisible('.edit-review', 5000)
+      .click('.view-button')
+      .waitForElementVisible('.editReview-textarea', 5000)
+      .setValue('textarea[name=comments]', 'great Business')
+      .waitForElementVisible('.edit-5stars', 5000)
+      .setValue('.edit-5stars', 3)
+      .pause(2000)
+      .waitForElementVisible('.btn', 5000)
+      .waitForElementVisible('.edit-button', 5000)
+      .click('.edit-button')
       .pause(2000);
   },
   'users should be able to edit business':

@@ -11,7 +11,7 @@ import toastrOption from '../../../utils/toastrOption';
  * @classdesc Logs user in
  *
  */
-class Login extends Component {
+export class Login extends Component {
   /**
    * constructor - contains the constructor
    *
@@ -109,6 +109,7 @@ class Login extends Component {
               </div>
               <div className="input-box">
                 <form
+                  className="login-form"
                   action="#"
                   method="post"
                   role="form"
@@ -116,11 +117,13 @@ class Login extends Component {
                   <input type="text"
                     onChange={onChange}
                     name= "username"
+                    id="login-username"
                     placeholder="username/email"
                     required/>
                   <input type="password"
                     onChange={onChange}
                     name= "password"
+                    id="login-password"
                     placeholder="password"
                     required/>
                   <button
